@@ -45,5 +45,6 @@ public class Member {
 
     private boolean deleted;
 
+
 }
 
