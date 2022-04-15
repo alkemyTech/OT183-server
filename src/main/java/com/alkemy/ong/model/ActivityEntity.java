@@ -1,12 +1,15 @@
-package com.alkemy.ong.entity;
+package com.alkemy.ong.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -14,19 +17,24 @@ import java.time.LocalDate;
 @SQLDelete(sql = "UPDATE activities SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ActivityEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
+    @NotNull(message = "Name is a mandatory field")
     private String name;
 
-    @Column(columnDefinition = "Text", nullable = false)
+    @Column(columnDefinition = "TEXT")
+    @NotNull(message = "Content is a mandatory field")
     private String content;
 
-    @Column(nullable = false)
+    @Column
+    @NotNull(message = "Image is a mandatory field")
     private String image;
 
     @CreationTimestamp
@@ -35,6 +43,6 @@ public class ActivityEntity {
     @UpdateTimestamp
     private LocalDate updated;
 
-    private boolean deleted;
+    private boolean deleted = Boolean.FALSE;
 
 }
