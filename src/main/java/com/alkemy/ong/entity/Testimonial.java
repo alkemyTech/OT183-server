@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -22,6 +23,7 @@ public class Testimonial {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "name can't be null")
     @Column(nullable = false)
     private String name;
 
@@ -32,9 +34,9 @@ public class Testimonial {
     private Boolean deleted;
 
     @CreationTimestamp
-    private LocalDate createdOn;
+    private LocalDate created;
 
     @UpdateTimestamp
-    private LocalDate updatedOn;
+    private LocalDate updated;
 
 }
