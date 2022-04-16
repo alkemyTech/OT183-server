@@ -1,12 +1,15 @@
 package com.alkemy.ong.entity;
 
+
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -23,6 +26,8 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @NotNull(message = "name can't be null")
     @Column(nullable = false)
     private String name;
 
@@ -32,6 +37,7 @@ public class Member {
 
     private String linkedinUrl;
 
+    @NotNull(message = "image can't be null")
     @Column(nullable = false)
     private String image;
 
@@ -44,7 +50,6 @@ public class Member {
     private LocalDate updated;
 
     private boolean deleted;
-
 
 }
 
