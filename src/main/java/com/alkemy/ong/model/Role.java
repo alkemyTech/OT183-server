@@ -32,9 +32,9 @@ public class Role {
 
     @Column(updatable = false)
     @CreationTimestamp
-    private LocalDate createdAt;
+    private LocalDate created;
 
     @UpdateTimestamp
-    private LocalDate updatedAt;
+    private LocalDate updated;
 
 }
