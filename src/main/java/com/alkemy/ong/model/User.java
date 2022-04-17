@@ -1,6 +1,6 @@
 package com.alkemy.ong.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
@@ -32,15 +34,24 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "firstName", nullable = false, updatable = true)
+    @NotNull(message="First name can't be null")
+    @Column(nullable = false, updatable = true)
     private String firstName;
-    @Column(name = "lastName", nullable = false, updatable = true)
+    
+    @NotNull(message="Last name can't be null")
+    @Column(nullable = false, updatable = true)
     private String lastName;
-    @Column(name = "email", nullable = false, updatable = true, unique = true)
+    
+    @NotNull(message="Email can't be null")
+    @Column(nullable = false, updatable = true, unique = true)
     private String email;
-    @Column(name = "password", nullable = false, updatable = true)
+    
+    @NotNull(message="Password can't be null")
+    @Column(nullable = false, updatable = true)
     private String password;
-    @Column(name = "photo", nullable = true, updatable = true)
+    
+    @NotNull
+    @Column(nullable = true, updatable = true)
     private String photo;
 
     //TODO - In the future this roleId will point at to ROLE Class
@@ -51,5 +62,10 @@ public class User {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="modify_user")
-    private Date updated;
+    private LocalDate updated;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="created_user")
+    private LocalDate created;
 }
