@@ -1,6 +1,6 @@
 package com.alkemy.ong.exception.handler;
 
-import com.alkemy.ong.dto.ApiErrorDto;
+import com.alkemy.ong.exception.ApiErrorResponse;
 import com.alkemy.ong.exception.DataRepresentationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,7 +38,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 
         return handleExceptionInternal(
                 ex,
-                new ApiErrorDto<>(
+                new ApiErrorResponse<>(
                         HttpStatus.BAD_REQUEST,
                         errors
                 ),
@@ -50,9 +50,9 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     }
 
     @ExceptionHandler(DataRepresentationException.class)
-    public ResponseEntity<ApiErrorDto<String>> handleDataRepresentationException(DataRepresentationException ex) {
+    public ResponseEntity<ApiErrorResponse<String>> handleDataRepresentationException(DataRepresentationException ex) {
         return new ResponseEntity<>(
-                new ApiErrorDto<>(
+                new ApiErrorResponse<>(
                         HttpStatus.INTERNAL_SERVER_ERROR,
                         ex.getMessage()
                 ),
