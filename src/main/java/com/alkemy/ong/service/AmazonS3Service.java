@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.Date;
 
 @Service
-public class AmazonService {
+public class AmazonS3Service {
     private AmazonS3 s3client;
 
     @Value("${aws.endpointUrl}")
