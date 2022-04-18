@@ -23,6 +23,6 @@ public class AmazonS3Controller {
 
     @DeleteMapping("/deleteFile")
     public String deleteFile(@RequestPart(value = "url") String fileUrl) {
-        return this.amazonS3Service.deleteFileFromS3Bucket(fileUrl);
+        return this.amazonS3Service.deleteFile(fileUrl);
     }
 }
