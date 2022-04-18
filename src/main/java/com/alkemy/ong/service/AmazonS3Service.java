@@ -4,9 +4,7 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -75,9 +73,23 @@ public class AmazonS3Service {
     }
 
     // S3 bucket cannot delete file by url. It requires a bucket name and a file name
-    public String deleteFileFromS3Bucket(String fileUrl) {
+    public String deleteFile(String fileUrl) {
         String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
-        s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
-        return "Successfully deleted";
+        if(existsOnBucket(fileName)){
+            s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+            return "Successfully deleted";
+        }
+        return "File not found, check the name and try it again.";
+    }
+
+    public boolean existsOnBucket(String filename){
+        Boolean result;
+        try {
+            S3Object obj = s3client.getObject(bucketName, filename);
+            result = true;
+        } catch(AmazonS3Exception e){
+            result = false;
+        }
+        return result;
     }
 }
