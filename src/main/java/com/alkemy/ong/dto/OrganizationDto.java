@@ -1,15 +1,10 @@
 package com.alkemy.ong.dto;
 
-import com.alkemy.ong.config.MessageSourceConfig;
 import com.alkemy.ong.dto.type.OrganizationDtoType;
 import com.alkemy.ong.exception.DataRepresentationException;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
