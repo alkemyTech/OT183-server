@@ -60,12 +60,10 @@ public class User {
     private boolean deleted = Boolean.FALSE;
     
     @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="modify_user")
     private LocalDate updated;
 
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="created_user")
     private LocalDate created;
 }
