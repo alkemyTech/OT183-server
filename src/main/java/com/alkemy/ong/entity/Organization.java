@@ -33,7 +33,7 @@ public class Organization {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
+	@NotBlank(message = "Name must not be empty")
 	@Column(name="Name")
 	private String name;
 	
@@ -46,7 +46,7 @@ public class Organization {
 	@Column(name="Phone")
 	private int phone;
 	
-	@NotBlank
+	@NotBlank(message = "Email must not be empty")
 	@Column(name="Email")
 	private String email;
 	
