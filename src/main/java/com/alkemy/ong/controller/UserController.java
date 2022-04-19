@@ -21,15 +21,6 @@ public class UserController {
     private final UserService userService;
 
 
-    @PostMapping
-    public ResponseEntity<UserDTO> save(@RequestBody UserDTO user){
-
-       UserDTO userSaved = userService.save(user);
-
-       return ResponseEntity.status(HttpStatus.CREATED).body(userSaved);
-
-
-    }
 
     @GetMapping
     public ResponseEntity<List<UserBasicDTO>> getAllUsers(){

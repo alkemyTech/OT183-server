@@ -21,12 +21,6 @@ public class UserServiceImp implements UserService {
     private UserRepository userRepository;
 
 
-    public UserDTO save(UserDTO dto){
-
-        User entity = userMapper.userDTO2Entity(dto);
-        userRepository.save(entity);
-        return dto;
-    }
 
 
     public List<UserBasicDTO> returnList(){
