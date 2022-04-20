@@ -22,7 +22,7 @@ import java.time.LocalDate;
 
 public class NewsModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty(message = "Name may not be empty")
     @Size(min = 2, message = "Name Name cannot be less than 2 characters")
@@ -48,12 +48,4 @@ public class NewsModel {
     @UpdateTimestamp
     private LocalDate updatedDate;
 
-
-    /*Criterios de aceptación:
-    Nombre de tabla: news. Los campos son:
-    name: VARCHAR NOT NULL
-    content: TEXT NOT NULL
-    image: VARCHAR NOT NULL
-    categoryId: Clave foranea hacia ID de Categories
-    timestamps y softDelete*/
 }
