@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "slides")
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE activities SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE slides SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 @Setter
 @Getter
@@ -26,6 +26,8 @@ public class Slide {
     private String text;
     private String order;
     @ManyToOne
-    private Organization organizationId;
+    private Organization organization;
+
+    private Long organizationId;
 
 }
