@@ -1,6 +1,5 @@
 package com.alkemy.ong.model;
 
-import jdk.jfr.Timestamp;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,32 +19,38 @@ import java.time.LocalDate;
 @SQLDelete(sql = "UPDATE news SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 
-public class NewsModel {
+public class News {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    @NotEmpty(message = "Name may not be empty")
-    @Size(min = 2, message = "Name Name cannot be less than 2 characters")
+
+    @Column(name = "name", nullable = false)
     private String name;
-    @NotEmpty(message = "content may not be empty")
-    @Column(columnDefinition = "TEXT")
+
+    @Column(name = "content", nullable = false,columnDefinition = "TEXT")
     private String content;
-    @NotEmpty(message = "image may not be empty")
+
+    @Column(name = "image", nullable = false)
     private String image;
+
+    @Column(name = "deleted")
     private Boolean deleted = Boolean.FALSE;
 
     @Column(name = "category_id")
     private Long categoryId;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id",updatable = false,insertable = false)
-    private CategoryModel category;
+    private Category category;
 
     @CreationTimestamp
-    @Column(updatable = false)
+    @Column(name = "created_date",updatable = false)
     private LocalDate createdDate;
 
     @UpdateTimestamp
+    @Column(name = "updated_date")
     private LocalDate updatedDate;
 
 }
