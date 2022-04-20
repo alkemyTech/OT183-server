@@ -2,6 +2,7 @@ package com.alkemy.ong.exception.handler;
 
 import com.alkemy.ong.exception.ApiErrorResponse;
 import com.alkemy.ong.exception.DataRepresentationException;
+import com.alkemy.ong.exception.NullListException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +58,17 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                         ex.getMessage()
                 ),
                 HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
+    @ExceptionHandler(NullListException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleDataRepresentationException(NullListException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.BAD_REQUEST,
+                        ex.getMessage()
+                ),
+                HttpStatus.BAD_REQUEST
         );
     }
 

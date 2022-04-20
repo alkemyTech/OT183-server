@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @SQLDelete(sql = "UPDATE member SET deleted = true WHERE id =?")
 @Where(clause = "deleted = false")
 @Data
+@AllArgsConstructor
 @Table(name = "members")
 public class Member {
 
