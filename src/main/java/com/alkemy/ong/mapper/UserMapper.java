@@ -47,9 +47,12 @@ public class UserMapper {
 
         List<UserDTO> dtoList = new ArrayList<>();
 
-        for (User entity: entityList) {
-            dtoList.add(userEntity2DTO(entity));
-        }
+        entityList.forEach(entity ->
+                dtoList.add(userEntity2DTO(entity))
+        );
+
+
+
         return dtoList;
     }
 

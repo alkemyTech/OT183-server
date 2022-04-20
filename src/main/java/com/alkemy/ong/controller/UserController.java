@@ -28,6 +28,6 @@ public class UserController {
         //TODO - When JWT is configured, i am going to modify that only admin users can use this endpoint
         List<UserBasicDTO> userList = userService.returnList();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userList);
+        return ResponseEntity.status(HttpStatus.OK).body(userList);
     }
 }

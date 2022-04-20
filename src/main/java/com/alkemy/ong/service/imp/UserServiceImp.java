@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.imp;
 
 import com.alkemy.ong.dto.UserBasicDTO;
+import com.alkemy.ong.exception.NullListException;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.UserService;
@@ -24,6 +25,10 @@ public class UserServiceImp implements UserService {
     public List<UserBasicDTO> returnList(){
 
         List<UserBasicDTO> entityList = userRepository.getAllUsers();
+
+        if (entityList.size() == 0) {
+            throw new NullListException("there are no registered users");
+        }
 
         return entityList;
     }
