@@ -1,9 +1,7 @@
 package com.alkemy.ong.service.imp;
 
 import com.alkemy.ong.dto.UserBasicDTO;
-import com.alkemy.ong.dto.UserDTO;
 import com.alkemy.ong.mapper.UserMapper;
-import com.alkemy.ong.model.User;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
