@@ -45,11 +45,7 @@ public class TestimonialDto implements IGenericDto<TestimonialDtoType> {
                     .build();
         }
         throw new DataRepresentationException(
-                messageSource.getMessage(
-                        "error.data_representation",
-                        null,
-                        Locale.getDefault()
-                )
+                messageSource.getMessage("error.representation_data",null,Locale.US)
         );
     }
 }
