@@ -33,11 +33,10 @@ public class UserMapper {
     }
 
     public UserBasicDto userEntity2UserBasicDto(User entity){
-        UserBasicDto response = new UserBasicDto(
-                entity.getEmail(),
-                entity.getFirstName(),
-                entity.getLastName()
-        );
+        UserBasicDto response = new UserBasicDto();
+        response.setEmail(entity.getEmail());
+        response.setFirstName(entity.getFirstName());
+        response.setLastName(entity.getLastName());
         return response;
     }
 
