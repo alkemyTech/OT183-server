@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    User findByEmail(String email);
+  
     @Query(value = "SELECT new com.alkemy.ong.dto.UserBasicDTO(u.id, u.firstName, u.lastName, u.email) FROM User u")
     public List<UserBasicDTO> getAllUsers();
+
 }

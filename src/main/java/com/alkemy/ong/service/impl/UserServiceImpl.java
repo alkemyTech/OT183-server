@@ -1,0 +1,43 @@
+package com.alkemy.ong.service.impl;
+
+import com.alkemy.ong.dto.UserBasicDto;
+import com.alkemy.ong.dto.UserDto;
+import com.alkemy.ong.mapper.UserMapper;
+import com.alkemy.ong.model.User;
+import com.alkemy.ong.repository.UserRepository;
+import com.alkemy.ong.service.IUserService;
+import com.amazonaws.services.memorydb.model.UserAlreadyExistsException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+
+@Service
+public class UserServiceImpl implements IUserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Override
+    @Transactional
+    public UserBasicDto signup(UserDto userDto) {
+        if(emailExists(userDto.getEmail())){
+            throw new UserAlreadyExistsException("There is an account with that email address: " + userDto.getEmail());
+        }
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        User entity = userMapper.userDto2UserEntity(userDto);
+        entity = userRepository.save(entity);
+        return userMapper.userEntity2UserBasicDto(entity);
+    }
+
+    private boolean emailExists(String email) {
+        return userRepository.findByEmail(email) != null;
+    }
+}
