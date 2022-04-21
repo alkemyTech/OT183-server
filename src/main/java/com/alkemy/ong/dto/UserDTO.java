@@ -6,12 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+@AllArgsConstructor
+public class UserDto {
 
     private Long id;
 
@@ -21,18 +20,21 @@ public class UserDTO {
     @NotNull(message="Last name can't be null")
     private String lastName;
 
+    @NotNull(message="Email can't be null")
+    @Email(message = "Invalid email")
+    private String email;
+
     @NotNull(message="Password can't be null")
     private String password;
 
-    @Email
-    @NotNull(message="Email can't be null")
-    private String email;
-
+    @NotNull
     private String photo;
 
-    private LocalDate updated;
-
-    private LocalDate created;
-
+    //TODO - In the future this roleId will point at to ROLE Class
     private Long roleid;
+
+    private String updated;
+
+    private String created;
+
 }
