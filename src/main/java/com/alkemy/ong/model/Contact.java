@@ -10,8 +10,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Entity
@@ -28,16 +27,21 @@ public class Contact {
     private Long id;
 
     @NotNull(message = "{name.null}")
+    @NotEmpty(message = "{name.empty}")
     private String name;
 
     @NotNull(message = "{phone.null}")
+    @NotEmpty(message = "{phone.empty}")
+    @NotBlank(message = "{field.blank}")
     private String phone;
 
-    @NotNull(message = "{email.blank}")
+    @NotBlank(message = "{field.blank}")
     @Email(message = "{email.format}")
+    @NotEmpty(message = "{email.empty}")
     private String email;
 
-    @NotNull(message = "{message.null}")
+    @NotBlank(message = "{field.blank}")
+    @Size(min = 50, message = "{message.size}")
     @Column(columnDefinition = "TEXT")
     private String message;
 

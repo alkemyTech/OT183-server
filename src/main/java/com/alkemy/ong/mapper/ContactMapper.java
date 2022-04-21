@@ -3,10 +3,12 @@ package com.alkemy.ong.mapper;
 import com.alkemy.ong.dto.ContactBasicDto;
 import com.alkemy.ong.dto.ContactDto;
 import com.alkemy.ong.model.Contact;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ContactMapper {
 
-    public Contact contactEntity2ContactDto(ContactDto contactDto){
+    public Contact contactDto2ContactEntity(ContactDto contactDto){
         Contact entity = new Contact();
         entity.setName(contactDto.getName());
         entity.setPhone(contactDto.getPhone());

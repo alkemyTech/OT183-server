@@ -37,7 +37,8 @@ public class UserServiceImpl implements IUserService {
     @Transactional
     public UserBasicDto signup(UserDto userDto) {
         if(emailExists(userDto.getEmail())){
-            throw new UserAlreadyExistsException("There is an account with that email address: " + userDto.getEmail());
+            throw new UserAlreadyExistsException(
+                    message.getMessage("user.alredy.exist", null, Locale.US));
         }
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User entity = userMapper.userDto2UserEntity(userDto);
