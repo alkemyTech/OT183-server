@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -44,9 +45,11 @@ public class Contact {
     private boolean deleteAt = Boolean.FALSE;
 
     @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate created;
 
     @UpdateTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate updated;
 
 }
