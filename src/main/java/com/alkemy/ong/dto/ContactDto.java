@@ -11,24 +11,18 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 public class ContactDto {
 
-    @NotNull(message = "{name.null}")
-    @NotEmpty(message = "{name.empty}")
-    @NotBlank(message = "{field.blank}")
+    @NotBlank(message = "{name.null}")
     private String name;
 
-    @NotNull(message = "{phone.null}")
-    @NotEmpty(message = "{phone.empty}")
-    @NotBlank(message = "{field.blank}")
+    @NotBlank(message = "{phone.null}")
     private String phone;
 
-    @NotNull(message = "{email.null}")
     @Email(message = "{email.format}")
-    @NotBlank(message = "{field.blank}")
+    @NotBlank(message = "{email.null}")
     private String email;
 
-    @NotNull(message = "{message.null}")
     @Size(min = 50, message = "{message.size}")
-    @NotBlank(message = "{field.blank}")
+    @NotBlank(message = "{message.null}")
     private String message;
 
 }
