@@ -21,7 +21,7 @@ public class ContactDto {
     @NotBlank(message = "{field.blank}")
     private String phone;
 
-    @NotNull(message = "{email.blank}")
+    @NotNull(message = "{email.null}")
     @Email(message = "{email.format}")
     @NotBlank(message = "{field.blank}")
     private String email;
