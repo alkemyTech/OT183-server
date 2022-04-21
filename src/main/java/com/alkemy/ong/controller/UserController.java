@@ -1,11 +1,8 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.UserBasicDTO;
-import com.alkemy.ong.dto.UserDTO;
-import com.alkemy.ong.model.User;
-import com.alkemy.ong.service.UserService;
+import com.alkemy.ong.dto.UserBasicDto;
+import com.alkemy.ong.service.IUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +15,15 @@ import java.util.List;
 public class UserController {
 
 
-    private final UserService userService;
+    private final IUserService userService;
 
 
 
     @GetMapping
-    public ResponseEntity<List<UserBasicDTO>> getAllUsers(){
+    public ResponseEntity<List<UserBasicDto>> getAllUsers(){
 
         //TODO - When JWT is configured, i am going to modify that only admin users can use this endpoint
-        List<UserBasicDTO> userList = userService.returnList();
+        List<UserBasicDto> userList = userService.returnList();
 
         return ResponseEntity.status(HttpStatus.OK).body(userList);
     }
