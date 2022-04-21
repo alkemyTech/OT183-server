@@ -22,7 +22,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        //Organization routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "organization/**").permitAll();
+
+        //Auth routes
         http.authorizeRequests().antMatchers("auth/**").permitAll();
+
+        //Testimonial routes
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "testimonials").hasRole("ADMIN");
     }
 }
