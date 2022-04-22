@@ -1,5 +1,6 @@
 package com.alkemy.ong.model;
 
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -13,13 +14,14 @@ import java.time.LocalDate;
 
 @Data
 @Entity
+@Builder
 @Table(name = "categories")
 @SQLDelete(sql = "UPDATE categories SET deleted = true WHERE id = ?")
 @Where(clause = "deleted=false")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     @NotNull(message = "Name is necessary")
