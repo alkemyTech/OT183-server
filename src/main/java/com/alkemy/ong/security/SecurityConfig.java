@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomUserDetailsService userDetailsService;
 
     @Bean
-    PasswordEncoder passwordEncoder() {
+    protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -33,7 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/auth/login").permitAll().anyRequest().authenticated().and().httpBasic();
 
     }
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

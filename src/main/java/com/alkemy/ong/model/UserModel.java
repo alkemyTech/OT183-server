@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name = "users")
 @SQLDelete(sql="UPDATE user SET deleted = true WHERE id=?")
@@ -55,12 +57,10 @@ public class UserModel {
     private boolean deleted = Boolean.FALSE;
     
     @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="modify_user")
     private LocalDate updated;
 
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="created_user")
     private LocalDate created;
 
