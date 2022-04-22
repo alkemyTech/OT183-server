@@ -5,9 +5,7 @@ import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
-import com.alkemy.ong.dto.UserDTO;
-import com.alkemy.ong.model.User;
+import com.alkemy.ong.model.UserModel;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,8 +21,8 @@ public class UserMapper {
         return dateFormatted;
     }
 
-    public User userDto2UserEntity(UserDto dto){
-        User userEntity = new User();
+    public UserModel userDto2UserEntity(UserDto dto){
+        UserModel userEntity = new UserModel();
         userEntity.setFirstName(dto.getFirstName());
         userEntity.setLastName(dto.getLastName());
         userEntity.setEmail(dto.getEmail());
@@ -34,20 +32,18 @@ public class UserMapper {
         return userEntity;
     }
 
-    public UserBasicDto userEntity2UserBasicDto(User entity){
-        UserBasicDto response = new UserBasicDto(
-                entity.getEmail(),
-                entity.getFirstName(),
-                entity.getLastName()
-        );
+    public UserBasicDto userEntity2UserBasicDto(UserModel entity){
+        UserBasicDto response = new UserBasicDto();
+        response.setEmail(entity.getEmail());
+        response.setFirstName(entity.getFirstName());
+        response.setLastName(entity.getLastName());
         return response;
     }
 
-}
 
-    public User userDTO2Entity(UserDTO dto){
+    public UserModel userDTO2Entity(UserDto dto){
 
-        User entity = new User();
+        UserModel entity = new UserModel();
 
         entity.setId(dto.getId());
         entity.setFirstName(dto.getFirstName());
@@ -55,15 +51,13 @@ public class UserMapper {
         entity.setPassword(dto.getPassword());
         entity.setEmail(dto.getEmail());
         entity.setPhoto(dto.getPhoto());
-        entity.setCreated(dto.getCreated());
-        entity.setUpdated(dto.getUpdated());
         entity.setRoleid(dto.getRoleid());
 
         return entity;
     }
 
-    public UserDTO userEntity2DTO(User entity){
-        UserDTO dto = new UserDTO();
+    public UserDto userEntity2DTO(UserModel entity){
+        UserDto dto = new UserDto();
 
         dto.setId(entity.getId());
         dto.setFirstName(entity.getFirstName());
@@ -71,23 +65,20 @@ public class UserMapper {
         dto.setPassword(entity.getPassword());
         dto.setEmail(entity.getEmail());
         dto.setPhoto(entity.getPhoto());
-        dto.setCreated(entity.getCreated());
-        dto.setUpdated(entity.getUpdated());
+        dto.setCreated(entity.getCreated().toString());
+        dto.setUpdated(entity.getUpdated().toString());
         dto.setRoleid(entity.getRoleid());
 
         return dto;
     }
 
-    public List<UserDTO> listEntity2DTO(List<User> entityList){
+    public List<UserDto> listEntity2DTO(List<UserModel> entityList){
 
-        List<UserDTO> dtoList = new ArrayList<>();
+        List<UserDto> dtoList = new ArrayList<>();
 
         entityList.forEach(entity ->
                 dtoList.add(userEntity2DTO(entity))
         );
-
-
-
         return dtoList;
     }
 

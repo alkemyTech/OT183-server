@@ -1,6 +1,7 @@
 package com.alkemy.ong.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,14 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Setter
 @Getter
@@ -27,6 +25,7 @@ import lombok.Setter;
 @Table(name="Organization")
 @SQLDelete(sql = "UPDATE table_product SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
+@Builder
 public class Organization {
 	
 	@Id
@@ -57,7 +56,10 @@ public class Organization {
 	private String aboutUsText;
 	
 	@CreationTimestamp
-	private Timestamp timeStamp;
+	private LocalDate created;
+
+	@UpdateTimestamp
+	private LocalDate updated;
 	
 	private boolean deleted = Boolean.FALSE;
 }
