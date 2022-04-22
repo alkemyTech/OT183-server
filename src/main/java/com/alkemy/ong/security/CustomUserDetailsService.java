@@ -25,11 +25,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserModel user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with that email : " + email));
-        return new User(user.getEmail(), user.getPassword(), mapearRoles(user.getRoles()));
+                .orElseThrow(() -> new UsernameNotFoundException("error.not_found_email " + email));
+        return new User(user.getEmail(), user.getPassword(), mappingRoles(user.getRoles()));
     }
 
-    private Collection<? extends GrantedAuthority> mapearRoles(Set<Role> roles){
+    private Collection<? extends GrantedAuthority> mappingRoles(Set<Role> roles){
         return roles.stream().map(rol -> new SimpleGrantedAuthority(rol.getName())).collect(Collectors.toList());
     }
 
