@@ -6,13 +6,16 @@ import com.alkemy.ong.model.Contact;
 import com.alkemy.ong.repository.ContactRepository;
 import com.alkemy.ong.service.IContactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+@Service
 public class ContactServiceImpl implements IContactService {
 
     @Autowired
     private ContactRepository contactRepository;
+
     @Autowired
     private ContactMapper contactMapper;
 
