@@ -17,6 +17,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.helpers.mail.objects.Personalization;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -66,9 +67,9 @@ public class MailServiceImpl implements IMailService {
             Response response = sendGrid.api(request);
 
             if (
-                    response.getStatusCode() != 200 &&
-                            response.getStatusCode() != 201 &&
-                            response.getStatusCode() != 202
+                    response.getStatusCode() != HttpStatus.OK.value() &&
+                            response.getStatusCode() != HttpStatus.CREATED.value() &&
+                            response.getStatusCode() != HttpStatus.ACCEPTED.value()
             ) {
                 throw new EmailException(messageSource.getMessage("error.email", null, Locale.US));
             }
