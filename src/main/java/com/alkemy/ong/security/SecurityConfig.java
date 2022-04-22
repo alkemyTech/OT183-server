@@ -29,9 +29,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        //Organization routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "organization/**").permitAll();
+
+        //Auth routes
+        http.authorizeRequests().antMatchers("auth/**").permitAll();
         http.authorizeRequests().antMatchers("/auth/login").permitAll().anyRequest().authenticated().and().httpBasic();
 
+        //Testimonial routes
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "testimonials").hasRole("ADMIN");
     }
 
     @Override
@@ -44,4 +51,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
 }
