@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import com.alkemy.ong.config.SendGridConfig;
 import com.alkemy.ong.exception.EmailException;
+import com.alkemy.ong.exception.EmailNotEnabledException;
+import com.alkemy.ong.exception.EmailSenderException;
 import com.alkemy.ong.odt.MailFormat;
 import com.alkemy.ong.service.IMailService;
 import com.sendgrid.Method;
@@ -42,7 +44,12 @@ public class MailServiceImpl implements IMailService {
     }
 
     private void sendTextEmail(MailFormat mailFormatter) {
-        if (enabled != true) return;
+        if (enabled != true) throw new EmailNotEnabledException(
+                messageSource.getMessage("error.email_not_enabled", null, Locale.US)
+        );
+        if (sender == null) throw new EmailSenderException(
+                messageSource.getMessage("error.email_sender", null, Locale.US)
+        );
         Email from = new Email(sender);
         String subject = mailFormatter.getSubject();
         Email to = new Email(mailFormatter.getMailReceiver());

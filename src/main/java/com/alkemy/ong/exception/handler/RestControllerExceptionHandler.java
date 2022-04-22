@@ -92,4 +92,15 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         );
     }
 
+    @ExceptionHandler(EmailSenderException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleEmailSenderException(EmailSenderException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        ex.getMessage()
+                ),
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
 }
