@@ -31,6 +31,9 @@ public class MailServiceImpl implements IMailService {
     @Value("${app.email.enabled}")
     private boolean enabled;
 
+    @Value("${app.email.template_id}")
+    private String templateId;
+
     public MailServiceImpl(SendGrid sendGrid, MessageSource messageSource) {
         this.sendGrid = sendGrid;
         this.messageSource = messageSource;
@@ -47,7 +50,7 @@ public class MailServiceImpl implements IMailService {
 
         Mail mail = new Mail();
         mail.setFrom(from);
-        mail.setTemplateId("d-1cdabdc3c46b474f84870571e351dfc8");
+        mail.setTemplateId(templateId);
 
         Personalization personalization = new Personalization();
         personalization.addDynamicTemplateData("name", mailFormatter.getName());
