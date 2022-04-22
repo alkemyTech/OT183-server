@@ -1,8 +1,6 @@
 package com.alkemy.ong.exception.handler;
 
-import com.alkemy.ong.exception.ApiErrorResponse;
-import com.alkemy.ong.exception.DataRepresentationException;
-import com.alkemy.ong.exception.NullListException;
+import com.alkemy.ong.exception.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,6 +67,28 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                         ex.getMessage()
                 ),
                 HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleEmailException(EmailException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.BAD_REQUEST,
+                        ex.getMessage()
+                ),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(UserRegistrationException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleUserRegistrationException(UserRegistrationException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        ex.getMessage()
+                ),
+                HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 
