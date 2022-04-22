@@ -4,6 +4,6 @@ import org.springframework.context.MessageSource;
 
 public interface IGenericDto<T extends Enum> {
 
-    public Object generateDto(T type, MessageSource messageSource);
+    Object generateDto(T type, MessageSource messageSource);
 
 }

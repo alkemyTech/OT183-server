@@ -1,34 +1,31 @@
 package com.alkemy.ong.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 @SQLDelete(sql="UPDATE user SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
-public class User {
+public class UserModel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,4 +63,14 @@ public class User {
     @CreationTimestamp
     @Column(name="created_user")
     private LocalDate created;
+
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role",
+            joinColumns=@JoinColumn(name="users_id"),
+            inverseJoinColumns=@JoinColumn(name="roles_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
 }

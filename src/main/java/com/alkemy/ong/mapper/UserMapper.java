@@ -5,7 +5,7 @@ import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import com.alkemy.ong.model.User;
+import com.alkemy.ong.model.UserModel;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ public class UserMapper {
         return dateFormatted;
     }
 
-    public User userDto2UserEntity(UserDto dto){
-        User userEntity = new User();
+    public UserModel userDto2UserEntity(UserDto dto){
+        UserModel userEntity = new UserModel();
         userEntity.setFirstName(dto.getFirstName());
         userEntity.setLastName(dto.getLastName());
         userEntity.setEmail(dto.getEmail());
@@ -32,7 +32,7 @@ public class UserMapper {
         return userEntity;
     }
 
-    public UserBasicDto userEntity2UserBasicDto(User entity){
+    public UserBasicDto userEntity2UserBasicDto(UserModel entity){
         UserBasicDto response = new UserBasicDto();
         response.setEmail(entity.getEmail());
         response.setFirstName(entity.getFirstName());
@@ -41,9 +41,9 @@ public class UserMapper {
     }
 
 
-    public User userDTO2Entity(UserDto dto){
+    public UserModel userDTO2Entity(UserDto dto){
 
-        User entity = new User();
+        UserModel entity = new UserModel();
 
         entity.setId(dto.getId());
         entity.setFirstName(dto.getFirstName());
@@ -56,7 +56,7 @@ public class UserMapper {
         return entity;
     }
 
-    public UserDto userEntity2DTO(User entity){
+    public UserDto userEntity2DTO(UserModel entity){
         UserDto dto = new UserDto();
 
         dto.setId(entity.getId());
@@ -72,7 +72,7 @@ public class UserMapper {
         return dto;
     }
 
-    public List<UserDto> listEntity2DTO(List<User> entityList){
+    public List<UserDto> listEntity2DTO(List<UserModel> entityList){
 
         List<UserDto> dtoList = new ArrayList<>();
 

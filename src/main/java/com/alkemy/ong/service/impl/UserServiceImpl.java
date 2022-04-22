@@ -4,7 +4,7 @@ import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.exception.NullListException;
 import com.alkemy.ong.mapper.UserMapper;
-import com.alkemy.ong.model.User;
+import com.alkemy.ong.model.UserModel;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.IUserService;
 import com.amazonaws.services.memorydb.model.UserAlreadyExistsException;
@@ -40,7 +40,7 @@ public class UserServiceImpl implements IUserService {
             throw new UserAlreadyExistsException("There is an account with that email address: " + userDto.getEmail());
         }
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        User entity = userMapper.userDto2UserEntity(userDto);
+        UserModel entity = userMapper.userDto2UserEntity(userDto);
         entity = userRepository.save(entity);
         return userMapper.userEntity2UserBasicDto(entity);
     }
@@ -57,6 +57,6 @@ public class UserServiceImpl implements IUserService {
     }
 
     private boolean emailExists(String email) {
-        return userRepository.findByEmail(email) != null;
+        return userRepository.findByEmail(email).isPresent();
     }
 }
