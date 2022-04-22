@@ -30,7 +30,7 @@ public class ContactController {
             contactService.addContact(contactDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(message.getMessage("contact.added", null, Locale.US));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message.getMessage("generic.error", null, Locale.US));
         }
     }
 }
