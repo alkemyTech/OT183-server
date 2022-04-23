@@ -55,7 +55,7 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
             return new OrganizationPublicDataDto(name, image, address, phone);
         }
         throw new DataRepresentationException(
-                messageSource.getMessage("error.representation_data", null, new Locale("es", "ES"))
+                messageSource.getMessage("error.representation_data", null, Locale.US)
         );
     }
 }
