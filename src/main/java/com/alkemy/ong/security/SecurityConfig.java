@@ -32,10 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //Public Routes
         //Organization routes
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/organization/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/organization/public").permitAll();
 
         //Auth routes
-        http.authorizeRequests().antMatchers("/auth/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/login").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/register").permitAll();
 
         //You have to login to see next routes
         http.authorizeRequests().antMatchers("/**").authenticated().and().httpBasic();

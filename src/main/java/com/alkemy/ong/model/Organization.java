@@ -45,10 +45,11 @@ public class Organization {
 	
 	private String aboutUsText;
 
-	@Column(updatable = false)
+	@Column(updatable = false, columnDefinition = "date default current_date")
 	@CreationTimestamp
 	private LocalDate created;
 
+	@Column(updatable = false, columnDefinition = "date default current_date")
 	@UpdateTimestamp
 	private LocalDate updated;
 
