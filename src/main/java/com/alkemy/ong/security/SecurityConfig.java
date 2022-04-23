@@ -30,15 +30,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        //Public Routes
         //Organization routes
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "organization/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/organization/**").permitAll();
 
         //Auth routes
-        http.authorizeRequests().antMatchers("auth/**").permitAll();
-        http.authorizeRequests().antMatchers("/auth/login").permitAll().anyRequest().authenticated().and().httpBasic();
+        http.authorizeRequests().antMatchers("/auth/**").permitAll();
 
+        //You have to login to see next routes
+        http.authorizeRequests().antMatchers("/**").authenticated().and().httpBasic();
+
+        //Authenticated and Role dependent
         //Testimonial routes
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "testimonials").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/testimonials").hasRole("ADMIN");
+
+        //Don't add any routes below
+        http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
     }
 
     @Override

@@ -17,15 +17,12 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
-@Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="Organization")
-@SQLDelete(sql = "UPDATE table_product SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
-@Builder
+@Table(name = "organizations")
+@SQLDelete(sql = "UPDATE organizations SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Organization {
 	
 	@Id
@@ -33,35 +30,56 @@ public class Organization {
 	private Long id;
 	
 	@NotBlank(message = "Name must not be empty")
-	@Column(name="Name")
 	private String name;
 	
-	@Column(name="Image")
 	private String image;
 	
-	@Column(name="Address")
 	private String address;
 	
-	@Column(name="Phone")
 	private int phone;
 	
 	@NotBlank(message = "Email must not be empty")
-	@Column(name="Email")
 	private String email;
 	
-	@Column(name="WelcomeText")
 	private String welcomeText;
 	
-	@Column(name="AboutUsText")
 	private String aboutUsText;
-	
+
+	@Column(updatable = false)
 	@CreationTimestamp
 	private LocalDate created;
 
 	@UpdateTimestamp
 	private LocalDate updated;
-	
+
+	@Column(columnDefinition = "boolean default false")
 	private boolean deleted = Boolean.FALSE;
+
+	@Builder
+	public Organization(
+			Long id,
+			String name,
+			String image,
+			String address,
+			int phone,
+			String email,
+			String welcomeText,
+			String aboutUsText,
+			LocalDate created,
+			LocalDate updated
+	) {
+		this.id = id;
+		this.name = name;
+		this.image = image;
+		this.address = address;
+		this.phone = phone;
+		this.email = email;
+		this.welcomeText = welcomeText;
+		this.aboutUsText = aboutUsText;
+		this.created = created;
+		this.updated = updated;
+	}
+
 }
 
 /*
