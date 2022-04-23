@@ -2,19 +2,19 @@ package com.alkemy.ong.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Data
 public class ActivityDto {
 
     private Long id;
 
-    @NotNull(message = "Name must not be empty.")
+    @NotBlank(message = "Name must not be empty.")
     private String name;
 
-    @NotNull(message = "Content must not be empty.")
+    @NotBlank(message = "Content must not be empty.")
     private String content;
 
-    @NotNull(message = "Image must not be empty.")
+    @NotBlank(message = "Image must not be empty.")
     private String image;
 }
