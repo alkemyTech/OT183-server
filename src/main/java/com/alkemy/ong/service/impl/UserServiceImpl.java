@@ -2,6 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
+import com.alkemy.ong.dto.UserProfileDto;
 import com.alkemy.ong.exception.NullListException;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.model.UserModel;
@@ -13,9 +14,11 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -32,6 +35,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private MessageSource message;
 
+    @Autowired
+    private JwtUtils jwtTokenUtils;
+
 
     @Override
     @Transactional
@@ -43,6 +49,21 @@ public class UserServiceImpl implements IUserService {
         UserModel entity = userMapper.userDto2UserEntity(userDto);
         entity = userRepository.save(entity);
         return userMapper.userEntity2UserBasicDto(entity);
+    }
+
+    public UserProfileDto getUserProfile(HttpServletRequest request) {
+
+        String email = null;
+        String jwt = null;
+
+        String authorizationHeader = request.getHeader("Authorization");
+        jwt = authorizationHeader.substring(7);
+        email = jwtTokenUtils.extractUsername(jwt);
+
+        Optional<UserModel> userModel = userRepository.findByEmail(email);
+        UserProfileDto dto = userMapper.userModel2UserProfileDto(userModel);
+
+        return dto;
     }
 
     public List<UserBasicDto> returnList(){
