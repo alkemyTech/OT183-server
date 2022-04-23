@@ -16,8 +16,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "contacts")
-@SQLDelete(sql = "UPDATE contacts SET delete = true WHERE id = ?")
-@Where(clause = "delete = false")
+@SQLDelete(sql = "UPDATE contacts SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,19 +30,17 @@ public class Contact {
     @NotBlank(message = "{error.empty_field}")
     private String name;
 
-    @NotBlank(message = "{error.empty_field}")
+
     private String phone;
 
     @NotBlank(message = "{error.empty_field}")
     @Email(message = "{error.invalid_email}")
     private String email;
 
-    @NotBlank(message = "{error.empty_field}")
-    @Size(min = 50, message = "{error.message_size}")
     @Column(columnDefinition = "TEXT")
     private String message;
 
-    private boolean delete = Boolean.FALSE;
+    private boolean deleted = Boolean.FALSE;
 
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd")
