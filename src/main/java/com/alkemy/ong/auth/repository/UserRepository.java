@@ -1,6 +1,7 @@
-package com.alkemy.ong.repository;
+package com.alkemy.ong.auth.repository;
 
-import com.alkemy.ong.model.UserModel;
+
+import com.alkemy.ong.auth.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

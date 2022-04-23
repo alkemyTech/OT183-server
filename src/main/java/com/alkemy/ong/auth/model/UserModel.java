@@ -1,15 +1,6 @@
-package com.alkemy.ong.model;
+package com.alkemy.ong.auth.model;
 
-import java.time.LocalDate;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,8 +21,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @SQLDelete(sql="UPDATE user SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
-public class User {
-    
+
+
+public class UserModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,19 +32,19 @@ public class User {
     @NotNull(message="First name can't be null")
     @Column(nullable = false, updatable = true)
     private String firstName;
-    
+
     @NotNull(message="Last name can't be null")
     @Column(nullable = false, updatable = true)
     private String lastName;
-    
+
     @NotNull(message="Email can't be null")
     @Column(nullable = false, updatable = true, unique = true)
     private String email;
-    
+
     @NotNull(message="Password can't be null")
     @Column(nullable = false, updatable = true)
     private String password;
-    
+
     @NotNull
     @Column(nullable = true, updatable = true)
     private String photo;
@@ -58,7 +53,7 @@ public class User {
     private Long roleid;
 
     private boolean deleted = Boolean.FALSE;
-    
+
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="modify_user")
