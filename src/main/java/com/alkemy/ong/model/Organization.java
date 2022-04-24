@@ -1,6 +1,5 @@
 package com.alkemy.ong.model;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -36,7 +35,7 @@ public class Organization {
 	
 	private String address;
 	
-	private int phone;
+	private String phone;
 	
 	@NotBlank(message = "Email must not be empty")
 	private String email;
@@ -62,7 +61,7 @@ public class Organization {
 			String name,
 			String image,
 			String address,
-			int phone,
+			String phone,
 			String email,
 			String welcomeText,
 			String aboutUsText,
