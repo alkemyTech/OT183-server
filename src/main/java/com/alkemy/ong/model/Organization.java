@@ -17,8 +17,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 @Getter
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "organizations")
 @SQLDelete(sql = "UPDATE organizations SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
@@ -48,37 +50,12 @@ public class Organization {
 	@CreationTimestamp
 	private LocalDate created;
 
-	@Column(updatable = false, columnDefinition = "date default current_date")
+	@Column(columnDefinition = "date default current_date")
 	@UpdateTimestamp
 	private LocalDate updated;
 
 	@Column(columnDefinition = "boolean default false")
-	private boolean deleted = Boolean.FALSE;
-
-	@Builder
-	public Organization(
-			Long id,
-			String name,
-			String image,
-			String address,
-			String phone,
-			String email,
-			String welcomeText,
-			String aboutUsText,
-			LocalDate created,
-			LocalDate updated
-	) {
-		this.id = id;
-		this.name = name;
-		this.image = image;
-		this.address = address;
-		this.phone = phone;
-		this.email = email;
-		this.welcomeText = welcomeText;
-		this.aboutUsText = aboutUsText;
-		this.created = created;
-		this.updated = updated;
-	}
+	private static final boolean deleted = Boolean.FALSE;
 
 }
 
