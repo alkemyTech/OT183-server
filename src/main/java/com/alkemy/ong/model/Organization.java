@@ -1,6 +1,5 @@
 package com.alkemy.ong.model;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -17,15 +16,14 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
-@Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name="Organization")
-@SQLDelete(sql = "UPDATE table_product SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@Table(name = "organizations")
+@SQLDelete(sql = "UPDATE organizations SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Organization {
 	
 	@Id
@@ -33,35 +31,32 @@ public class Organization {
 	private Long id;
 	
 	@NotBlank(message = "Name must not be empty")
-	@Column(name="Name")
 	private String name;
 	
-	@Column(name="Image")
 	private String image;
 	
-	@Column(name="Address")
 	private String address;
 	
-	@Column(name="Phone")
-	private int phone;
+	private String phone;
 	
 	@NotBlank(message = "Email must not be empty")
-	@Column(name="Email")
 	private String email;
 	
-	@Column(name="WelcomeText")
 	private String welcomeText;
 	
-	@Column(name="AboutUsText")
 	private String aboutUsText;
-	
+
+	@Column(updatable = false, columnDefinition = "date default current_date")
 	@CreationTimestamp
 	private LocalDate created;
 
+	@Column(columnDefinition = "date default current_date")
 	@UpdateTimestamp
 	private LocalDate updated;
-	
-	private boolean deleted = Boolean.FALSE;
+
+	@Column(columnDefinition = "boolean default false")
+	private static final boolean deleted = Boolean.FALSE;
+
 }
 
 /*
