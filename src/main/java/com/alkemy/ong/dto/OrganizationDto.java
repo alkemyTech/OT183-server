@@ -19,21 +19,21 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
 
     private Long id;
 
-    @NotBlank(message = "Name must be not empty")
+    @NotBlank(message = "{error.empty_field}")
     private String name;
 
-    @NotBlank(message = "Image must be not empty")
+    @NotBlank(message = "{error.empty_field}")
     private String image;
 
     private String address;
 
     private String phone;
 
-    @NotBlank(message = "Email must be not empty")
-    @Email(message = "Email must be valid")
+    @NotBlank(message = "{error.empty_field}")
+    @Email(message = "{error.invalid_email}")
     private String email;
 
-    @NotBlank(message = "Welcome text must be not empty")
+    @NotBlank(message = "{error.empty_field}")
     private String welcomeText;
 
     private String aboutUsText;
