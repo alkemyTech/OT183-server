@@ -28,7 +28,7 @@ public class MemberServiceImpl implements MemberService{
 
         if(Helpers.controlNameString(memberDTO.getName()) == false)
             return new ResponseEntity<>(
-            mapperError("Error the name can't have contain simbols or numbers",406),
+            mapperError("Error the name can't contain simbols or numbers",406),
             HttpStatus.NOT_ACCEPTABLE);  
 
         if(memberDTO.getImage() == null)
