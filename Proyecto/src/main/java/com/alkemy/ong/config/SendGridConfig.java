@@ -11,10 +11,11 @@ public class SendGridConfig {
     //TODO in the future indicate the API KEY in Properties
     @Value("${app.sendgrid.key}")
     private String appkey;
+    
 
     @Bean
     public SendGrid getSendGrid(){
-        return new SendGrid(appkey);
+        return new SendGrid("appkey");
     }
 
 }
