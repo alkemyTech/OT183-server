@@ -29,8 +29,8 @@ public class Organization {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotBlank(message = "Name must not be empty")
+
+	@NotBlank(message = "{error.empty_field}")
 	private String name;
 	
 	private String image;
@@ -38,8 +38,8 @@ public class Organization {
 	private String address;
 	
 	private String phone;
-	
-	@NotBlank(message = "Email must not be empty")
+
+	@NotBlank(message = "{error.empty_field}")
 	private String email;
 	
 	private String welcomeText;
