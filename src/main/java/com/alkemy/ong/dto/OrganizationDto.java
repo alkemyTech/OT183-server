@@ -27,7 +27,7 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
 
     private String address;
 
-    private int phone;
+    private String phone;
 
     @NotBlank(message = "Email must be not empty")
     @Email(message = "Email must be valid")
@@ -42,7 +42,7 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
 
     private LocalDate updated;
 
-    public OrganizationDto(String name, String image, String address, int phone) {
+    public OrganizationDto(String name, String image, String address, String phone) {
         this.name = name;
         this.image = image;
         this.address = address;

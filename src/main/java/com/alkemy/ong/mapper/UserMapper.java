@@ -5,15 +5,29 @@ import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import com.alkemy.ong.dto.UserProfileDto;
 import com.alkemy.ong.model.UserModel;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
 public class UserMapper {
+
+    public UserProfileDto userModel2UserProfileDto(Optional<UserModel> model){
+
+        UserProfileDto dto = new UserProfileDto();
+        dto.setFirstName(model.getFirstName());
+        dto.setLastName(model.getLastName());
+        dto.setEmail(model.getEmail());
+        dto.setPhoto(model.getPhoto());
+
+        return dto;
+    }
 
     private static LocalDate string2LocalDate(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -34,6 +48,7 @@ public class UserMapper {
 
     public UserBasicDto userEntity2UserBasicDto(UserModel entity){
         UserBasicDto response = new UserBasicDto();
+        response.setId(entity.getId());
         response.setEmail(entity.getEmail());
         response.setFirstName(entity.getFirstName());
         response.setLastName(entity.getLastName());

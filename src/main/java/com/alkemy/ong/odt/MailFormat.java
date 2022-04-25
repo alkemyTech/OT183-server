@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MailFormat {
     
-    private String mailSender;
-    private String mailReciver;
-    private String content;
+    private String mailReceiver;
+    private String name;
+    private String subject;
+
 }
