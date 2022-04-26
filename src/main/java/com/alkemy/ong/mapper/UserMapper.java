@@ -18,7 +18,7 @@ import java.util.Optional;
 @Component
 public class UserMapper {
 
-    public UserProfileDto userModel2UserProfileDto(Optional<UserModel> model){
+    public UserProfileDto userModel2UserProfileDto(UserModel model){
 
         UserProfileDto dto = new UserProfileDto();
         dto.setFirstName(model.getFirstName());

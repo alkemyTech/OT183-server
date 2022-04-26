@@ -69,7 +69,7 @@ public class UserServiceImpl implements IUserService {
         jwt = authorizationHeader.substring(7);
         email = jwtTokenUtils.extractUsername(jwt);
 
-        Optional<UserModel> userModel = userRepository.findByEmail(email);
+        UserModel userModel = userRepository.findByEmail(email);
         UserProfileDto dto = userMapper.userModel2UserProfileDto(userModel);
 
         return dto;
@@ -87,6 +87,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     private boolean emailExists(String email) {
-        return userRepository.findByEmail(email).isPresent();
+
+        return userRepository.findByEmail(email) != null;
+
     }
 }

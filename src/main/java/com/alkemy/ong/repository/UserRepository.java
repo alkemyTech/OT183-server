@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Long> {
 
-    Optional<UserModel> findByEmail(String email);
+    UserModel findByEmail(String email);
 
     @Query(value = "SELECT new com.alkemy.ong.dto.UserBasicDto(u.id, u.firstName, u.lastName, u.email) FROM UserModel u")
     List<UserBasicDto> getAllUsers();
