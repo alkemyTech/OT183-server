@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 
 @Data
@@ -16,7 +17,8 @@ public class CategoryDto {
 
     private Long id;
 
-    @NotBlank(message = "Name can't be null")
+    @NotBlank(message = "{error.empty_field}")
+    @Pattern(regexp = "^[A-z(\\s.,)]+",message = "{error.contains_numbers}")
     private String name;
 
     private String description;
@@ -26,6 +28,8 @@ public class CategoryDto {
     private String created;
 
     private String updated;
+
+    private boolean deleted;
 
 
 }

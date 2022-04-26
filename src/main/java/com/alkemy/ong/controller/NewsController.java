@@ -29,4 +29,10 @@ public class NewsController {
         }
 
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        service.deleteNews(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

@@ -16,6 +16,7 @@ public class CategoryMapper implements IMapper<Category, CategoryDto>{
         return Category.builder()
                 .name(dto.getName())
                 .description(dto.getDescription())
+                .deleted(dto.isDeleted())
                 .image(dto.getImage()).build();
     }
 
