@@ -51,6 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //News routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/news").hasRole("ADMIN");
 
+        //Slides routes
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides/{id}").hasRole("ADMIN");
+
         //Don't add any routes below
         http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
     }
