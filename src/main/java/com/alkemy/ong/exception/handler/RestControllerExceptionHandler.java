@@ -103,8 +103,8 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         );
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiErrorResponse<String>> handleResourceNotFoundException(ResourceNotFoundException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleResourceNotFoundException(EntityNotFoundException ex) {
         return new ResponseEntity<>(
                 new ApiErrorResponse<>(
                         HttpStatus.NOT_FOUND,
