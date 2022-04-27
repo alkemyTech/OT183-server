@@ -57,6 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Categories routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/categories").hasRole("ADMIN");
 
+        //Category routes
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/categories").hasRole("ADMIN");
+
         //Don't add any routes below
         http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
     }

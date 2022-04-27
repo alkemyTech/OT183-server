@@ -44,4 +44,5 @@ public class CategoryMapper implements IMapper<Category, CategoryDto>{
     public List<CategoryDto> toDtoList(List<Category> list) {
         return MapperUtil.streamListNonNull(list, this::toDto);
     }
+
 }
