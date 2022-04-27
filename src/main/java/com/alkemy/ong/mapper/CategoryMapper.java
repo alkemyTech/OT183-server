@@ -1,6 +1,7 @@
 package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.CategoryDto;
+import com.alkemy.ong.dto.CategoryNameDto;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.util.MapperUtil;
 import org.springframework.stereotype.Component;
@@ -43,6 +44,15 @@ public class CategoryMapper implements IMapper<Category, CategoryDto>{
     @Override
     public List<CategoryDto> toDtoList(List<Category> list) {
         return MapperUtil.streamListNonNull(list, this::toDto);
+    }
+
+
+    public List<CategoryNameDto> listNameDto(List<Category> list) {
+        return MapperUtil.streamListNonNull(list, this::toDoNameList);
+    }
+
+    public CategoryNameDto toDoNameList(Category entity) {
+        return CategoryNameDto.builder().name(entity.getName()).build();
     }
 
 }
