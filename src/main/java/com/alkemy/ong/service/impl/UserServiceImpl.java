@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -84,6 +85,11 @@ public class UserServiceImpl implements IUserService {
         }
 
         return entityList;
+    }
+
+    @Override
+    public UserProfileDto updateUser(Long id, Map<Object, Object> userDto) {
+        return null;
     }
 
     private boolean emailExists(String email) {

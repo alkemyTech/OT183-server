@@ -6,6 +6,7 @@ import com.alkemy.ong.dto.UserProfileDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 public interface IUserService {
 
@@ -14,4 +15,6 @@ public interface IUserService {
     UserProfileDto getUserProfile(HttpServletRequest request);
 
     List<UserBasicDto> returnList();
+
+    UserProfileDto updateUser(Long id, Map<Object, Object> userDto);
 }
