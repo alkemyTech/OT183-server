@@ -1,6 +1,7 @@
 package com.alkemy.ong.exception.handler;
 
 import com.alkemy.ong.exception.ApiErrorResponse;
+import com.alkemy.ong.exception.BlankFieldException;
 import com.alkemy.ong.exception.DataRepresentationException;
 import com.alkemy.ong.exception.EmailException;
 import com.alkemy.ong.exception.EmailSenderException;
@@ -141,6 +142,17 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                         ex.getMessage()
                 ),
                 HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(BlankFieldException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleBlankFieldException(BlankFieldException ex){
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.BAD_REQUEST,
+                        ex.getMessage()
+                ),
+                HttpStatus.BAD_REQUEST
         );
     }
 

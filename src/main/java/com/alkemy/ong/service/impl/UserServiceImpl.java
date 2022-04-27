@@ -3,14 +3,15 @@ package com.alkemy.ong.service.impl;
 import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.dto.UserProfileDto;
+import com.alkemy.ong.exception.BlankFieldException;
 import com.alkemy.ong.exception.NullListException;
 import com.alkemy.ong.exception.UserAlreadyExistsException;
+import com.alkemy.ong.exception.UserNotFoundException;
 import com.alkemy.ong.exception.UserRegistrationException;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.model.UserModel;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.IUserService;
-import com.amazonaws.services.memorydb.model.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -24,7 +25,6 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -45,7 +45,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public UserBasicDto signup(UserDto userDto) {
-        if(emailExists(userDto.getEmail())){
+        if (emailExists(userDto.getEmail())) {
             throw new UserAlreadyExistsException(message.getMessage("error.account_exists", null, Locale.US));
         }
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -77,7 +77,7 @@ public class UserServiceImpl implements IUserService {
         return dto;
     }
 
-    public List<UserBasicDto> returnList(){
+    public List<UserBasicDto> returnList() {
 
         List<UserBasicDto> entityList = userRepository.getAllUsers();
 
@@ -97,6 +97,11 @@ public class UserServiceImpl implements IUserService {
         updates.forEach((key, value) -> {
             Field attribute = ReflectionUtils.findField(UserModel.class, key);
             attribute.setAccessible(true);
+            if (value.toString().isBlank()){
+                throw new BlankFieldException(
+                        message.getMessage("error.field_blank", null, Locale.US)
+                );
+            }
             ReflectionUtils.setField(attribute, userModel, value);
         });
         return (userMapper.userModel2UserProfileDto(userModel));
