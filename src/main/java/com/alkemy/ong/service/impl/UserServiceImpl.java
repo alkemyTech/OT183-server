@@ -4,12 +4,12 @@ import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.dto.UserProfileDto;
 import com.alkemy.ong.exception.NullListException;
+import com.alkemy.ong.exception.UserAlreadyExistsException;
 import com.alkemy.ong.exception.UserRegistrationException;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.model.UserModel;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.IUserService;
-import com.amazonaws.services.memorydb.model.UserAlreadyExistsException;
 import com.amazonaws.services.memorydb.model.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class UserServiceImpl implements IUserService {
         UserModel entity = userMapper.userDto2UserEntity(userDto);
         entity = userRepository.save(entity);
         if (entity != null) {
-            mailService.sendEmailByRegistration(entity.getEmail(), entity.getFirstName());
+            //mailService.sendEmailByRegistration(entity.getEmail(), entity.getFirstName());
         } else {
             throw new UserRegistrationException(
                     message.getMessage("error.registration", null, Locale.US)

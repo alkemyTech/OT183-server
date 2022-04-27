@@ -30,7 +30,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userList);
     }
 
-    @PatchMapping("/{id : \\d+}")
+    @PatchMapping("/{id}")
     public ResponseEntity<UserProfileDto> updateUser(@PathVariable Long id,@RequestBody Map<String, Object> updates ){
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, updates));
     }
