@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.UserBasicDto;
+import com.alkemy.ong.dto.UserProfileDto;
 import com.alkemy.ong.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @RestController
@@ -27,4 +29,10 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.OK).body(userList);
     }
+
+    @PatchMapping("/{id : \\d+}")
+    public ResponseEntity<UserProfileDto> updateUser(@PathVariable Long id,@RequestBody Map<String, Object> updates ){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, updates));
+    }
+
 }
