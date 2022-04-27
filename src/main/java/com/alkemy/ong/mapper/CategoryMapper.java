@@ -45,14 +45,4 @@ public class CategoryMapper implements IMapper<Category, CategoryDto>{
         return MapperUtil.streamListNonNull(list, this::toDto);
     }
 
-    public CategoryDto entityToDto(Category entity) {
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setId(entity.getId());
-        categoryDto.setName(entity.getName());
-        categoryDto.setImage(entity.getImage());
-        categoryDto.setDescription(entity.getDescription());
-        categoryDto.setCreated(entity.getCreated().toString());
-        categoryDto.setUpdated(entity.getUpdated().toString());
-        return categoryDto;
-    }
 }
