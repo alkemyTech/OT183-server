@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.CategoryDto;
+import com.alkemy.ong.dto.CategoryNameDto;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
@@ -20,6 +22,11 @@ public class CategoryController {
 
     @Autowired
     private ICategoryService categoryService;
+
+    @GetMapping
+    public ResponseEntity<List<CategoryNameDto>> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.returnList());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> getCategoryById(@PathVariable(name = "id") long id){
