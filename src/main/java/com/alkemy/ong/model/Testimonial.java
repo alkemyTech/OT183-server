@@ -33,7 +33,7 @@ public class Testimonial {
     private String content;
 
     @Column(columnDefinition = "boolean default false")
-    private static final boolean deleted = Boolean.FALSE;
+    private final boolean deleted = Boolean.FALSE;
 
     @Column(updatable = false)
     @CreationTimestamp
