@@ -34,8 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Organization routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/organization/public").permitAll();
 
-
-
         //Auth routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/login").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/register").permitAll();
@@ -55,7 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/news/{id}").hasRole("ADMIN");
 
         //Categories routes
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/categories").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/categories").hasRole("ADMIN");
+
 
         //Slides routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides/{id}").hasRole("ADMIN");

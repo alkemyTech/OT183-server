@@ -24,12 +24,7 @@ public class SlideServiceImpl implements ISlideService {
         return mapper.toDto(
                 repository.findById(id)
                         .orElseThrow(
-                                () -> new EntityNotFoundException(
-                                        messageSource.getMessage(
-                                                "error.entity_not_found",
-                                                null,
-                                                Locale.US)
-                                )
+                                () -> new EntityNotFoundException("Slide", "id", id)
                         )
         ).generateDto(SlideDtoType.DETAILED, messageSource);
     }

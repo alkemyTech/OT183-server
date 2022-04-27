@@ -35,7 +35,7 @@ public class NewsServiceImpl implements INewsService {
     public void deleteNews(Long id){
 
         if (!newsRepository.existsById(id)){
-            throw new EntityNotFoundException(message.getMessage("error.null_model", null, Locale.US));
+            throw new EntityNotFoundException("News", "id", id);
         }
 
         newsRepository.deleteById(id);
