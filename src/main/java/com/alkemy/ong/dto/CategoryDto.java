@@ -1,29 +1,32 @@
 package com.alkemy.ong.dto;
 
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
+import javax.validation.constraints.Pattern;
 
-@Setter
-@Getter
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategoryDto {
 
     private Long id;
 
-    @NotBlank(message = "Name must not be empty.")
+    @NotBlank(message = "{error.empty_field}")
+    @Pattern(regexp = "^[A-z(\\s.,)]+",message = "{error.contains_numbers}")
     private String name;
 
     private String description;
 
     private String image;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate created;
+    private String created;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate updated;
+    private String updated;
+
+    private boolean deleted;
+
+
 }
