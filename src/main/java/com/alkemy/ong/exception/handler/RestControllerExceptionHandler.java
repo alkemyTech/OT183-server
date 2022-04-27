@@ -1,6 +1,13 @@
 package com.alkemy.ong.exception.handler;
 
-import com.alkemy.ong.exception.*;
+import com.alkemy.ong.exception.ApiErrorResponse;
+import com.alkemy.ong.exception.DataRepresentationException;
+import com.alkemy.ong.exception.EmailException;
+import com.alkemy.ong.exception.EmailSenderException;
+import com.alkemy.ong.exception.NullListException;
+import com.alkemy.ong.exception.NullModelException;
+import com.alkemy.ong.exception.UserRegistrationException;
+import com.amazonaws.services.memorydb.model.UserAlreadyExistsException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -111,6 +118,17 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                         ex.getMessage()
                 ),
                 HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleUserAlredyExistsExcepetion(UserRegistrationException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.BAD_REQUEST,
+                        ex.getMessage()
+                ),
+                HttpStatus.BAD_REQUEST
         );
     }
 
