@@ -1,8 +1,12 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.dto.UserProfileDto;
+import com.alkemy.ong.security.CustomUserDetailsService;
+import com.alkemy.ong.security.JwtAuthResponseDto;
 import com.alkemy.ong.service.IUserService;
+import com.alkemy.ong.service.impl.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,20 +23,28 @@ public class UserAuthController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+
     @GetMapping("/me")
-    public ResponseEntity<UserProfileDto> getProfile (HttpServletRequest request){
+    public ResponseEntity<UserProfileDto> getProfile(HttpServletRequest request) {
 
         UserProfileDto dto = userService.getUserProfile(request);
         return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto){
-        try{
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto) {
+        try {
+            UserBasicDto user = userService.signup(userDto);
+            String token = jwtUtils.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
             return ResponseEntity.status(HttpStatus.CREATED).body(
-                    userService.signup(userDto)
-            );
-        }catch (Exception e){
+                    new JwtAuthResponseDto(token));
+
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
