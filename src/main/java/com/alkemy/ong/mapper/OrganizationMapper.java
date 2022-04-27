@@ -10,6 +10,18 @@ import java.util.List;
 @Component
 public class OrganizationMapper implements IMapper<Organization, OrganizationDto> {
 
+    private static OrganizationMapper instance;
+
+    private OrganizationMapper() {
+    }
+
+    public static OrganizationMapper getInstance() {
+        if (instance == null) {
+            instance = new OrganizationMapper();
+        }
+        return instance;
+    }
+
     @Override
     public Organization toEntity(OrganizationDto dto) {
         return Organization.builder()

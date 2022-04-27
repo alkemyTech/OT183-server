@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.exception.EntityNotFoundException;
 import com.alkemy.ong.exception.NullModelException;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.model.News;
@@ -34,7 +35,7 @@ public class NewsServiceImpl implements INewsService {
     public void deleteNews(Long id){
 
         if (!newsRepository.existsById(id)){
-            throw new NullModelException(message.getMessage("error.null_model", null, Locale.US));
+            throw new EntityNotFoundException("News", "id", id);
         }
 
         newsRepository.deleteById(id);

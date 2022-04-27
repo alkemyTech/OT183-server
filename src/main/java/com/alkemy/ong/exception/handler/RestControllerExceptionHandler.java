@@ -125,15 +125,4 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         );
     }
 
-    @ExceptionHandler(NullModelException.class)
-    public ResponseEntity<ApiErrorResponse<String>> handleDataRepresentationException(NullModelException ex) {
-        return new ResponseEntity<>(
-                new ApiErrorResponse<>(
-                        HttpStatus.NOT_FOUND,
-                        ex.getMessage()
-                ),
-                HttpStatus.NOT_FOUND
-        );
-    }
-
 }
