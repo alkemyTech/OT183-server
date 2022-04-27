@@ -1,7 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CategoryDto;
-import com.alkemy.ong.exception.ResourceNotFoundException;
+import com.alkemy.ong.exception.EntityNotFoundException;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.repository.CategoryRepository;
@@ -38,7 +38,7 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public CategoryDto getById(Long id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
-        return categoryMapper.entityToDto(category);
+                .orElseThrow(() -> new EntityNotFoundException("Category", "id", id));
+        return categoryMapper.toDto(category);
     }
 }
