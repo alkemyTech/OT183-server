@@ -10,15 +10,10 @@ import java.time.LocalDate;
 public class TestimonialDetailedDto {
 
     private Long id;
-
     private String name;
-
     private String image;
-
     private String content;
-
     private LocalDate created;
-
     private LocalDate updated;
 
 }

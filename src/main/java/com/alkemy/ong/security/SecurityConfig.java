@@ -30,15 +30,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        //Public Routes
         //Organization routes
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "organization/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/organization/public").permitAll();
 
         //Auth routes
-        http.authorizeRequests().antMatchers("auth/**").permitAll();
-        http.authorizeRequests().antMatchers("/auth/login").permitAll().anyRequest().authenticated().and().httpBasic();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/login").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/register").permitAll();
 
+        //You have to login to see next routes
+        http.authorizeRequests().antMatchers("/**").authenticated().and().httpBasic();
+
+        //Authenticated and Role dependent
         //Testimonial routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "testimonials").hasRole("ADMIN");
+
+        //Activity routes
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/activities").hasRole("ADMIN");
+
+        //News routes
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/news").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/news/{id}").hasRole("ADMIN");
+
+        //Categories routes
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/categories").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/categories").hasRole("ADMIN");
+
+
+        //Slides routes
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides/{id}").hasRole("ADMIN");
+
+        //Don't add any routes below
+        http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
     }
 
     @Override

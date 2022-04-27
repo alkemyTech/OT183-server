@@ -19,21 +19,21 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
 
     private Long id;
 
-    @NotBlank(message = "Name must be not empty")
+    @NotBlank(message = "{error.empty_field}")
     private String name;
 
-    @NotBlank(message = "Image must be not empty")
+    @NotBlank(message = "{error.empty_field}")
     private String image;
 
     private String address;
 
-    private int phone;
+    private String phone;
 
-    @NotBlank(message = "Email must be not empty")
-    @Email(message = "Email must be valid")
+    @NotBlank(message = "{error.empty_field}")
+    @Email(message = "{error.invalid_email}")
     private String email;
 
-    @NotBlank(message = "Welcome text must be not empty")
+    @NotBlank(message = "{error.empty_field}")
     private String welcomeText;
 
     private String aboutUsText;
@@ -42,7 +42,7 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
 
     private LocalDate updated;
 
-    public OrganizationDto(String name, String image, String address, int phone) {
+    public OrganizationDto(String name, String image, String address, String phone) {
         this.name = name;
         this.image = image;
         this.address = address;
@@ -53,6 +53,20 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
     public Object generateDto(OrganizationDtoType type, MessageSource messageSource) {
         if (type == OrganizationDtoType.PUBLIC_DATA) {
             return new OrganizationPublicDataDto(name, image, address, phone);
+        }
+        if( type == OrganizationDtoType.DETAILED) {
+            return OrganizationDetailedDto.builder()
+                    .id(id)
+                    .name(name)
+                    .image(image)
+                    .address(address)
+                    .phone(phone)
+                    .email(email)
+                    .welcomeText(welcomeText)
+                    .aboutUsText(aboutUsText)
+                    .created(created)
+                    .updated(updated)
+                    .build();
         }
         throw new DataRepresentationException(
                 messageSource.getMessage("error.representation_data", null, Locale.US)

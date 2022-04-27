@@ -2,6 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.exception.ParamNotFound;
+import com.alkemy.ong.exception.EntityNotFoundException;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.repository.CategoryRepository;
@@ -12,6 +13,12 @@ import org.springframework.context.MessageSource;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+
+
+@Service
 public class CategoryServiceImpl implements ICategoryService {
 
     @Autowired
@@ -21,7 +28,7 @@ public class CategoryServiceImpl implements ICategoryService {
     @Autowired
     private MessageSource message;
 
-    public CategoryDto updateCategory(CategoryDto categoryDto, Integer id) {
+    public CategoryDto updateCategory(CategoryDto categoryDto, Long id) {
 
         Optional<Category> categoryModel = categoryRepository.findById(id);
         if(!categoryModel.isPresent()){
@@ -35,5 +42,19 @@ public class CategoryServiceImpl implements ICategoryService {
         return categoryUpdateDto;
     }
 
+    @Transactional
+    public CategoryDto addCategory(CategoryDto dto){
 
+        Category entity = categoryMapper.toEntity(dto);
+        categoryRepository.save(entity);
+        return categoryMapper.toDto(entity);
+
+    }
+
+    @Override
+    public CategoryDto getById(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Category", "id", id));
+        return categoryMapper.toDto(category);
+    }
 }
