@@ -20,12 +20,12 @@ public class TestimonialDto implements IGenericDto<TestimonialDtoType> {
 
     private Long id;
 
-    @NotBlank(message = "Name must be not empty")
+    @NotBlank(message = "{error.empty_field}")
     private String name;
 
     private String image;
 
-    @NotBlank(message = "Content must be not empty")
+    @NotBlank(message = "{error.empty_field}")
     private String content;
 
     private LocalDate created;
