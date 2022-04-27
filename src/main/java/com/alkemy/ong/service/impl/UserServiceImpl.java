@@ -52,7 +52,7 @@ public class UserServiceImpl implements IUserService {
         UserModel entity = userMapper.userDto2UserEntity(userDto);
         entity = userRepository.save(entity);
         if (entity != null) {
-            //mailService.sendEmailByRegistration(entity.getEmail(), entity.getFirstName());
+            mailService.sendEmailByRegistration(entity.getEmail(), entity.getFirstName());
         } else {
             throw new UserRegistrationException(
                     message.getMessage("error.registration", null, Locale.US)

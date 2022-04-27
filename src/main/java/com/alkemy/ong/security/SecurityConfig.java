@@ -29,13 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/users/**").permitAll();
 
         //Public Routes
         //Organization routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/organization/public").permitAll();
-
-
 
         //Auth routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/login").permitAll();
@@ -57,6 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //Categories routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/categories").hasRole("ADMIN");
+
+        //User routes
+        http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/users/{id}");
 
         //Don't add any routes below
         http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
