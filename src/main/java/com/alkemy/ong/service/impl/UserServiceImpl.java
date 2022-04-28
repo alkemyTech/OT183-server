@@ -2,6 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
+import com.alkemy.ong.dto.UserPatchDto;
 import com.alkemy.ong.dto.UserProfileDto;
 import com.alkemy.ong.exception.BlankFieldException;
 import com.alkemy.ong.exception.NullListException;
@@ -24,7 +25,6 @@ import javax.transaction.Transactional;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 @AllArgsConstructor
 @Service
@@ -90,20 +90,10 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public UserProfileDto updateUser(Long id, Map<String, Object> updates) {
+    public UserProfileDto updateUser(Long id, UserPatchDto updates) {
         UserModel userModel = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(
                         message.getMessage("error.user_not_found", null, Locale.US)));
-        updates.forEach((key, value) -> {
-            Field attribute = ReflectionUtils.findField(UserModel.class, key);
-            attribute.setAccessible(true);
-            if (value.toString().isBlank()){
-                throw new BlankFieldException(
-                        message.getMessage("error.field_blank", null, Locale.US)
-                );
-            }
-            ReflectionUtils.setField(attribute, userModel, value);
-        });
         return (userMapper.userModel2UserProfileDto(userModel));
     }
 

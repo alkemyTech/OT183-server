@@ -2,6 +2,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
+import com.alkemy.ong.dto.UserPatchDto;
 import com.alkemy.ong.dto.UserProfileDto;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,5 +17,5 @@ public interface IUserService {
 
     List<UserBasicDto> returnList();
 
-    UserProfileDto updateUser(Long id, Map<String, Object> userDto);
+    UserProfileDto updateUser(Long id, UserPatchDto userDto);
 }

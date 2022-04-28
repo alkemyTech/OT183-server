@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.UserBasicDto;
+import com.alkemy.ong.dto.UserPatchDto;
 import com.alkemy.ong.dto.UserProfileDto;
 import com.alkemy.ong.service.IUserService;
 import lombok.AllArgsConstructor;
@@ -31,8 +32,8 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserProfileDto> updateUser(@PathVariable Long id,@RequestBody Map<String, Object> updates ){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, updates));
+    public ResponseEntity<UserProfileDto> updateUser(@PathVariable Long id,@RequestBody UserPatchDto userPatchDto ){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, userPatchDto));
     }
 
 }
