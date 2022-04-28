@@ -53,8 +53,9 @@ public class UserModel {
     @Column(nullable = true, updatable = true)
     private String photo;
 
-    //TODO - In the future this roleId will point at to ROLE Class
-    private Long roleid;
+    @OneToOne
+    @JoinColumn(name="role")
+    private Role role;
 
     private boolean deleted = Boolean.FALSE;
     

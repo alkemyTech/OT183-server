@@ -3,62 +3,28 @@ package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import com.alkemy.ong.dto.UserProfileDto;
+import com.alkemy.ong.model.Role;
 import com.alkemy.ong.model.UserModel;
+import com.alkemy.ong.repository.RoleRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Component
 public class UserMapper {
 
-    public UserProfileDto userModel2UserProfileDto(UserModel model){
-
-        UserProfileDto dto = new UserProfileDto();
-        dto.setFirstName(model.getFirstName());
-        dto.setLastName(model.getLastName());
-        dto.setEmail(model.getEmail());
-        dto.setPhoto(model.getPhoto());
-
-        return dto;
-    }
-
-    private static LocalDate string2LocalDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        LocalDate dateFormatted = LocalDate.parse(date, formatter);
-        return dateFormatted;
-    }
-
-    public UserModel userDto2UserEntity(UserDto dto){
-        UserModel userEntity = new UserModel();
-        userEntity.setFirstName(dto.getFirstName());
-        userEntity.setLastName(dto.getLastName());
-        userEntity.setEmail(dto.getEmail());
-        userEntity.setPassword(dto.getPassword());
-        userEntity.setPhoto(dto.getPhoto());
-        userEntity.setRoleid(dto.getRoleid());
-        return userEntity;
-    }
-
-    public UserBasicDto userEntity2UserBasicDto(UserModel entity){
-        UserBasicDto response = new UserBasicDto();
-        response.setId(entity.getId());
-        response.setEmail(entity.getEmail());
-        response.setFirstName(entity.getFirstName());
-        response.setLastName(entity.getLastName());
-        return response;
-    }
-
+    @Autowired
+    RoleRepository roleRepository;
 
     public UserModel userDTO2Entity(UserDto dto){
 
         UserModel entity = new UserModel();
+        Optional<Role> role = roleRepository.findById(dto.getId());
 
         entity.setId(dto.getId());
         entity.setFirstName(dto.getFirstName());
@@ -66,8 +32,11 @@ public class UserMapper {
         entity.setPassword(dto.getPassword());
         entity.setEmail(dto.getEmail());
         entity.setPhoto(dto.getPhoto());
-        entity.setRoleid(dto.getRoleid());
-
+        entity.setCreated(dto.getCreated());
+        entity.setUpdated(dto.getUpdated());
+        
+        if(role.isPresent()) entity.setRole(role.get());
+        
         return entity;
     }
 
@@ -80,9 +49,9 @@ public class UserMapper {
         dto.setPassword(entity.getPassword());
         dto.setEmail(entity.getEmail());
         dto.setPhoto(entity.getPhoto());
-        dto.setCreated(entity.getCreated().toString());
-        dto.setUpdated(entity.getUpdated().toString());
-        dto.setRoleid(entity.getRoleid());
+        dto.setCreated(entity.getCreated());
+        dto.setUpdated(entity.getUpdated());
+        dto.setRoleid(entity.getRole().getId());
 
         return dto;
     }
@@ -94,7 +63,32 @@ public class UserMapper {
         entityList.forEach(entity ->
                 dtoList.add(userEntity2DTO(entity))
         );
+
+
+
         return dtoList;
+    }
+
+    public UserBasicDto userEntity2UserBasicDto(UserModel entity) {
+        UserBasicDto userBasicDto = new UserBasicDto();
+        userBasicDto.setEmail(entity.getEmail());
+        userBasicDto.setFirstName(entity.getFirstName());
+        userBasicDto.setLastName(entity.getLastName());
+        userBasicDto.setId(entity.getId());
+
+        return userBasicDto;
+
+    }
+
+    public UserProfileDto userModel2UserProfileDto(UserModel userModel) {
+        UserProfileDto userProfileDto = new UserProfileDto();
+
+        userProfileDto.setEmail(userModel.getEmail());
+        userProfileDto.setFirstName(userModel.getFirstName());
+        userProfileDto.setLastName(userModel.getLastName());
+        userProfileDto.setPhoto(userModel.getPhoto());
+        return userProfileDto;
+
     }
 
 }

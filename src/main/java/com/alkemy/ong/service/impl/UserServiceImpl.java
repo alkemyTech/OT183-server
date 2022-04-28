@@ -47,7 +47,7 @@ public class UserServiceImpl implements IUserService {
             throw new UserAlreadyExistsException("There is an account with that email address: " + userDto.getEmail());
         }
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        UserModel entity = userMapper.userDto2UserEntity(userDto);
+        UserModel entity = userMapper.userDTO2Entity(userDto);
         entity = userRepository.save(entity);
         if (entity != null) {
             mailService.sendEmailByRegistration(entity.getEmail(), entity.getFirstName());

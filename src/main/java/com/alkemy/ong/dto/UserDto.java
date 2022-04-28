@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
@@ -33,8 +35,8 @@ public class UserDto {
     //TODO - In the future this roleId will point at to ROLE Class
     private Long roleid;
 
-    private String updated;
+    private LocalDate updated;
 
-    private String created;
+    private LocalDate created;
 
 }
