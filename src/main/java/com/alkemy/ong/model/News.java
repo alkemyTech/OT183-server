@@ -11,6 +11,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "news")
@@ -52,5 +54,8 @@ public class News {
     @UpdateTimestamp
     @Column(name = "updated_date")
     private LocalDate updatedDate;
+
+    @OneToMany(mappedBy = "news",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    List<Comment> comments = new ArrayList<>();
 
 }

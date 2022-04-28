@@ -1,5 +1,9 @@
 package com.alkemy.ong.exception.handler;
 
+import com.alkemy.ong.exception.ApiErrorResponse;
+import com.alkemy.ong.exception.DataRepresentationException;
+import com.alkemy.ong.exception.NullListException;
+import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.exception.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -68,6 +72,12 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                 ),
                 HttpStatus.NOT_FOUND
         );
+    }
+
+    @ExceptionHandler(ParamNotFound.class)
+    public ResponseEntity<Object> handleParamNotFound(RuntimeException ex, WebRequest request) {
+        ApiErrorResponse<String> errorDto = new ApiErrorResponse<>(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return handleExceptionInternal(ex, errorDto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(EmailException.class)

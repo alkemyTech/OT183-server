@@ -6,9 +6,11 @@ import com.alkemy.ong.dto.CategoryNameDto;
 import java.util.List;
 
 public interface ICategoryService {
+    public CategoryDto updateCategory(CategoryDto categoryDto, Long id);
 
     public CategoryDto addCategory(CategoryDto dto);
-    CategoryDto getById(Long id);
 
     List<CategoryNameDto> returnList();
+
+    public CategoryDto getById(Long id);
 }

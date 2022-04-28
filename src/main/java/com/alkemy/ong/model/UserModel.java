@@ -1,7 +1,9 @@
 package com.alkemy.ong.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -63,6 +65,9 @@ public class UserModel {
     @CreationTimestamp
     @Column(name="created_user")
     private LocalDate created;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    List<Comment> comments = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",
