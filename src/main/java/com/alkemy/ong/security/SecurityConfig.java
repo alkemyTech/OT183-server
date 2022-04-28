@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        http.authorizeRequests().antMatchers( "/**").permitAll();
         //Public Routes
         //Organization routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/organization/public").permitAll();
@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/register").permitAll();
 
         //You have to login to see next routes
-        http.authorizeRequests().antMatchers("/**").authenticated().and().httpBasic();
+        //http.authorizeRequests().antMatchers("/**").authenticated().and().httpBasic();
 
         //Authenticated and Role dependent
         //Testimonial routes

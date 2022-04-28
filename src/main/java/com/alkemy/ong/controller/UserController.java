@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserProfileDto> updateUser(@PathVariable Long id,@RequestBody UserPatchDto userPatchDto ){
+    public ResponseEntity<UserProfileDto> updateUser(@PathVariable Long id,@Valid @RequestBody UserPatchDto userPatchDto ){
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, userPatchDto));
     }
 

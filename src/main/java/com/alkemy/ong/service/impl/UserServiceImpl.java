@@ -94,7 +94,21 @@ public class UserServiceImpl implements IUserService {
         UserModel userModel = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(
                         message.getMessage("error.user_not_found", null, Locale.US)));
+        updateFields(userModel, updates);
+        userModel = userRepository.save(userModel);
         return (userMapper.userModel2UserProfileDto(userModel));
+    }
+
+    private void updateFields(UserModel userModel, UserPatchDto updates) {
+        if (updates.getFirstName() != null && !updates.getFirstName().isBlank()){
+            userModel.setFirstName(updates.getFirstName());
+        }
+        if (updates.getLastName() != null && !updates.getLastName().isBlank()){
+            userModel.setLastName(updates.getLastName());
+        }
+        if (updates.getPhoto() != null && !updates.getPhoto().isBlank()){
+            userModel.setPhoto(updates.getPhoto());
+        }
     }
 
     private boolean emailExists(String email) {
