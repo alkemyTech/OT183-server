@@ -4,7 +4,6 @@ import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.dto.UserPatchDto;
 import com.alkemy.ong.dto.UserProfileDto;
-import com.alkemy.ong.exception.BlankFieldException;
 import com.alkemy.ong.exception.NullListException;
 import com.alkemy.ong.exception.UserAlreadyExistsException;
 import com.alkemy.ong.exception.UserNotFoundException;
@@ -18,11 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Locale;
 
@@ -90,25 +87,17 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public UserProfileDto updateUser(Long id, UserPatchDto updates) {
-        UserModel userModel = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(
-                        message.getMessage("error.user_not_found", null, Locale.US)));
-        updateFields(userModel, updates);
-        userModel = userRepository.save(userModel);
-        return (userMapper.userModel2UserProfileDto(userModel));
-    }
-
-    private void updateFields(UserModel userModel, UserPatchDto updates) {
-        if (updates.getFirstName() != null && !updates.getFirstName().isBlank()){
+    public UserPatchDto updateUser(Long id, UserPatchDto updates) {
+        return userRepository.findById(id).map(userModel -> {
             userModel.setFirstName(updates.getFirstName());
-        }
-        if (updates.getLastName() != null && !updates.getLastName().isBlank()){
             userModel.setLastName(updates.getLastName());
-        }
-        if (updates.getPhoto() != null && !updates.getPhoto().isBlank()){
             userModel.setPhoto(updates.getPhoto());
-        }
+            userModel = userRepository.save(userModel);
+            return userMapper.userModel2UserPatchDto(userModel);
+        }).orElseThrow(
+                () -> new UserNotFoundException(message.getMessage("error.user_not_found", null, Locale.US))
+        );
+
     }
 
     private boolean emailExists(String email) {

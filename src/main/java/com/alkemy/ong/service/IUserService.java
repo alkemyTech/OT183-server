@@ -17,5 +17,5 @@ public interface IUserService {
 
     List<UserBasicDto> returnList();
 
-    UserProfileDto updateUser(Long id, UserPatchDto userDto);
+    UserPatchDto updateUser(Long id, UserPatchDto userDto);
 }

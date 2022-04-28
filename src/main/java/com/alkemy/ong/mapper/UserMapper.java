@@ -6,6 +6,7 @@ import com.alkemy.ong.dto.UserDto;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import com.alkemy.ong.dto.UserPatchDto;
 import com.alkemy.ong.dto.UserProfileDto;
 import com.alkemy.ong.model.UserModel;
 import org.springframework.stereotype.Component;
@@ -85,6 +86,10 @@ public class UserMapper {
         dto.setRoleid(entity.getRoleid());
 
         return dto;
+    }
+
+    public UserPatchDto userModel2UserPatchDto(UserModel userModel){
+        return new UserPatchDto(userModel.getFirstName(), userModel.getLastName(), userModel.getPhoto());
     }
 
     public List<UserDto> listEntity2DTO(List<UserModel> entityList){
