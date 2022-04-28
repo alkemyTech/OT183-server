@@ -1,11 +1,17 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.auth.dto.AuthenticationRequest;
 import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.dto.UserProfileDto;
 import com.alkemy.ong.exception.EmailException;
 import com.alkemy.ong.exception.NullListException;
 import com.alkemy.ong.exception.UserRegistrationException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.model.UserModel;
 import com.alkemy.ong.repository.UserRepository;
@@ -14,6 +20,8 @@ import com.amazonaws.services.memorydb.model.UserAlreadyExistsException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +47,26 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private JwtUtils jwtTokenUtils;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+
+
+    public String generateToken(AuthenticationRequest authRequest) throws Exception {
+
+        UserDetails userDetails;
+        try {
+            Authentication auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+            );
+            userDetails = (UserDetails) auth.getPrincipal();
+        }
+        catch (BadCredentialsException e) {
+            throw new Exception(message.getMessage("error.bad_credentials",null,Locale.US),e);
+        }
+        final String jwt =  jwtTokenUtils.generateToken(userDetails);
+        return jwt;
+    }
 
     @Override
     @Transactional

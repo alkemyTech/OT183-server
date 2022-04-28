@@ -1,5 +1,7 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.auth.dto.AuthenticationRequest;
+import com.alkemy.ong.auth.dto.AuthenticationResponse;
 import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.dto.UserProfileDto;
@@ -47,5 +49,10 @@ public class UserAuthController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
+
+        return ResponseEntity.ok(new AuthenticationResponse(userService.generateToken(authRequest)));
     }
 }
