@@ -26,7 +26,7 @@ public class Member {
     private Long id;
 
 
-    @NotNull(message = "name can't be null")
+    @NotNull(message = "{error.empty_field}")
     @Column(nullable = false)
     private String name;
 
@@ -36,7 +36,7 @@ public class Member {
 
     private String linkedinUrl;
 
-    @NotNull(message = "image can't be null")
+    @NotNull(message = "{error.empty_field}")
     @Column(nullable = false)
     private String image;
 
