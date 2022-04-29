@@ -4,4 +4,6 @@ public interface ISlideService {
 
     Object getSlideDetail(Long id);
 
+    void deleteSlice(Long id);
+
 }
