@@ -1,8 +1,8 @@
-package com.alkemy.ong.security;
+package com.alkemy.ong.auth.service;
 
 import com.alkemy.ong.model.Role;
-import com.alkemy.ong.repository.UserRepository;
-import com.alkemy.ong.model.UserModel;
+import com.alkemy.ong.auth.repository.UserRepository;
+import com.alkemy.ong.auth.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;

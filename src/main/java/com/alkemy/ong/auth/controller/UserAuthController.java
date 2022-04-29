@@ -1,14 +1,14 @@
-package com.alkemy.ong.controller;
+package com.alkemy.ong.auth.controller;
 
 import com.alkemy.ong.auth.dto.AuthenticationRequest;
 import com.alkemy.ong.auth.dto.AuthenticationResponse;
 import com.alkemy.ong.dto.UserBasicDto;
-import com.alkemy.ong.dto.UserDto;
-import com.alkemy.ong.dto.UserProfileDto;
-import com.alkemy.ong.security.CustomUserDetailsService;
-import com.alkemy.ong.security.JwtAuthResponseDto;
-import com.alkemy.ong.service.IUserService;
-import com.alkemy.ong.service.impl.JwtUtils;
+import com.alkemy.ong.auth.dto.UserDto;
+import com.alkemy.ong.auth.dto.UserProfileDto;
+import com.alkemy.ong.auth.service.CustomUserDetailsService;
+import com.alkemy.ong.auth.service.JwtAuthResponseDto;
+import com.alkemy.ong.auth.service.IUserService;
+import com.alkemy.ong.auth.service.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +50,7 @@ public class UserAuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-    @PostMapping("/login")
+    @PostMapping("/logins")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
 
         return ResponseEntity.ok(new AuthenticationResponse(userService.generateToken(authRequest)));
