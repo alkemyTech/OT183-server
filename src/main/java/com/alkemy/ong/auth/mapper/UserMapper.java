@@ -4,6 +4,7 @@ package com.alkemy.ong.auth.mapper;
 import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.auth.dto.UserDto;
 import com.alkemy.ong.auth.dto.UserProfileDto;
+import com.alkemy.ong.dto.UserPatchDto;
 import com.alkemy.ong.model.Role;
 import com.alkemy.ong.auth.model.UserModel;
 import com.alkemy.ong.repository.RoleRepository;
@@ -51,7 +52,7 @@ public class UserMapper {
         dto.setPhoto(entity.getPhoto());
         dto.setCreated(entity.getCreated());
         dto.setUpdated(entity.getUpdated());
-        dto.setRoleid(entity.getRole().getId());
+        dto.setRole(entity.getRole());
 
         return dto;
     }
@@ -89,6 +90,10 @@ public class UserMapper {
         userProfileDto.setPhoto(userModel.getPhoto());
         return userProfileDto;
 
+    }
+
+    public UserPatchDto userModel2UserPatchDto(UserModel userModel){
+        return new UserPatchDto(userModel.getFirstName(), userModel.getLastName(), userModel.getPhoto());
     }
 
 }

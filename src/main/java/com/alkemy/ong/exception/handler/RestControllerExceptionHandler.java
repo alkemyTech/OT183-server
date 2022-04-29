@@ -1,8 +1,14 @@
 package com.alkemy.ong.exception.handler;
 
 import com.alkemy.ong.exception.ApiErrorResponse;
+import com.alkemy.ong.exception.BlankFieldException;
 import com.alkemy.ong.exception.DataRepresentationException;
+import com.alkemy.ong.exception.EmailException;
+import com.alkemy.ong.exception.EmailSenderException;
 import com.alkemy.ong.exception.NullListException;
+import com.alkemy.ong.exception.UserAlreadyExistsException;
+import com.alkemy.ong.exception.UserNotFoundException;
+import com.alkemy.ong.exception.UserRegistrationException;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.exception.*;
 import org.springframework.http.HttpHeaders;
@@ -132,6 +138,39 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                         ex.getMessage()
                 ),
                 HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleUserAlredyExistsExcepetion(UserRegistrationException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.BAD_REQUEST,
+                        ex.getMessage()
+                ),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleUserNotFoundException(UserNotFoundException ex){
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.NOT_FOUND,
+                        ex.getMessage()
+                ),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(BlankFieldException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleBlankFieldException(BlankFieldException ex){
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.BAD_REQUEST,
+                        ex.getMessage()
+                ),
+                HttpStatus.BAD_REQUEST
         );
     }
 

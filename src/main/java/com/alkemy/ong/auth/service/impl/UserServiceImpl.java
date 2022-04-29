@@ -1,29 +1,30 @@
 package com.alkemy.ong.auth.service.impl;
 
 import com.alkemy.ong.auth.dto.AuthenticationRequest;
+import com.alkemy.ong.auth.mapper.UserMapper;
 import com.alkemy.ong.auth.service.JwtUtils;
 import com.alkemy.ong.dto.UserBasicDto;
+import com.alkemy.ong.dto.UserPatchDto;
 import com.alkemy.ong.auth.dto.UserDto;
 import com.alkemy.ong.auth.dto.UserProfileDto;
 import com.alkemy.ong.exception.NullListException;
+import com.alkemy.ong.exception.UserAlreadyExistsException;
+import com.alkemy.ong.exception.UserNotFoundException;
 import com.alkemy.ong.exception.UserRegistrationException;
 import com.alkemy.ong.service.impl.MailServiceImpl;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.alkemy.ong.auth.mapper.UserMapper;
 import com.alkemy.ong.auth.model.UserModel;
 import com.alkemy.ong.auth.repository.UserRepository;
 import com.alkemy.ong.auth.service.IUserService;
-import com.amazonaws.services.memorydb.model.UserAlreadyExistsException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -68,8 +69,8 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public UserBasicDto signup(UserDto userDto) {
-        if(emailExists(userDto.getEmail())){
-            throw new UserAlreadyExistsException("There is an account with that email address: " + userDto.getEmail());
+        if (emailExists(userDto.getEmail())) {
+            throw new UserAlreadyExistsException(message.getMessage("error.account_exists", null, Locale.US));
         }
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         UserModel entity = userMapper.userDTO2Entity(userDto);
@@ -100,7 +101,7 @@ public class UserServiceImpl implements IUserService {
         return dto;
     }
 
-    public List<UserBasicDto> returnList(){
+    public List<UserBasicDto> returnList() {
 
         List<UserBasicDto> entityList = userRepository.getAllUsers();
 
@@ -109,6 +110,21 @@ public class UserServiceImpl implements IUserService {
         }
 
         return entityList;
+    }
+
+    @Override
+    @Transactional
+    public UserPatchDto updateUser(Long id, UserPatchDto updates) {
+        return userRepository.findById(id).map(userModel -> {
+            userModel.setFirstName(updates.getFirstName());
+            userModel.setLastName(updates.getLastName());
+            userModel.setPhoto(updates.getPhoto());
+            userModel = userRepository.save(userModel);
+            return userMapper.userModel2UserPatchDto(userModel);
+        }).orElseThrow(
+                () -> new UserNotFoundException(message.getMessage("error.user_not_found", null, Locale.US))
+        );
+
     }
 
     private boolean emailExists(String email) {

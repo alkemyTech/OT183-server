@@ -1,5 +1,6 @@
 package com.alkemy.ong.auth.dto;
 
+import com.alkemy.ong.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,8 +33,8 @@ public class UserDto {
     @NotNull
     private String photo;
 
-    //TODO - In the future this roleId will point at to ROLE Class
-    private Long roleid;
+
+    private Role role;
 
     private LocalDate updated;
 
