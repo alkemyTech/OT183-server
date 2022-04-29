@@ -28,4 +28,13 @@ public class SlideServiceImpl implements ISlideService {
                         )
         ).generateDto(SlideDtoType.DETAILED, messageSource);
     }
+
+    public void deleteSlice(Long id){
+
+        if (!repository.existsById(id)){
+            throw new EntityNotFoundException("Slice", "id", id);
+        }
+
+        repository.deleteById(id);
+    }
 }
