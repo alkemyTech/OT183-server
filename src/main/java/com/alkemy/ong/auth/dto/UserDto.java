@@ -1,8 +1,11 @@
-package com.alkemy.ong.dto;
+package com.alkemy.ong.auth.dto;
 
+import com.alkemy.ong.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -30,11 +33,11 @@ public class UserDto {
     @NotNull
     private String photo;
 
-    //TODO - In the future this roleId will point at to ROLE Class
-    private Long roleid;
 
-    private String updated;
+    private Role role;
 
-    private String created;
+    private LocalDate updated;
+
+    private LocalDate created;
 
 }

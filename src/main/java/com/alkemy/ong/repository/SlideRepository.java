@@ -1,12 +1,9 @@
 package com.alkemy.ong.repository;
 
-import com.alkemy.ong.model.Category;
+import com.alkemy.ong.model.Slide;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {
-
-
+public interface SlideRepository extends JpaRepository<Slide, Long> {
 }

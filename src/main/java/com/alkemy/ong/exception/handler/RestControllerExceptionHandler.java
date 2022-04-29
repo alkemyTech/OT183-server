@@ -6,10 +6,11 @@ import com.alkemy.ong.exception.DataRepresentationException;
 import com.alkemy.ong.exception.EmailException;
 import com.alkemy.ong.exception.EmailSenderException;
 import com.alkemy.ong.exception.NullListException;
-import com.alkemy.ong.exception.NullModelException;
 import com.alkemy.ong.exception.UserAlreadyExistsException;
 import com.alkemy.ong.exception.UserNotFoundException;
 import com.alkemy.ong.exception.UserRegistrationException;
+import com.alkemy.ong.exception.ParamNotFound;
+import com.alkemy.ong.exception.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,11 +73,17 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     public ResponseEntity<ApiErrorResponse<String>> handleDataRepresentationException(NullListException ex) {
         return new ResponseEntity<>(
                 new ApiErrorResponse<>(
-                        HttpStatus.BAD_REQUEST,
+                        HttpStatus.NOT_FOUND,
                         ex.getMessage()
                 ),
-                HttpStatus.BAD_REQUEST
+                HttpStatus.NOT_FOUND
         );
+    }
+
+    @ExceptionHandler(ParamNotFound.class)
+    public ResponseEntity<Object> handleParamNotFound(RuntimeException ex, WebRequest request) {
+        ApiErrorResponse<String> errorDto = new ApiErrorResponse<>(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return handleExceptionInternal(ex, errorDto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(EmailException.class)
@@ -112,8 +119,19 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         );
     }
 
-    @ExceptionHandler(NullModelException.class)
-    public ResponseEntity<ApiErrorResponse<String>> handleDataRepresentationException(NullModelException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleEntityNotFoundException(EntityNotFoundException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.NOT_FOUND,
+                        ex.getMessage()
+                ),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleResourceNotFoundException(ResourceNotFoundException ex) {
         return new ResponseEntity<>(
                 new ApiErrorResponse<>(
                         HttpStatus.NOT_FOUND,

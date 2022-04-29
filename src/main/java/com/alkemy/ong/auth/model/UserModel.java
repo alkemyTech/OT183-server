@@ -1,12 +1,16 @@
-package com.alkemy.ong.model;
+package com.alkemy.ong.auth.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.alkemy.ong.model.Comment;
+import com.alkemy.ong.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,8 +55,9 @@ public class UserModel {
     @Column(nullable = true, updatable = true)
     private String photo;
 
-    //TODO - In the future this roleId will point at to ROLE Class
-    private Long roleid;
+    @OneToOne
+    @JoinColumn(name="role")
+    private Role role;
 
     private boolean deleted = Boolean.FALSE;
     
@@ -63,6 +68,9 @@ public class UserModel {
     @CreationTimestamp
     @Column(name="created_user")
     private LocalDate created;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    List<Comment> comments = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",

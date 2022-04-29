@@ -17,6 +17,7 @@ import java.time.LocalDate;
 @Where(clause = "deleted = false")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "members")
 public class Member {
 

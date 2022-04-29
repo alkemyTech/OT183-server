@@ -1,16 +1,36 @@
 package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.CategoryDto;
+import com.alkemy.ong.dto.CategoryNameDto;
 import com.alkemy.ong.model.Category;
+import org.springframework.stereotype.Component;
 import com.alkemy.ong.util.MapperUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class CategoryMapper implements IMapper<Category, CategoryDto>{
+public class CategoryMapper implements IMapper<Category,CategoryDto>{
 
-    @Override
+    public CategoryDto CategoryModel2CategoryDto(Category model) {
+
+        CategoryDto dto = new CategoryDto();
+        dto.setId(model.getId());
+        dto.setName(model.getName());
+        dto.setImage(model.getImage());
+        dto.setDescription(model.getDescription());
+        return dto;
+
+    }
+
+    public void updateModel(Category categoryModel, CategoryDto categoryDto) {
+
+        categoryModel.setName(categoryDto.getName());
+        categoryModel.setImage(categoryDto.getImage());
+        categoryModel.setDescription(categoryDto.getDescription());
+    }
+
+
     public Category toEntity(CategoryDto dto) {
 
         return Category.builder()
@@ -20,7 +40,7 @@ public class CategoryMapper implements IMapper<Category, CategoryDto>{
                 .image(dto.getImage()).build();
     }
 
-    @Override
+
     public Category toEntity(Long id, CategoryDto dto) {
         return Category.builder()
                 .id(dto.getId())
@@ -29,7 +49,7 @@ public class CategoryMapper implements IMapper<Category, CategoryDto>{
                 .image(dto.getImage()).build();
     }
 
-    @Override
+
     public CategoryDto toDto(Category entity) {
         return CategoryDto.builder()
                 .id(entity.getId())
@@ -40,8 +60,18 @@ public class CategoryMapper implements IMapper<Category, CategoryDto>{
                 .updated(entity.getUpdated().toString()).build();
     }
 
-    @Override
+
     public List<CategoryDto> toDtoList(List<Category> list) {
         return MapperUtil.streamListNonNull(list, this::toDto);
     }
+
+
+    public List<CategoryNameDto> listNameDto(List<Category> list) {
+        return MapperUtil.streamListNonNull(list, this::toDoNameList);
+    }
+
+    public CategoryNameDto toDoNameList(Category entity) {
+        return CategoryNameDto.builder().name(entity.getName()).build();
+    }
+
 }
