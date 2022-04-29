@@ -1,4 +1,4 @@
-package com.alkemy.ong.security;
+package com.alkemy.ong.auth.service;
 
 import lombok.Getter;
 import lombok.Setter;

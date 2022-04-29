@@ -1,4 +1,4 @@
-package com.alkemy.ong.model;
+package com.alkemy.ong.auth.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.alkemy.ong.model.Comment;
+import com.alkemy.ong.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.UserBasicDto;
-import com.alkemy.ong.service.IUserService;
+import com.alkemy.ong.auth.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class  UserController {
 
 
     private final IUserService userService;

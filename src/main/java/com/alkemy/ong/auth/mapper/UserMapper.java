@@ -1,11 +1,11 @@
-package com.alkemy.ong.mapper;
+package com.alkemy.ong.auth.mapper;
 
 
 import com.alkemy.ong.dto.UserBasicDto;
-import com.alkemy.ong.dto.UserDto;
-import com.alkemy.ong.dto.UserProfileDto;
+import com.alkemy.ong.auth.dto.UserDto;
+import com.alkemy.ong.auth.dto.UserProfileDto;
 import com.alkemy.ong.model.Role;
-import com.alkemy.ong.model.UserModel;
+import com.alkemy.ong.auth.model.UserModel;
 import com.alkemy.ong.repository.RoleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;

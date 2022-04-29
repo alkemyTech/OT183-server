@@ -1,5 +1,6 @@
 package com.alkemy.ong.model;
 
+import com.alkemy.ong.auth.model.UserModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;

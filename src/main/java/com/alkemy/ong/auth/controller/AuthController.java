@@ -1,6 +1,6 @@
-package com.alkemy.ong.controller;
+package com.alkemy.ong.auth.controller;
 
-import com.alkemy.ong.dto.LoginDto;
+import com.alkemy.ong.auth.dto.LoginDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

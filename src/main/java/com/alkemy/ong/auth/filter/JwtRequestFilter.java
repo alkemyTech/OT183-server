@@ -1,7 +1,7 @@
 package com.alkemy.ong.auth.filter;
 
-import com.alkemy.ong.security.CustomUserDetailsService;
-import com.alkemy.ong.service.impl.JwtUtils;
+import com.alkemy.ong.auth.service.CustomUserDetailsService;
+import com.alkemy.ong.auth.service.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
