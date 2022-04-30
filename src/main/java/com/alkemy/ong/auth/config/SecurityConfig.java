@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //News routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/news").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/news/{id}").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/news/{id}").hasRole("ADMIN");
 
         //Categories routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/categories").hasRole("ADMIN");
@@ -65,6 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Slides routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides/{id}").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/slides/{id}").hasRole("ADMIN");
+
+        //Member routes
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN");
 
         //Contacts routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/contacts").hasRole("ADMIN");
