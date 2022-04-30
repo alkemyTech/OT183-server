@@ -35,6 +35,7 @@ public class ContactServiceImpl implements IContactService {
     }
 
     @Override
+    @Transactional
     public List<ContactBasicDto> listContacts() {
         List<ContactBasicDto> result = contactMapper
                 .contactEntityList2ContactBasicDtoList(contactRepository.findAll());
