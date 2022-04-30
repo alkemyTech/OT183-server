@@ -54,7 +54,8 @@ public class MailServiceImpl implements IMailService {
         mail.setTemplateId(templateId);
 
         Personalization personalization = new Personalization();
-        personalization.addDynamicTemplateData("name", mailFormatter.getName());
+        personalization.addDynamicTemplateData("subject", mailFormatter.getSubject());
+        personalization.addDynamicTemplateData("content", mailFormatter.getContent());
         personalization.addTo(to);
 
         mail.addPersonalization(personalization);
@@ -83,7 +84,8 @@ public class MailServiceImpl implements IMailService {
 
         MailFormat mail = new MailFormat();
         mail.setMailReceiver(emailReceiver);
-        mail.setSubject("Welcome to Somos Más!");
+        mail.setSubject("Welcome " + firstName + "! Enjoy your stay!");
+        mail.setContent(messageSource.getMessage("email.registration.content", null, Locale.US));
         mail.setName(firstName);
 
         sendTextEmail(mail);
@@ -92,12 +94,10 @@ public class MailServiceImpl implements IMailService {
     @Override
     public void sendEmailByFormComplete(String emailReceiver) {
 
-        //TODO in the future find form by Email user
         MailFormat mail = new MailFormat();
-        //TODO in the future indicate the receiver
         mail.setMailReceiver(emailReceiver);
-        //TODO in the future indicate the sender
-        mail.setMailReceiver("add the sender email");
+        mail.setSubject(messageSource.getMessage("email.contact.subject", null, Locale.US));
+        mail.setContent(messageSource.getMessage("email.contact.content", null, Locale.US));
 
         sendTextEmail(mail);
     }
