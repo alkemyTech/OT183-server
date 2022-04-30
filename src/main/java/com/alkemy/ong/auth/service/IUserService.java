@@ -21,4 +21,7 @@ public interface IUserService {
     List<UserBasicDto> returnList();
 
     UserPatchDto updateUser(Long id, UserPatchDto userDto);
+
+    void deleteUser(Long id);
+
 }

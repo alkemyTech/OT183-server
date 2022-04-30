@@ -127,6 +127,18 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    @Override
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) throw new UserNotFoundException(
+                message.getMessage(
+                        "error.user_not_found",
+                        null,
+                        Locale.US
+                )
+        );
+        userRepository.deleteById(id);
+    }
+
     private boolean emailExists(String email) {
 
         return userRepository.findByEmail(email) != null;
