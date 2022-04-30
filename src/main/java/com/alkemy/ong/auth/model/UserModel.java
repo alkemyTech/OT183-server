@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Setter
 @Entity
 @Table(name = "users")
-@SQLDelete(sql="UPDATE user SET deleted = true WHERE id=?")
+@SQLDelete(sql="UPDATE users SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 public class UserModel {
     
