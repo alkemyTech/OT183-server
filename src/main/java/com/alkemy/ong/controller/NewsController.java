@@ -25,12 +25,7 @@ public class NewsController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getNewsById(@PathVariable("id") long id) throws EntityNotFoundException {
-        try{
             return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));
-        }catch (EntityNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message.getMessage("data.not.found", null, Locale.US));
-        }
-
     }
 
     @PutMapping("/{id}")

@@ -31,7 +31,7 @@ public class NewsServiceImpl implements INewsService {
 
     @Override
     public NewsDto getById(Long id) {
-        News news = newsRepository.getById(id);
+        News news = newsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("News", "id", id));
         return newsMapper.entityToDto(news);
     }
 

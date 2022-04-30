@@ -25,7 +25,7 @@ public class Category {
     private Long id;
 
     @Column(nullable = false)
-    @NotNull(message = "Name is necessary")
+    @NotNull(message = "{error.empty_field}")
     private String name;
 
     private String description;

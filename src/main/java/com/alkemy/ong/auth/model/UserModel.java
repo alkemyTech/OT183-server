@@ -35,19 +35,19 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message="First name can't be null")
+    @NotNull(message="{error.empty_field}")
     @Column(nullable = false, updatable = true)
     private String firstName;
     
-    @NotNull(message="Last name can't be null")
+    @NotNull(message="{error.empty_field}")
     @Column(nullable = false, updatable = true)
     private String lastName;
     
-    @NotNull(message="Email can't be null")
+    @NotNull(message="{error.empty_field}")
     @Column(nullable = false, updatable = true, unique = true)
     private String email;
     
-    @NotNull(message="Password can't be null")
+    @NotNull(message="{error.empty_field}")
     @Column(nullable = false, updatable = true)
     private String password;
     
