@@ -4,10 +4,15 @@ import com.alkemy.ong.dto.MemberDTO;
 import com.alkemy.ong.dto.builders.MemberBuilderPost;
 import com.alkemy.ong.model.Member;
 
+import com.alkemy.ong.util.MapperUtil;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @NoArgsConstructor
-public class MemberMapperPost {
+@Component
+public class MemberMapper {
 
     public Member mapperMember(MemberDTO memberDTO){
         MemberBuilderPost builder = new MemberBuilderPost();
@@ -20,6 +25,20 @@ public class MemberMapperPost {
             .setLinkedin(memberDTO.getLinkedinUrl())
             .setImage(memberDTO.getImage())
             .memberBuilderPost();
-    } 
+    }
+
+    public List<MemberDTO> listMemberDto(List<Member> list) {
+        return MapperUtil.streamListNonNull(list, this::toMemberDto);
+    }
+
+    public MemberDTO toMemberDto(Member entity) {
+        return MemberDTO.builder().name(entity.getName())
+                .facebookUrl(entity.getFacebookUrl())
+                        .instagramUrl(entity.getInstagramUrl())
+                                .linkedinUrl(entity.getLinkedinUrl())
+                                        .image(entity.getImage())
+                                                .description(entity.getDescription())
+                                                        .build();
+    }
     
 }
