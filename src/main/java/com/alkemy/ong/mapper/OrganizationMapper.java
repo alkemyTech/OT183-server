@@ -78,7 +78,6 @@ public class OrganizationMapper implements IMapper<Organization, OrganizationDto
     }
 
     public OrganizationDto mappingOrganizationDto(Organization entity) {
-        //SlideMapper slideMapper = SlideMapper.getInstance();
         return OrganizationDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
