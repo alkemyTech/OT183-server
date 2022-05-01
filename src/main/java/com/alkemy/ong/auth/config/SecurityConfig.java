@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Public Routes
         //Organization routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/organization/public").permitAll();
-        http.authorizeRequests().antMatchers("/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/contacts").permitAll();
 
         //Auth routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/login").permitAll();

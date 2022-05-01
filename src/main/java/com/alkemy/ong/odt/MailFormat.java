@@ -12,5 +12,6 @@ public class MailFormat {
     private String mailReceiver;
     private String name;
     private String subject;
+    private String content;
 
 }

@@ -27,11 +27,17 @@ public class ContactServiceImpl implements IContactService {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    private MailServiceImpl mailService;
+
+
     @Override
     @Transactional
     public void addContact(ContactDto contactDto) {
         Contact entity = contactMapper.contactDto2contactEntity(contactDto);
         contactRepository.save(entity);
+
+        mailService.sendEmailByFormComplete(entity.getEmail());
     }
 
     @Override
