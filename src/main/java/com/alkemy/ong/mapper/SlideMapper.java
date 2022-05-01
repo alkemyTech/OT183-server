@@ -10,18 +10,6 @@ import java.util.List;
 @Component
 public class SlideMapper implements IMapper<Slide, SlideDto> {
 
-    private static SlideMapper instance;
-
-    private SlideMapper() {
-    }
-
-    public static SlideMapper getInstance() {
-        if (instance == null) {
-            instance = new SlideMapper();
-        }
-        return instance;
-    }
-
     @Override
     public Slide toEntity(SlideDto dto) {
         OrganizationMapper organizationMapper = OrganizationMapper.getInstance();
