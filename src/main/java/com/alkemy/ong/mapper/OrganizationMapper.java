@@ -4,6 +4,7 @@ import com.alkemy.ong.dto.OrganizationDto;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.util.MapperUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -12,6 +13,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class OrganizationMapper implements IMapper<Organization, OrganizationDto> {
+
+    @Autowired
+    private SlideMapper slideMapper;
 
     private static OrganizationMapper instance;
 
@@ -74,7 +78,7 @@ public class OrganizationMapper implements IMapper<Organization, OrganizationDto
     }
 
     public OrganizationDto mappingOrganizationDto(Organization entity) {
-        SlideMapper slideMapper = SlideMapper.getInstance();
+        //SlideMapper slideMapper = SlideMapper.getInstance();
         return OrganizationDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
