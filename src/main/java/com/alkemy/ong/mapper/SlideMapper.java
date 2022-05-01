@@ -1,7 +1,6 @@
 package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.SlideDto;
-import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.util.MapperUtil;
 import org.springframework.stereotype.Component;
@@ -10,6 +9,18 @@ import java.util.List;
 
 @Component
 public class SlideMapper implements IMapper<Slide, SlideDto> {
+
+    private static SlideMapper instance;
+
+    private SlideMapper() {
+    }
+
+    public static SlideMapper getInstance() {
+        if (instance == null) {
+            instance = new SlideMapper();
+        }
+        return instance;
+    }
 
     @Override
     public Slide toEntity(SlideDto dto) {
