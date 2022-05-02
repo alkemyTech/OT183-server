@@ -174,4 +174,15 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         );
     }
 
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleRoleNotFoundException(RoleNotFoundException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.NOT_FOUND,
+                        ex.getMessage()
+                ),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
 }
