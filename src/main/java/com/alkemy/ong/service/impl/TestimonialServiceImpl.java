@@ -2,6 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.TestimonialDto;
 import com.alkemy.ong.dto.type.TestimonialDtoType;
+import com.alkemy.ong.exception.EntityNotFoundException;
 import com.alkemy.ong.mapper.TestimonialMapper;
 import com.alkemy.ong.repository.TestimonialRepository;
 import com.alkemy.ong.service.ITestimonialService;
@@ -23,4 +24,9 @@ public class TestimonialServiceImpl implements ITestimonialService {
                 .generateDto(TestimonialDtoType.DETAILED, messageSource);
     }
 
+    @Override
+    public void deleteTestimonial(Long id) {
+        if (!repository.existsById(id)) throw new EntityNotFoundException("Testimonial", "id", id);
+        repository.deleteById(id);
+    }
 }
