@@ -14,5 +14,5 @@ public class SlideResponseDto {
 
     private String imageUrl;
     private String position;
-    
+
 }
