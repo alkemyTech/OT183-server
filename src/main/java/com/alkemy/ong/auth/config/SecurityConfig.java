@@ -75,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //Member routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/members/{id}").hasRole("ADMIN");
 
         //Contacts routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/contacts").hasRole("ADMIN");
