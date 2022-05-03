@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Entity
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SQLDelete(sql = "UPDATE testimonials SET deleted = true WHERE id = ?")
