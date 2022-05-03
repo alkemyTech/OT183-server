@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Locale;
 
@@ -52,6 +53,7 @@ public class MemberServiceImpl implements IMemberService{
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         memberRepository.findById(id)
                 .orElseThrow(()->
