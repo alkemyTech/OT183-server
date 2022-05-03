@@ -1,7 +1,7 @@
 package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.SlideDto;
-import com.alkemy.ong.model.Organization;
+import com.alkemy.ong.dto.SlideResponseDto;
 import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.util.MapperUtil;
 import org.springframework.stereotype.Component;
@@ -34,6 +34,16 @@ public class SlideMapper implements IMapper<Slide, SlideDto> {
                 .build();
     }
 
+    public Slide toEntity(SlideDto dto, Long idOrganization) {
+        OrganizationMapper organizationMapper = OrganizationMapper.getInstance();
+        return Slide.builder()
+                .imageUrl(dto.getImageUrl())
+                .text(dto.getText())
+                .position(dto.getPosition())
+                .organization(organizationMapper.toEntity(idOrganization, dto.getOrganization()))
+                .build();
+    }
+
     @Override
     public SlideDto toDto(Slide entity) {
         OrganizationMapper organizationMapper = OrganizationMapper.getInstance();
@@ -51,4 +61,14 @@ public class SlideMapper implements IMapper<Slide, SlideDto> {
         return MapperUtil.streamListNonNull(list, this::toDto);
     }
 
+    public SlideResponseDto toDtoResponse(Slide entity){
+        return SlideResponseDto.builder()
+                .id(entity.getId())
+                .imageUrl(entity.getImageUrl())
+                .text(entity.getText())
+                .position(entity.getPosition())
+                .organizationId(entity.getOrganization().getId())
+                .organizationName(entity.getOrganization().getName())
+                .build();
+    }
 }
