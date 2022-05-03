@@ -18,7 +18,7 @@ public class SlideDto implements IGenericDto<SlideDtoType> {
     private String imageUrl;
     private String text;
 
-    private String position;
+    private Integer position;
     private OrganizationDto organization;
 
     @Override
@@ -37,7 +37,7 @@ public class SlideDto implements IGenericDto<SlideDtoType> {
         );
     }
 
-    public  SlideDto(String imageUrl, String text, String position, OrganizationDto organization) {
+    public  SlideDto(String imageUrl, String text, Integer position, OrganizationDto organization) {
         this.imageUrl = imageUrl;
         this.text = text;
         this.position = position;

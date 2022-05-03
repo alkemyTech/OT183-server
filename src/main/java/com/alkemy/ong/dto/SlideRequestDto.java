@@ -9,6 +9,6 @@ public class SlideRequestDto {
 
     private String image;
     private String text;
-    private String position;
+    private Integer position;
     private Long organizationId;
 }

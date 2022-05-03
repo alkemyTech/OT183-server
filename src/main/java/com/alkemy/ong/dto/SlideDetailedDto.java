@@ -11,7 +11,7 @@ public class SlideDetailedDto {
     private Long id;
     private String imageUrl;
     private String text;
-    private String position;
+    private Integer position;
     private Object organization;
 
 }

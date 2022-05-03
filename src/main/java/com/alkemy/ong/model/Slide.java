@@ -20,7 +20,7 @@ public class Slide {
 
     private String text;
 
-    private String position;
+    private Integer position;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Organization organization;
