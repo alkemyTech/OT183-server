@@ -46,7 +46,7 @@ public class SlideServiceImpl implements ISlideService {
         return mapper.toDtoResponseList(slideList);
     }
 
-    public void deleteSlice(Long id) {
+    public void deleteSlide(Long id) {
 
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException("Slice", "id", id);

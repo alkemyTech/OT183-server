@@ -10,6 +10,6 @@ public interface ISlideService {
 
     List<SlideResponseDto> getAll();
 
-    void deleteSlice(Long id);
+    void deleteSlide(Long id);
 
 }

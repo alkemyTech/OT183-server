@@ -1,6 +1,5 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.SlideResponseDto;
 import com.alkemy.ong.service.impl.SlideServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,7 +25,7 @@ public class SlideController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
-        service.deleteSlice(id);
+        service.deleteSlide(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
