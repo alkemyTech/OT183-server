@@ -1,5 +1,6 @@
 package com.alkemy.ong.dto.builders;
 
+import com.alkemy.ong.dto.MemberDTO;
 import com.alkemy.ong.dto.builders.interfaces.IMemberBuilder;
 import com.alkemy.ong.model.Member;
 
@@ -54,6 +55,12 @@ public class MemberBuilderPost implements IMemberBuilder{
         member.setLinkedinUrl(this.linkedinUrl);
 
         return member;
+    }
+
+    @Override
+    public Member memberBuilderUpdate(MemberDTO memberDTO, Member member) {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }
