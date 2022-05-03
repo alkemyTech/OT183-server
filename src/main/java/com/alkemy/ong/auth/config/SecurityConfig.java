@@ -31,51 +31,51 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        //Public Routes
-        //Organization routes
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/organization/public").permitAll();
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/contacts").permitAll();
-//
-//        //Auth routes
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/login").permitAll();
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/register").permitAll();
-//
-//        //You have to login to see next routes
-//        http.authorizeRequests().antMatchers("/**").authenticated().and().httpBasic();
-//
-//        //Authenticated and Role dependent
-//        //Testimonial routes
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "testimonials").hasRole("ADMIN");
-//
-//        //Activity routes
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/activities").hasRole("ADMIN");
-//
-//        //News routes
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/news").hasRole("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/news/{id}").hasRole("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/news/{id}").hasRole("ADMIN");
-//
-//        //Categories routes
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/categories").hasRole("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/categories").hasRole("ADMIN");
-//
-//        //User routes
-//        http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/users/{id}").hasRole("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("ADMIN");
-//
-//        //Slides routes
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/slides").hasRole("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides/{id}").hasRole("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/slides/{id}").hasRole("ADMIN");
-//
-//        //Member routes
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN");
-//
-//        //Contacts routes
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/contacts").hasRole("ADMIN");
-//
-//        //Don't add any routes below
-//        http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
+        Public Routes
+        Organization routes
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/organization/public").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/contacts").permitAll();
+
+        //Auth routes
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/login").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/register").permitAll();
+
+        //You have to login to see next routes
+        http.authorizeRequests().antMatchers("/**").authenticated().and().httpBasic();
+
+        //Authenticated and Role dependent
+        //Testimonial routes
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "testimonials").hasRole("ADMIN");
+
+        //Activity routes
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/activities").hasRole("ADMIN");
+
+        //News routes
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/news").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/news/{id}").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/news/{id}").hasRole("ADMIN");
+
+        //Categories routes
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/categories").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/categories").hasRole("ADMIN");
+
+        //User routes
+        http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/users/{id}").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("ADMIN");
+
+        //Slides routes
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/slides").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides/{id}").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/slides/{id}").hasRole("ADMIN");
+
+        //Member routes
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN");
+
+        //Contacts routes
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/contacts").hasRole("ADMIN");
+
+        //Don't add any routes below
+        http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
     }
 
     @Override
