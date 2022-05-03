@@ -14,4 +14,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query(value = "SELECT new com.alkemy.ong.dto.CommentBasicDto(body) FROM Comment ORDER BY created")
     List<CommentBasicDto> getAllComments();
 
+    @Query(value = "SELECT COUNT(id) FROM Comment")
+    int getCommentsQuantity();
+
 }
