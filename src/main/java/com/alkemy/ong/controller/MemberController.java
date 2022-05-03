@@ -34,4 +34,10 @@ public class MemberController{
         return ResponseEntity.status(HttpStatus.OK).body(memberService.returnList());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        memberService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
