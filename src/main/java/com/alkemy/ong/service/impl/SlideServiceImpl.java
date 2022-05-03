@@ -75,7 +75,7 @@ public class SlideServiceImpl implements ISlideService {
     ///Auxiliary methods:
     private void checkPosition(SlideRequestDto requestDto){
         if(requestDto.getPosition() == null){
-            requestDto.setPosition(String.valueOf((repository.count()+1)));
+            requestDto.setPosition(repository.maxPosition()+1);
         }
     }
 
