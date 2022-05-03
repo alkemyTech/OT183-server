@@ -57,9 +57,9 @@ public class SlideServiceImpl implements ISlideService {
 
         // CONTROL IF ORGANIZATION EXISTS
         if(slideUpdate.getOrganization() != null){
-            if(controlExistsOrganization(slideUpdate,slide) == false)
+            if(!controlExistsOrganization(slideUpdate,slide))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(messageSource.getMessage("data.not.found", null, Locale.US));
+            .body("Error organization was not found");
         }
         repository.save(slide);
         UpdateSlidesDTO response = new UpdateSlidesDTO();

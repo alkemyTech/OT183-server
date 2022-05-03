@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Locale;
 
+import javax.validation.Valid;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("slides")
@@ -32,7 +34,7 @@ public class SlideController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateSlide(@PathVariable("id") long id,@RequestBody SlidesUpdateDTO slideUpdate) throws EntityNotFoundException{
+    public ResponseEntity<?> updateSlide(@PathVariable("id") long id,@Valid @RequestBody SlidesUpdateDTO slideUpdate) throws EntityNotFoundException{
         try{
             return service.updateSlide(id, slideUpdate);
         }catch (EntityNotFoundException e){
