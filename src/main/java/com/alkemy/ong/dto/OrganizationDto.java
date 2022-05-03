@@ -42,6 +42,12 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
 
     private LocalDate updated;
 
+    private String facebook;
+
+    private String linkedin;
+
+    private String instagram;
+
     public OrganizationDto(String name, String image, String address, String phone) {
         this.name = name;
         this.image = image;
@@ -66,6 +72,9 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
                     .aboutUsText(aboutUsText)
                     .created(created)
                     .updated(updated)
+                    .facebook(facebook)
+                    .instagram(instagram)
+                    .linkedin(linkedin)
                     .build();
         }
         throw new DataRepresentationException(

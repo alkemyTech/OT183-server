@@ -12,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -50,6 +51,13 @@ public class Organization {
 
 	@Column(columnDefinition = "boolean default false")
 	private final boolean deleted = Boolean.FALSE;
+
+	private String facebook;
+
+	private String linkedin;
+
+	private String instagram;
+
 
 }
 

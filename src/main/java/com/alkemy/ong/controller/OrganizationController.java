@@ -1,11 +1,10 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.OrganizationSocialAddressesDto;
 import com.alkemy.ong.service.impl.OrganizationServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
@@ -19,4 +18,11 @@ public class OrganizationController {
         return ResponseEntity.ok(service.getOrganizationPublicData());
     }
 
+    @PutMapping(path = "/contactSocial/{id}")
+    public ResponseEntity<OrganizationSocialAddressesDto> putSocialAddres
+            (@PathVariable Long id, @RequestBody OrganizationSocialAddressesDto dto){
+
+        OrganizationSocialAddressesDto result = service.putSocialAddres(id,dto);
+        return ResponseEntity.ok().body(result);
+    }
 }

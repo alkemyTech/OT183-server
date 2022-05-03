@@ -1,6 +1,7 @@
 package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.OrganizationDto;
+import com.alkemy.ong.dto.OrganizationSocialAddressesDto;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.util.MapperUtil;
 import org.springframework.stereotype.Component;
@@ -68,5 +69,21 @@ public class OrganizationMapper implements IMapper<Organization, OrganizationDto
     @Override
     public List<OrganizationDto> toDtoList(List<Organization> list) {
         return MapperUtil.streamListNonNull(list, this::toDto);
+    }
+
+    public void putSocialAdressesDto(Organization model, OrganizationSocialAddressesDto dto) {
+
+        model.setFacebook(dto.getFacebook());
+        model.setInstagram(dto.getInstagram());
+        model.setLinkedin(dto.getLinkedin());
+    }
+
+    public OrganizationSocialAddressesDto OrganizationModel2OrganizationSocialAddressesDto(Organization model) {
+
+        OrganizationSocialAddressesDto dto = new OrganizationSocialAddressesDto();
+        dto.setFacebook(model.getFacebook());
+        dto.setLinkedin(model.getLinkedin());
+        dto.setInstagram(model.getInstagram());
+        return dto;
     }
 }

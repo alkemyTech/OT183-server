@@ -21,5 +21,8 @@ public class OrganizationDetailedDto {
     private String aboutUsText;
     private LocalDate created;
     private LocalDate updated;
+    private String facebook;
+    private String instagram;
+    private String linkedin;
 
 }
