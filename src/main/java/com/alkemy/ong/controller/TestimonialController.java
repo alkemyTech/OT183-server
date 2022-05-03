@@ -27,4 +27,9 @@ public class TestimonialController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateTestimonial(@PathVariable(name = "id") Long id, @Valid @RequestBody TestimonialDto testimonialDto){
+        return ResponseEntity.ok(service.updateTestimonialById(id,testimonialDto));
+    }
+
 }
