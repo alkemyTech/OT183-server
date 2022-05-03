@@ -1,6 +1,7 @@
 package com.alkemy.ong.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,8 +12,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
-@Getter
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -41,17 +43,19 @@ public class Organization {
 	
 	private String aboutUsText;
 
-	@Column(updatable = false, columnDefinition = "date default current_date")
+	@Column(updatable = false)
 	@CreationTimestamp
 	private LocalDate created;
 
-	@Column(columnDefinition = "date default current_date")
+	@Column
 	@UpdateTimestamp
 	private LocalDate updated;
 
 	@Column(columnDefinition = "boolean default false")
 	private final boolean deleted = Boolean.FALSE;
 
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "organization")
+	private List<Slide> slides;
 }
 
 /*
