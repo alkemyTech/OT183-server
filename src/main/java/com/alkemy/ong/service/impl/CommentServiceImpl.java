@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.CommentBasicDto;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
@@ -7,6 +8,8 @@ import com.alkemy.ong.repository.CommentRepository;
 import com.alkemy.ong.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CommentServiceImpl implements ICommentService {
@@ -16,6 +19,10 @@ public class CommentServiceImpl implements ICommentService {
 
     @Autowired
     CommentMapper commentMapper;
+
+    public List<CommentBasicDto> getAllComments() {
+        return commentRepository.getAllComments();
+    }
 
     public CommentDto save(CommentDto commentDto) {
         Comment commentModel = commentMapper.commentDto2Model(commentDto);
