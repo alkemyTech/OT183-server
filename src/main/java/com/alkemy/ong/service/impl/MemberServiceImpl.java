@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,6 +49,14 @@ public class MemberServiceImpl implements IMemberService{
             throw new NullListException(message.getMessage("error.null_list", null, Locale.US));
         }
         return memberMapper.listMemberDto(entityList);
+    }
+
+    @Override
+    public void delete(Long id) {
+        memberRepository.findById(id)
+                .orElseThrow(()->
+                        new EntityNotFoundException(message.getMessage("data.not.found", null,Locale.US)));
+        memberRepository.deleteById(id);
     }
 
 }

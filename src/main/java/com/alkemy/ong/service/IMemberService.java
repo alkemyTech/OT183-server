@@ -9,4 +9,6 @@ public interface IMemberService {
     public PostMembersDTO createMember(MemberDTO memberDTO);
 
     List<MemberDTO> returnList();
+
+    void delete(Long id);
 }
