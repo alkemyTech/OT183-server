@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SlideResponseDto {
+public class SlideResponseCreationDto {
     private Long id;
     private String imageUrl;
     private String text;

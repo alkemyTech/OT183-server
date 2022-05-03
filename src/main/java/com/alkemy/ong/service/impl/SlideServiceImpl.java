@@ -3,7 +3,7 @@ package com.alkemy.ong.service.impl;
 import com.alkemy.ong.dto.OrganizationDto;
 import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.dto.SlideRequestDto;
-import com.alkemy.ong.dto.SlideResponseDto;
+import com.alkemy.ong.dto.SlideResponseCreationDto;
 import com.alkemy.ong.dto.type.SlideDtoType;
 import com.alkemy.ong.exception.EntityNotFoundException;
 import com.alkemy.ong.exception.NullListException;
@@ -59,7 +59,7 @@ public class SlideServiceImpl implements ISlideService {
     }
 
     @Override
-    public SlideResponseDto createSlide(SlideRequestDto requestDto){
+    public SlideResponseCreationDto createSlide(SlideRequestDto requestDto){
         OrganizationDto dtoOrg = OrganizationService.getOrganizationDto(requestDto.getOrganizationId());
         checkPosition(requestDto);
         manageImage(requestDto);

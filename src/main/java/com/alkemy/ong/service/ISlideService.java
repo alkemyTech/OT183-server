@@ -1,7 +1,7 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.SlideRequestDto;
-import com.alkemy.ong.dto.SlideResponseDto;
+import com.alkemy.ong.dto.SlideResponseCreationDto;
 
 public interface ISlideService {
 
@@ -9,5 +9,5 @@ public interface ISlideService {
 
     void deleteSlice(Long id);
 
-    SlideResponseDto createSlide(SlideRequestDto slideRequestDto);
+    SlideResponseCreationDto createSlide(SlideRequestDto slideRequestDto);
 }

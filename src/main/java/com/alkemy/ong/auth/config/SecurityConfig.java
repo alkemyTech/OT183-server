@@ -31,8 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        Public Routes
-        Organization routes
+        //Public Routes
+        //Organization routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/organization/public").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/contacts").permitAll();
 

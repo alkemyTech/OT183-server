@@ -1,7 +1,7 @@
 package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.SlideDto;
-import com.alkemy.ong.dto.SlideResponseDto;
+import com.alkemy.ong.dto.SlideResponseCreationDto;
 import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.util.MapperUtil;
 import org.springframework.stereotype.Component;
@@ -61,8 +61,8 @@ public class SlideMapper implements IMapper<Slide, SlideDto> {
         return MapperUtil.streamListNonNull(list, this::toDto);
     }
 
-    public SlideResponseDto toDtoResponse(Slide entity){
-        return SlideResponseDto.builder()
+    public SlideResponseCreationDto toDtoResponse(Slide entity){
+        return SlideResponseCreationDto.builder()
                 .id(entity.getId())
                 .imageUrl(entity.getImageUrl())
                 .text(entity.getText())
