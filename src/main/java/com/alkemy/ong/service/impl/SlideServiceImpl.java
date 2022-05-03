@@ -49,7 +49,7 @@ public class SlideServiceImpl implements ISlideService {
     public void deleteSlide(Long id) {
 
         if (!repository.existsById(id)) {
-            throw new EntityNotFoundException("Slice", "id", id);
+            throw new EntityNotFoundException("Slide", "id", id);
         }
 
         repository.deleteById(id);
