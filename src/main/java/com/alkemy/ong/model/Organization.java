@@ -43,11 +43,10 @@ public class Organization {
 	
 	private String aboutUsText;
 
-	@Column(updatable = false, columnDefinition = "date default current_date")
+	@Column(updatable = false)
 	@CreationTimestamp
 	private LocalDate created;
 
-	@Column(columnDefinition = "date default current_date")
 	@UpdateTimestamp
 	private LocalDate updated;
 

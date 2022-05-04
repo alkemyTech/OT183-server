@@ -45,4 +45,13 @@ public class TestimonialMapper implements IMapper<Testimonial, TestimonialDto> {
     public List<TestimonialDto> toDtoList(List<Testimonial> list) {
         return MapperUtil.streamListNonNull(list, this::toDto);
     }
+
+    public Testimonial updateEntity(Testimonial entity, TestimonialDto dto) {
+        entity.setContent(dto.getContent());
+        entity.setName(dto.getName());
+        entity.setImage(dto.getImage());
+        entity.setUpdated(dto.getUpdated());
+        entity.setCreated(dto.getCreated());
+        return entity;
+    }
 }
