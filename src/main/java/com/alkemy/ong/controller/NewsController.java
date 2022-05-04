@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.dto.NewsResponseDto;
 import com.alkemy.ong.dto.NewsUpdateDTO;
 import com.alkemy.ong.service.INewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class NewsController {
     }
 
     @PostMapping
-    public ResponseEntity<NewsDto> createNews(@Valid @RequestBody NewsDto newsDto){
+    public ResponseEntity<NewsResponseDto> createNews(@Valid @RequestBody NewsDto newsDto){
         return ResponseEntity.ok(service.createNews(newsDto));
     }
 }

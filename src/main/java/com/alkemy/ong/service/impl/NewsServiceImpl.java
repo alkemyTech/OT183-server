@@ -1,10 +1,10 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.dto.NewsResponseDto;
 import com.alkemy.ong.dto.NewsUpdateDTO;
 import com.alkemy.ong.dto.response.UpdateNewsDTO;
 import com.alkemy.ong.exception.EntityNotFoundException;
-import com.alkemy.ong.exception.NullModelException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.model.Category;
@@ -12,14 +12,12 @@ import com.alkemy.ong.model.News;
 import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.INewsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 
 import javax.transaction.Transactional;
-import java.util.Locale;
 
 @AllArgsConstructor
 @Service
@@ -49,11 +47,11 @@ public class NewsServiceImpl implements INewsService {
 
     @Override
     @Transactional
-    public NewsDto createNews(NewsDto newsDto) {
+    public NewsResponseDto createNews(NewsDto newsDto) {
         News news = newsMapper.toEntity(newsDto);
         news.setCategory(findCategoryById(newsDto.getCategoryId()));
         news = newsRepository.save(news);
-        return newsMapper.entityToDto(news);
+        return newsMapper.toNewsResponseDto(news);
     }
 
 
