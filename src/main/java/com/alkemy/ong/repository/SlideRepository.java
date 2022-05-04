@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SlideRepository extends JpaRepository<Slide, Long> {
 
-    @Query(value = "SELECT MAX(position) AS maximo FROM slides", nativeQuery = true)
+    @Query(value = "SELECT MAX(position) AS maximum FROM slides", nativeQuery = true)
     Integer maxPosition();
 }
