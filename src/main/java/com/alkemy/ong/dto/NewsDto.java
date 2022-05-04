@@ -11,16 +11,16 @@ public class NewsDto {
 
     private Long id;
 
-    @NotBlank(message = "Name must not be empty.")
+    @NotBlank(message = "{error.empty_field}")
     private String name;
 
-    @NotBlank(message = "Content must not be empty.")
+    @NotBlank(message = "{error.empty_field}")
     private String content;
 
-    @NotBlank(message = "Image must not be empty.")
+    @NotBlank(message = "{error.empty_field}")
     private String image;
 
-    private String category;
+    private Long categoryId;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate createdDate;
