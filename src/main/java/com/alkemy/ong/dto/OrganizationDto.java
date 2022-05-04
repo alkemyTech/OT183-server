@@ -60,23 +60,7 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
         if (type == OrganizationDtoType.PUBLIC_DATA) {
             return new OrganizationPublicDataDto(name, image, address, phone);
         }
-        if( type == OrganizationDtoType.DETAILED) {
-            return OrganizationDetailedDto.builder()
-                    .id(id)
-                    .name(name)
-                    .image(image)
-                    .address(address)
-                    .phone(phone)
-                    .email(email)
-                    .welcomeText(welcomeText)
-                    .aboutUsText(aboutUsText)
-                    .created(created)
-                    .updated(updated)
-                    .facebook(facebook)
-                    .instagram(instagram)
-                    .linkedin(linkedin)
-                    .build();
-        }
+
         throw new DataRepresentationException(
                 messageSource.getMessage("error.representation_data", null, Locale.US)
         );
