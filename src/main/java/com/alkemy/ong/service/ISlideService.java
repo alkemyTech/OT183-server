@@ -1,15 +1,12 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.SlideResponseDto;
+import com.alkemy.ong.dto.SlidesUpdateDTO;
 
-import java.util.List;
+import org.springframework.http.ResponseEntity;
+
 
 public interface ISlideService {
-
     Object getSlideDetail(Long id);
-
-    List<SlideResponseDto> getAll();
-
-    void deleteSlide(Long id);
-
+    ResponseEntity<?> updateSlide(Long id, SlidesUpdateDTO slideUpdate);
+    void deleteSlice(Long id);
 }
