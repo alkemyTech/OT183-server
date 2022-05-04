@@ -27,9 +27,14 @@ public class SlideController {
         return new ResponseEntity<>(service.getSlideDetail(id), HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(service.getAll());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
-        service.deleteSlice(id);
+        service.deleteSlide(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
