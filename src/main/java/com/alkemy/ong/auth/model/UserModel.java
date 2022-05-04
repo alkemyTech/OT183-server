@@ -11,21 +11,18 @@ import javax.validation.constraints.NotNull;
 
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.model.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
-
-import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "users")
 @SQLDelete(sql="UPDATE users SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
@@ -59,14 +56,16 @@ public class UserModel {
     @JoinColumn(name="role")
     private Role role;
 
-    private boolean deleted = Boolean.FALSE;
+    @Column(columnDefinition = "boolean default false")
+    private final boolean deleted = Boolean.FALSE;
     
     @UpdateTimestamp
     @Column(name="modify_user")
     private LocalDate updated;
 
+
     @CreationTimestamp
-    @Column(name="created_user")
+    @Column(name="created_user", updatable = false)
     private LocalDate created;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)

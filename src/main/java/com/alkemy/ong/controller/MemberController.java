@@ -37,9 +37,15 @@ public class MemberController{
         return ResponseEntity.status(HttpStatus.OK).body(memberService.returnList());
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateMember(@PathVariable("id") long id,@Valid @RequestBody MemberDTO memberUpdate){
         return memberService.updateMember(id, memberUpdate);
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        memberService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
