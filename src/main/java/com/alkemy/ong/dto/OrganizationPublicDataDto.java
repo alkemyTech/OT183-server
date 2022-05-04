@@ -13,5 +13,8 @@ public class OrganizationPublicDataDto {
     private String image;
     private String address;
     private String phone;
+    private String facebook;
+    private String linkedin;
+    private String instagram;
 
 }

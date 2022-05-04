@@ -48,17 +48,21 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
 
     private String instagram;
 
-    public OrganizationDto(String name, String image, String address, String phone) {
+    public OrganizationDto(String name, String image, String address, String phone,
+                           String facebook, String linkedin, String instagram) {
         this.name = name;
         this.image = image;
         this.address = address;
         this.phone = phone;
+        this.facebook = facebook;
+        this.linkedin = linkedin;
+        this.instagram = instagram;
     }
 
     @Override
     public Object generateDto(OrganizationDtoType type, MessageSource messageSource) {
         if (type == OrganizationDtoType.PUBLIC_DATA) {
-            return new OrganizationPublicDataDto(name, image, address, phone);
+            return new OrganizationPublicDataDto(name, image, address, phone, facebook, instagram, linkedin);
         }
 
         throw new DataRepresentationException(
