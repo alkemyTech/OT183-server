@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ////////////////////////////////////
 
         //Organization routes
-        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/organization/contactSocialAddresses/{id}").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/organization/public").hasRole("ADMIN");
 
         //Testimonial routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "testimonials").hasRole("ADMIN");
