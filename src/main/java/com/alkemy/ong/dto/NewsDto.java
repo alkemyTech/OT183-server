@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
@@ -20,6 +21,7 @@ public class NewsDto {
     @NotBlank(message = "{error.empty_field}")
     private String image;
 
+    @NotNull(message = "{error.empty_field}")
     private Long categoryId;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
