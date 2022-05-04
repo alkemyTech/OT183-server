@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.dto.NewsUpdateDTO;
 import com.alkemy.ong.service.INewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,10 @@ public class NewsController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.deleteNews(id);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping
+    public ResponseEntity<NewsDto> createNews(@Valid @RequestBody NewsDto newsDto){
+        return ResponseEntity.ok(service.createNews(newsDto));
     }
 }
