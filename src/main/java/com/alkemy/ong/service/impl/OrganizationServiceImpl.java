@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.OrganizationDetailedDto;
 import com.alkemy.ong.dto.OrganizationSocialAddressesDto;
 import com.alkemy.ong.dto.type.OrganizationDtoType;
 import com.alkemy.ong.exception.ParamNotFound;
@@ -27,16 +28,16 @@ public class OrganizationServiceImpl implements IOrganizationService {
                 .generateDto(OrganizationDtoType.PUBLIC_DATA, messageSource);
     }
 
-    public OrganizationSocialAddressesDto putSocialAddres(Long id, OrganizationSocialAddressesDto dto) {
+    public OrganizationDetailedDto update(OrganizationDetailedDto dto) {
 
-        Optional<Organization> model = repository.findById(id);
+        Optional<Organization> model = repository.findAll().stream().findFirst();
         if(!model.isPresent()){
-            throw new ParamNotFound(messageSource.getMessage("error.id",null, Locale.US));
+            throw new ParamNotFound(messageSource.getMessage("error.organization",null, Locale.US));
         }
 
-        mapper.putSocialAdressesDto(model.get(),dto);
+        mapper.update(model.get(),dto);
         Organization modelSaved = repository.save(model.get());
-        OrganizationSocialAddressesDto resultDto = mapper.OrganizationModel2OrganizationSocialAddressesDto(modelSaved);
+        OrganizationDetailedDto resultDto = mapper.OrganizationModel2OrganizationDetailedDto(modelSaved);
 
         return resultDto;
     }

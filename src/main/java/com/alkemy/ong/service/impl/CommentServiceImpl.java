@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 public class CommentServiceImpl implements ICommentService {
 
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
     @Autowired
-    CommentMapper commentMapper;
+    private CommentMapper commentMapper;
 
     public CommentDto save(CommentDto commentDto) {
         Comment commentModel = commentMapper.commentDto2Model(commentDto);

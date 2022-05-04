@@ -1,28 +1,34 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.OrganizationDetailedDto;
 import com.alkemy.ong.dto.OrganizationSocialAddressesDto;
+import com.alkemy.ong.exception.EntityNotFoundException;
+import com.alkemy.ong.service.IOrganizationService;
 import com.alkemy.ong.service.impl.OrganizationServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("organization")
 public class OrganizationController {
 
-    private final OrganizationServiceImpl service;
+    private final IOrganizationService service;
 
     @GetMapping("/public")
     public ResponseEntity<Object> getOrganizationPublicData() {
         return ResponseEntity.ok(service.getOrganizationPublicData());
     }
 
-    @PutMapping(path = "/contactSocial/{id}")
-    public ResponseEntity<OrganizationSocialAddressesDto> putSocialAddres
-            (@PathVariable Long id, @RequestBody OrganizationSocialAddressesDto dto){
+    @PutMapping("/public")
+    public ResponseEntity<OrganizationDetailedDto> update
+            (@Valid @RequestBody OrganizationDetailedDto dto) {
 
-        OrganizationSocialAddressesDto result = service.putSocialAddres(id,dto);
+        OrganizationDetailedDto result = service.update(dto);
         return ResponseEntity.ok().body(result);
     }
 }

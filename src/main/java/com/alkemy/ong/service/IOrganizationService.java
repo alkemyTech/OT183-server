@@ -1,10 +1,12 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.OrganizationSocialAddressesDto;
+
+import com.alkemy.ong.dto.OrganizationDetailedDto;
 
 public interface IOrganizationService {
 
     public Object getOrganizationPublicData();
 
-    OrganizationSocialAddressesDto putSocialAddres(Long id,OrganizationSocialAddressesDto dto);
+    OrganizationDetailedDto update(OrganizationDetailedDto dto);
+
 }
