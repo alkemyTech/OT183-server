@@ -12,9 +12,18 @@ public class NewsMapper {
         newsDto.setName(news.getName());
         newsDto.setContent(news.getContent());
         newsDto.setImage(news.getImage());
-        newsDto.setCategory(news.getCategory().getName());
+        newsDto.setCategoryId(news.getCategoryId());
         newsDto.setCreatedDate(news.getCreatedDate());
         newsDto.setUpdatedDate(news.getUpdatedDate());
         return newsDto;
+    }
+
+    public News toEntity(NewsDto newsDto){
+        News news = new News();
+        news.setName(newsDto.getName());
+        news.setContent(newsDto.getContent());
+        news.setImage(newsDto.getImage());
+        news.setCategoryId(newsDto.getCategoryId());
+        return news;
     }
 }
