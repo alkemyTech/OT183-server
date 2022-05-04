@@ -2,6 +2,7 @@ package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.MemberDTO;
 import com.alkemy.ong.dto.builders.MemberBuilderPost;
+import com.alkemy.ong.dto.builders.MemberBuilderUpdate;
 import com.alkemy.ong.model.Member;
 
 import com.alkemy.ong.util.MapperUtil;
@@ -25,6 +26,19 @@ public class MemberMapper {
             .setLinkedin(memberDTO.getLinkedinUrl())
             .setImage(memberDTO.getImage())
             .memberBuilderPost();
+    }
+
+    public Member mapperMember(MemberDTO memberDTO, Member member){
+        MemberBuilderUpdate builder = new MemberBuilderUpdate();
+
+        //Builder pattern
+        return builder.setName(memberDTO.getName(), member.getName())
+        .setDescription(memberDTO.getDescription(), member.getDescription())
+        .setFacebook(memberDTO.getFacebookUrl(), member.getFacebookUrl())
+        .setInstagram(memberDTO.getInstagramUrl(), member.getInstagramUrl())
+        .setLinkedin(memberDTO.getLinkedinUrl(), member.getLinkedinUrl())
+        .setImage(memberDTO.getImage(), member.getImage())
+        .memberBuilderUpdate(memberDTO, member);
     }
 
     public List<MemberDTO> listMemberDto(List<Member> list) {
