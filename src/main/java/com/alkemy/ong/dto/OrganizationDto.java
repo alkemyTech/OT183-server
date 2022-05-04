@@ -8,7 +8,9 @@ import org.springframework.context.MessageSource;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -42,6 +44,8 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
 
     private LocalDate updated;
 
+    private List<SlideDto> slides;
+
     public OrganizationDto(String name, String image, String address, String phone) {
         this.name = name;
         this.image = image;
@@ -52,9 +56,19 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
     @Override
     public Object generateDto(OrganizationDtoType type, MessageSource messageSource) {
         if (type == OrganizationDtoType.PUBLIC_DATA) {
-            return new OrganizationPublicDataDto(name, image, address, phone);
+            return OrganizationPublicDataDto.builder()
+                    .name(name)
+                    .image(image)
+                    .address(address)
+                    .phone(phone)
+                    .slides(slides
+                            .stream()
+                            .map(SlideDto::mappingOrganizationDetailDto)
+                            .collect(Collectors.toList()))
+                    .build();
+
         }
-        if( type == OrganizationDtoType.DETAILED) {
+        if (type == OrganizationDtoType.DETAILED) {
             return OrganizationDetailedDto.builder()
                     .id(id)
                     .name(name)

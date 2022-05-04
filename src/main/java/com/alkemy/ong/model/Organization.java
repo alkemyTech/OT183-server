@@ -1,6 +1,8 @@
 package com.alkemy.ong.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -50,6 +52,10 @@ public class Organization {
 
 	@Column(columnDefinition = "boolean default false")
 	private final boolean deleted = Boolean.FALSE;
+
+
+	@OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Slide> slides = new ArrayList<>();
 
 }
 

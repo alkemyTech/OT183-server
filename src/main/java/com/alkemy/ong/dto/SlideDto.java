@@ -39,4 +39,14 @@ public class SlideDto implements IGenericDto<SlideDtoType> {
         );
     }
 
+    public SlideDetailedDto2 mappingOrganizationDetailDto() {
+        return SlideDetailedDto2.builder()
+                .id(id)
+                .imageUrl(imageUrl)
+                .text(text)
+                .position(position)
+                .build();
+    }
+
+
 }
