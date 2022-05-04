@@ -22,7 +22,7 @@ public class ActivityController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<ActivityDto> updateActivity(@PathVariable Long id, @RequestBody ActivityDto activityDto){
+    public ResponseEntity<ActivityDto> updateActivity(@Valid @PathVariable Long id, @RequestBody ActivityDto activityDto){
 
         ActivityDto  updatedActivity = service.updateActivity(id,activityDto);
 
