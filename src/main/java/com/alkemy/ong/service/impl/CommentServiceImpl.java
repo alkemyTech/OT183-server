@@ -26,7 +26,6 @@ import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
-import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.ICommentService;
 import com.alkemy.ong.service.INewsService;
 import com.amazonaws.services.managedgrafana.model.Role;
@@ -62,7 +61,9 @@ public class CommentServiceImpl implements ICommentService {
     @Autowired
     private MessageSource messageSource;
 
-    private static NewsRepository newsRepository;
+    @Autowired
+    private INewsService newsService;
+
 
 
 
@@ -111,9 +112,11 @@ public class CommentServiceImpl implements ICommentService {
 
     @Override
     public List<CommentResponseDto> getCommentsByNewsId(Long newsId) {
-        newsRepository.findById(newsId).orElseThrow(() ->
-        new ParamErrorException(
-                messageSource.getMessage("error.invalid_param", null, Locale.US)));
+        if (newsId <= 0){
+            throw new ParamErrorException(
+                    messageSource.getMessage("error.invalid_param", null, Locale.US));
+        }
+        newsService.findById(newsId);
         List<Comment> comments = commentRepository.findByNewsId(newsId);
         if (comments.isEmpty()){
             throw new NullListException(

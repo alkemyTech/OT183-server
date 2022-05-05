@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -54,6 +55,11 @@ public class NewsServiceImpl implements INewsService {
         return newsMapper.toNewsResponseDto(news);
     }
 
+    @Override
+    public void findById(Long id) {
+        Optional<News> news = newsRepository.findById(id);
+        if (news.isEmpty()) throw new EntityNotFoundException("News", "id", id);
+    }
 
 
     @Override
