@@ -47,4 +47,10 @@ public class CommentController {
 
         return commentService.updateComment(id, comment, dto);
     }
+
+    @GetMapping("posts/{id}/comments")
+    public ResponseEntity<List<CommentBasicDto>> getCommentsByNewsId(Long newsId){
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 }
