@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.CategoryNameDto;
+import com.alkemy.ong.dto.CategoryNameUrlDto;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryNameDto>> getAll(@RequestParam(required = false) Integer page){
+    public ResponseEntity<CategoryNameUrlDto> getAll(@RequestParam(required = false) Integer page){
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.returnList(page));
     }
 
