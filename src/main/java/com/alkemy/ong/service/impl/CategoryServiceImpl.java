@@ -70,4 +70,13 @@ public class CategoryServiceImpl implements ICategoryService {
         }
         return categoryMapper.listNameDto(entityList);
     }
+
+    public void deleteCategory(Long id) {
+
+        if (!categoryRepository.existsById(id)) {
+            throw new EntityNotFoundException("Category", "id", id);
+        }
+
+        categoryRepository.deleteById(id);
+    }
 }
