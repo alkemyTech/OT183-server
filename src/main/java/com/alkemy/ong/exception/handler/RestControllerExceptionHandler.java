@@ -185,4 +185,15 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         );
     }
 
+    @ExceptionHandler(NotAuthorizedException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleNotAuthorizedException(NotAuthorizedException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.FORBIDDEN,
+                        ex.getMessage()
+                ),
+                HttpStatus.FORBIDDEN
+        );
+    }
+
 }
