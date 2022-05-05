@@ -13,4 +13,6 @@ public interface ICategoryService {
     List<CategoryNameDto> returnList();
 
     public CategoryDto getById(Long id);
+
+    void deleteCategory(Long id);
 }

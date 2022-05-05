@@ -16,6 +16,10 @@ import com.alkemy.ong.auth.service.CustomUserDetailsService;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.dto.CommentUpdateDTO;
 import com.alkemy.ong.dto.response.UpdateCommentsDTO;
+import com.alkemy.ong.dto.CommentBasicDto;
+import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.exception.NullListException;
+
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
@@ -24,12 +28,17 @@ import com.amazonaws.services.managedgrafana.model.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Locale;
 
 @Service
 public class CommentServiceImpl implements ICommentService {
@@ -47,6 +56,18 @@ public class CommentServiceImpl implements ICommentService {
 
     @Autowired
     private MessageSource messageSource;
+
+
+
+    public List<CommentBasicDto> getAllComments() {
+        if (commentRepository.getCommentsQuantity() == 0) {
+            throw new NullListException(
+                    messageSource.getMessage("error.null_list", null, Locale.US)
+            );
+        }
+        return commentRepository.getAllComments();
+    }
+
 
     public CommentDto save(CommentDto commentDto) {
         Comment commentModel = commentMapper.commentDto2Model(commentDto);

@@ -1,6 +1,7 @@
 package com.alkemy.ong.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Activity {
 
     @Id
@@ -44,5 +46,6 @@ public class Activity {
     private LocalDate updated;
 
     private boolean deleted = Boolean.FALSE;
+
 
 }
