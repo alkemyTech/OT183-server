@@ -25,8 +25,8 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryNameDto>> getAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(categoryService.returnList());
+    public ResponseEntity<List<CategoryNameDto>> getAll(@RequestParam(required = false) Integer page){
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.returnList(page));
     }
 
     @PutMapping(path = "/{id}")
