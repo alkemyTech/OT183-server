@@ -106,6 +106,9 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public List<CommentResponseDto> getCommentsByNewsId(Long newsId) {
         List<Comment> comments = commentRepository.findByNewsId(newsId);
+        if (newsId <= 0){
+            throw new Ex
+        }
         if (comments.isEmpty()){
             throw new NullListException(
                     messageSource.getMessage("comment.null_list", null, Locale.US));
