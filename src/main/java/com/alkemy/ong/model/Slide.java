@@ -9,6 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 public class Slide {
 

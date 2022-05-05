@@ -1,6 +1,7 @@
 package com.alkemy.ong.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -46,6 +47,7 @@ public class Organization {
 	@Column(updatable = false)
 	@CreationTimestamp
 	private LocalDate created;
+
 
 	@Column
 	@UpdateTimestamp

@@ -2,11 +2,15 @@ package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.dto.SlideResponseCreationDto;
+import com.alkemy.ong.dto.SlideResponseDto;
+import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.util.MapperUtil;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class SlideMapper implements IMapper<Slide, SlideDto> {
@@ -61,6 +65,7 @@ public class SlideMapper implements IMapper<Slide, SlideDto> {
         return MapperUtil.streamListNonNull(list, this::toDto);
     }
 
+
     public SlideResponseCreationDto toDtoResponse(Slide entity){
         return SlideResponseCreationDto.builder()
                 .id(entity.getId())
@@ -70,5 +75,9 @@ public class SlideMapper implements IMapper<Slide, SlideDto> {
                 .organizationId(entity.getOrganization().getId())
                 .organizationName(entity.getOrganization().getName())
                 .build();
+
+    public List<SlideResponseDto> toDtoResponseList(List<Slide> slideList){
+        return slideList.stream().
+                map(slide -> new SlideResponseDto(slide.getImageUrl(), slide.getPosition())).collect(Collectors.toList());
     }
 }

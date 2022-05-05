@@ -21,7 +21,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
 
     @Override
     public Object getOrganizationPublicData() {
-        return repository.getOrganizationPublicData()
+        return mapper.mappingOrganizationDto(repository.getOrganizationPublicData())
                 .generateDto(OrganizationDtoType.PUBLIC_DATA, messageSource);
     }
 

@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@SQLDelete(sql = "UPDATE member SET deleted = true WHERE id =?")
+@SQLDelete(sql = "UPDATE members SET deleted = true WHERE id =?")
 @Where(clause = "deleted = false")
 @Data
 @AllArgsConstructor
