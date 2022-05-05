@@ -12,7 +12,7 @@ public class SlidesUpdateDTO {
 
     private String text;
 
-    private String position;
+    private Integer position;
 
     private Long organization;
 }

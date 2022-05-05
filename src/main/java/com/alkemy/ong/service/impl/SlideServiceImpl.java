@@ -1,11 +1,6 @@
 package com.alkemy.ong.service.impl;
 
-
-import com.alkemy.ong.dto.OrganizationDto;
-import com.alkemy.ong.dto.SlideDto;
-import com.alkemy.ong.dto.SlideRequestDto;
-import com.alkemy.ong.dto.SlideResponseCreationDto;
-import com.alkemy.ong.dto.SlidesUpdateDTO;
+import com.alkemy.ong.dto.*;
 import com.alkemy.ong.dto.response.UpdateSlidesDTO;
 import com.alkemy.ong.dto.type.SlideDtoType;
 import com.alkemy.ong.exception.EntityNotFoundException;
@@ -22,6 +17,7 @@ import com.alkemy.ong.util.CustomMultipart;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -72,6 +68,7 @@ public class SlideServiceImpl implements ISlideService {
         return mapper.toDtoResponseList(slideList);
     }
 
+    @Override
     public void deleteSlide(Long id) {
 
         if (!repository.existsById(id)) {

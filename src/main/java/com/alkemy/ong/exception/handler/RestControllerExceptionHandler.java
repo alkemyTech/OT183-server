@@ -170,7 +170,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                         HttpStatus.BAD_REQUEST,
                         ex.getMessage()
                 ),
-                HttpStatus.BAD_REQUEST
+          HttpStatus.BAD_REQUEST
         );
     }
 
@@ -182,6 +182,8 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                         ex.getMessage()
                 ),
                 HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
 
     @ExceptionHandler(RoleNotFoundException.class)
     public ResponseEntity<ApiErrorResponse<String>> handleRoleNotFoundException(RoleNotFoundException ex) {

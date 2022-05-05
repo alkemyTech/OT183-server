@@ -39,8 +39,9 @@ public class MemberController{
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateMember(@PathVariable("id") long id,@Valid @RequestBody MemberDTO memberUpdate){
+    public ResponseEntity<?> updateMember(@PathVariable("id") long id,@Valid @RequestBody MemberDTO memberUpdate) {
         return memberService.updateMember(id, memberUpdate);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){

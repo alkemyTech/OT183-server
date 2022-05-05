@@ -13,6 +13,6 @@ import lombok.Setter;
 public class SlideResponseDto {
 
     private String imageUrl;
-    private String position;
+    private Integer position;
 
 }
