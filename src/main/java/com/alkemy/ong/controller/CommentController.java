@@ -32,4 +32,10 @@ public class CommentController {
         CommentDto commentSaved = commentService.save(comment);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentSaved);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteComment(@PathVariable(name = "id") Long id){
+        commentService.deleteComment(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

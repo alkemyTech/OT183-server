@@ -8,4 +8,6 @@ import java.util.List;
 public interface ICommentService {
     List<CommentBasicDto> getAllComments();
     CommentDto save(CommentDto commentDto);
+    void deleteComment(Long id);
+
 }
