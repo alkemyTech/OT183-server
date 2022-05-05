@@ -1,5 +1,7 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.SlideRequestDto;
+import com.alkemy.ong.dto.SlideResponseCreationDto;
 import com.alkemy.ong.dto.SlidesUpdateDTO;
 import com.alkemy.ong.dto.response.UpdateSlidesDTO;
 import com.alkemy.ong.exception.EntityNotFoundException;
@@ -14,6 +16,8 @@ import java.util.Locale;
 
 import javax.validation.Valid;
 
+import javax.validation.Valid;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("slides")
@@ -22,6 +26,10 @@ public class SlideController {
     private final SlideServiceImpl service;
     private final MessageSource message;
 
+    @PostMapping
+    public ResponseEntity<SlideResponseCreationDto> createSlide(@Valid @RequestBody SlideRequestDto slideRequestDto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createSlide(slideRequestDto));
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Object> getSlideData(@PathVariable Long id) {
         return new ResponseEntity<>(service.getSlideDetail(id), HttpStatus.OK);

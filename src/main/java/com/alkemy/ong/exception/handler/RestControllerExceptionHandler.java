@@ -174,6 +174,15 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         );
     }
 
+    @ExceptionHandler(ImageConverterException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleDataRepresentationException(ImageConverterException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        ex.getMessage()
+                ),
+                HttpStatus.INTERNAL_SERVER_ERROR
+
     @ExceptionHandler(RoleNotFoundException.class)
     public ResponseEntity<ApiErrorResponse<String>> handleRoleNotFoundException(RoleNotFoundException ex) {
         return new ResponseEntity<>(

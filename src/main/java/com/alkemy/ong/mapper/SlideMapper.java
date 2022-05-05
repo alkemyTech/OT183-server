@@ -1,6 +1,7 @@
 package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.SlideDto;
+import com.alkemy.ong.dto.SlideResponseCreationDto;
 import com.alkemy.ong.dto.SlideResponseDto;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
@@ -37,6 +38,16 @@ public class SlideMapper implements IMapper<Slide, SlideDto> {
                 .build();
     }
 
+    public Slide toEntity(SlideDto dto, Long idOrganization) {
+        OrganizationMapper organizationMapper = OrganizationMapper.getInstance();
+        return Slide.builder()
+                .imageUrl(dto.getImageUrl())
+                .text(dto.getText())
+                .position(dto.getPosition())
+                .organization(organizationMapper.toEntity(idOrganization, dto.getOrganization()))
+                .build();
+    }
+
     @Override
     public SlideDto toDto(Slide entity) {
         OrganizationMapper organizationMapper = OrganizationMapper.getInstance();
@@ -53,6 +64,17 @@ public class SlideMapper implements IMapper<Slide, SlideDto> {
     public List<SlideDto> toDtoList(List<Slide> list) {
         return MapperUtil.streamListNonNull(list, this::toDto);
     }
+
+
+    public SlideResponseCreationDto toDtoResponse(Slide entity){
+        return SlideResponseCreationDto.builder()
+                .id(entity.getId())
+                .imageUrl(entity.getImageUrl())
+                .text(entity.getText())
+                .position(entity.getPosition())
+                .organizationId(entity.getOrganization().getId())
+                .organizationName(entity.getOrganization().getName())
+                .build();
 
     public List<SlideResponseDto> toDtoResponseList(List<Slide> slideList){
         return slideList.stream().
