@@ -66,7 +66,7 @@ public class SlideMapper implements IMapper<Slide, SlideDto> {
     }
 
 
-    public SlideResponseCreationDto toDtoResponse(Slide entity){
+    public SlideResponseCreationDto toDtoResponse(Slide entity) {
         return SlideResponseCreationDto.builder()
                 .id(entity.getId())
                 .imageUrl(entity.getImageUrl())
@@ -75,6 +75,7 @@ public class SlideMapper implements IMapper<Slide, SlideDto> {
                 .organizationId(entity.getOrganization().getId())
                 .organizationName(entity.getOrganization().getName())
                 .build();
+    }
 
     public List<SlideResponseDto> toDtoResponseList(List<Slide> slideList){
         return slideList.stream().

@@ -170,7 +170,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                         HttpStatus.BAD_REQUEST,
                         ex.getMessage()
                 ),
-          s      HttpStatus.BAD_REQUEST
+          HttpStatus.BAD_REQUEST
         );
     }
 
