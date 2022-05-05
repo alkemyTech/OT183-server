@@ -2,6 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.CategoryNameDto;
+import com.alkemy.ong.dto.CategoryNameUrlDto;
 import com.alkemy.ong.exception.PaginationSizeOutOfBoundsException;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.exception.EntityNotFoundException;
@@ -67,9 +68,10 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    public List<CategoryNameDto> returnList(Integer page){
+    public CategoryNameUrlDto returnList(Integer page){
         int pageNumber = PaginationUtil.resolvePageNumber(page);
-        if (pageNumber * 10 > categoryRepository.getCategoriesQuantity()) {
+        int maximumPageNumber = categoryRepository.getCategoriesQuantity() / 10;
+        if (pageNumber > maximumPageNumber) {
             throw new PaginationSizeOutOfBoundsException(
                     message.getMessage("error.pagination_size", null, Locale.US)
             );
@@ -79,7 +81,8 @@ public class CategoryServiceImpl implements ICategoryService {
         if (entityList.size() == 0) {
             throw new NullListException(message.getMessage("error.null_list", null, Locale.US));
         }
-        return categoryMapper.listNameDto(entityList);
+
+        return categoryMapper.listNameDto(entityList, PaginationUtil.getPreviousAndNextPage(pageNumber, maximumPageNumber));
     }
 
     public void deleteCategory(Long id) {
