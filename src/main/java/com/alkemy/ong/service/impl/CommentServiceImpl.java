@@ -21,6 +21,7 @@ import com.alkemy.ong.dto.CommentBasicDto;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.exception.NullListException;
 
+import com.alkemy.ong.exception.ParamErrorException;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
@@ -106,11 +107,11 @@ public class CommentServiceImpl implements ICommentService {
 
     @Override
     public List<CommentResponseDto> getCommentsByNewsId(Long newsId) {
-        List<Comment> comments = commentRepository.findByNewsId(newsId);
         if (newsId <= 0){
-            throw new ParamNotFound(
+            throw new ParamErrorException(
                     messageSource.getMessage("error.invalid_param", null, Locale.US));
         }
+        List<Comment> comments = commentRepository.findByNewsId(newsId);
         if (comments.isEmpty()){
             throw new NullListException(
                     messageSource.getMessage("comment.null_list", null, Locale.US));

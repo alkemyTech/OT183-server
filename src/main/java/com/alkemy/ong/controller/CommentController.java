@@ -49,9 +49,11 @@ public class CommentController {
         return commentService.updateComment(id, comment, dto);
     }
 
-    @GetMapping("posts/{id}/comments")
+    @GetMapping("posts/{newsId}/comments")
     public ResponseEntity<List<CommentResponseDto>> getCommentsByNewsId(@PathVariable Long newsId){
-        return ResponseEntity.ok(commentService.getCommentsByNewsId(newsId));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(commentService.getCommentsByNewsId(newsId));
     }
 
 }
