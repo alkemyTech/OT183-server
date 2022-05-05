@@ -3,6 +3,7 @@ package com.alkemy.ong.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ import com.alkemy.ong.service.ICommentService;
 import com.amazonaws.services.managedgrafana.model.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,6 +45,9 @@ public class CommentServiceImpl implements ICommentService {
     @Autowired
     CustomUserDetailsService customUserDetailsService;
 
+    @Autowired
+    private MessageSource messageSource;
+
     public CommentDto save(CommentDto commentDto) {
         Comment commentModel = commentMapper.commentDto2Model(commentDto);
         commentRepository.save(commentModel);
@@ -55,7 +60,7 @@ public class CommentServiceImpl implements ICommentService {
         //Exists the comment?
         if(!commentRequest.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body("Comment was not found");
+            .body(messageSource.getMessage("comment.not_found", null, Locale.US));
         }
         UserDetails user = customUserDetailsService.loadUserByUsername(dto.getEmail());
         
@@ -71,7 +76,7 @@ public class CommentServiceImpl implements ICommentService {
                 .body(updateComments(commentRequest.get(), comment));
             }else{
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body("You haven't permissions to update this comment");
+                .body(messageSource.getMessage("comment.no_permissions_to_update", null, Locale.US));
             }
         }
     }
