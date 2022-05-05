@@ -5,6 +5,7 @@ import com.alkemy.ong.auth.dto.UserProfileDto;
 import com.alkemy.ong.auth.service.IUserService;
 import com.alkemy.ong.dto.CommentBasicDto;
 import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentResponseDto;
 import com.alkemy.ong.dto.CommentUpdateDTO;
 import com.alkemy.ong.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,8 @@ public class CommentController {
     }
 
     @GetMapping("posts/{id}/comments")
-    public ResponseEntity<List<CommentBasicDto>> getCommentsByNewsId(Long newsId){
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<List<CommentResponseDto>> getCommentsByNewsId(@PathVariable Long newsId){
+        return ResponseEntity.ok(commentService.getCommentsByNewsId(newsId));
     }
 
 }

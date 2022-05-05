@@ -17,4 +17,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query(value = "SELECT COUNT(id) FROM Comment")
     int getCommentsQuantity();
 
+    List<Comment> findByNewsId(Long newsId);
 }

@@ -14,6 +14,7 @@ import com.alkemy.ong.auth.model.UserModel;
 import com.alkemy.ong.auth.repository.UserRepository;
 import com.alkemy.ong.auth.service.CustomUserDetailsService;
 import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentResponseDto;
 import com.alkemy.ong.dto.CommentUpdateDTO;
 import com.alkemy.ong.dto.response.UpdateCommentsDTO;
 import com.alkemy.ong.dto.CommentBasicDto;
@@ -100,6 +101,16 @@ public class CommentServiceImpl implements ICommentService {
                 .body(messageSource.getMessage("comment.no_permissions_to_update", null, Locale.US));
             }
         }
+    }
+
+    @Override
+    public List<CommentResponseDto> getCommentsByNewsId(Long newsId) {
+        List<Comment> comments = commentRepository.findByNewsId(newsId);
+        if (comments.isEmpty()){
+            throw new NullListException(
+                    messageSource.getMessage("comment.null_list", null, Locale.US));
+        }
+        return commentMapper.toResponseDtoList(comments);
     }
 
     private boolean isAdmin(UserDetails user){
