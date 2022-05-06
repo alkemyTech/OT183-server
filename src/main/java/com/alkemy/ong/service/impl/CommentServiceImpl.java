@@ -3,6 +3,7 @@ package com.alkemy.ong.service.impl;
 import com.alkemy.ong.auth.model.UserModel;
 import com.alkemy.ong.auth.repository.UserRepository;
 import com.alkemy.ong.auth.service.CustomUserDetailsService;
+import com.alkemy.ong.auth.service.IUserService;
 import com.alkemy.ong.dto.CommentBasicDto;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.exception.EntityNotFoundException;
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -39,6 +41,9 @@ public class CommentServiceImpl implements ICommentService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private IUserService iUserService;
+
     public List<CommentBasicDto> getAllComments() {
         if (commentRepository.getCommentsQuantity() == 0) {
             throw new NullListException(
@@ -56,30 +61,19 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public void deleteComment(Long id) {
+    public void deleteComment(Long id, HttpServletRequest request) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Comment", "id", id));
-        Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        UserDetails userDetails = ((UserDetails) authentication);
-        String username = userDetails.getUsername();
-
-        UserModel userModel = userRepository.findByEmail(username);
+        String emailUser = iUserService.getUserProfile(request).getEmail();
+        UserModel userModel = userRepository.findByEmail(emailUser);
         Set<Role> roles = userModel.getRoles();
-        boolean ban = false;
-        for (Role role : roles) {
-            if (role.getName().equals("ADMIN")) {
-                ban = true;
-                break;
-            }
-        }
+        boolean ban = roles.stream().anyMatch(r -> r.getName().equals("ADMIN"));
 
-        if ((comment.getUserId().equals(userModel.getId())) || ban) {
+        if ((comment.getUser().getId().equals(userModel.getId())) || ban) {
             commentRepository.deleteById(id);
         } else {
-            throw new NotAuthorizedException("Not Authorized");
+            throw new NotAuthorizedException(messageSource.getMessage("error.not_authorized", null, Locale.US));
         }
-
 
     }
 }

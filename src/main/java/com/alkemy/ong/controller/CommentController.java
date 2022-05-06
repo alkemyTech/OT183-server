@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -34,8 +35,8 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteComment(@PathVariable(name = "id") Long id){
-        commentService.deleteComment(id);
+    public ResponseEntity<HttpStatus> deleteComment(@PathVariable(name = "id") Long id, HttpServletRequest request){
+        commentService.deleteComment(id,request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
