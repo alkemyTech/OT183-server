@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //Comment routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/comments").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/comments");
 
         //Activity routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/activities").hasRole("ADMIN");
