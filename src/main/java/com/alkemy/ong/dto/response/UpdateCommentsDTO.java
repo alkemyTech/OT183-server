@@ -1,7 +1,5 @@
-package com.alkemy.ong.dto;
-
+package com.alkemy.ong.dto.response;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,9 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SlideResponseDto {
-
-    private String imageUrl;
-    private Integer position;
-
+public class UpdateCommentsDTO {
+    private Long id;
+    private String url;  
 }

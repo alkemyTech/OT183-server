@@ -1,18 +1,18 @@
 package com.alkemy.ong.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-public class SlideResponseDto {
-
+@NoArgsConstructor
+public class SlidesUpdateDTO {
     private String imageUrl;
+
+    private String text;
+
     private Integer position;
 
+    private Long organization;
 }

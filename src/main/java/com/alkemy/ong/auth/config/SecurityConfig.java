@@ -41,6 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/login").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/register").permitAll();
 
+        //SWAGGER route
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/v2/api-docs").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/docs").permitAll();
+
         //You have to login to see next routes
         http.authorizeRequests().antMatchers("/**").authenticated().and().httpBasic();
 
@@ -66,12 +71,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Categories routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/categories").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/categories").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/categories/{id}").hasRole("ADMIN");
 
         //User routes
         http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/users/{id}").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("ADMIN");
 
         //Slides routes
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/slides").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides/{id}").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/slides/{id}").hasRole("ADMIN");

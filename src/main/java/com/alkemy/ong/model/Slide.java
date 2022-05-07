@@ -1,8 +1,6 @@
 package com.alkemy.ong.model;
 
 import lombok.*;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -11,6 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 public class Slide {
 
@@ -22,9 +21,9 @@ public class Slide {
 
     private String text;
 
-    private String position;
+    private Integer position;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Organization organization;
 
 }

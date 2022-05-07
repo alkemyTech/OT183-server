@@ -1,7 +1,11 @@
 package com.alkemy.ong.controller;
 
+
+import com.alkemy.ong.auth.dto.UserProfileDto;
+import com.alkemy.ong.auth.service.IUserService;
 import com.alkemy.ong.dto.CommentBasicDto;
 import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentUpdateDTO;
 import com.alkemy.ong.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +19,8 @@ import java.util.List;
 @RestController
 @RequestMapping("comments")
 public class CommentController {
+    @Autowired
+    IUserService userService;
 
     @Autowired
     ICommentService commentService;
@@ -32,6 +38,14 @@ public class CommentController {
 
         CommentDto commentSaved = commentService.save(comment);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentSaved);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateComment(@PathVariable("id") long id, @Valid @RequestBody CommentUpdateDTO comment,HttpServletRequest request){
+        //Catched the user logged
+        UserProfileDto dto = userService.getUserProfile(request);
+
+        return commentService.updateComment(id, comment, dto);
     }
 
     @DeleteMapping("/{id}")

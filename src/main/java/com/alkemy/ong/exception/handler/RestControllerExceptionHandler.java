@@ -170,12 +170,34 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                         HttpStatus.BAD_REQUEST,
                         ex.getMessage()
                 ),
-                HttpStatus.BAD_REQUEST
+          HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(ImageConverterException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleDataRepresentationException(ImageConverterException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        ex.getMessage()
+                ),
+                HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 
     @ExceptionHandler(RoleNotFoundException.class)
     public ResponseEntity<ApiErrorResponse<String>> handleRoleNotFoundException(RoleNotFoundException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.NOT_FOUND,
+                        ex.getMessage()
+                ),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(PaginationSizeOutOfBoundsException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleRoleNotFoundException(PaginationSizeOutOfBoundsException ex) {
         return new ResponseEntity<>(
                 new ApiErrorResponse<>(
                         HttpStatus.NOT_FOUND,

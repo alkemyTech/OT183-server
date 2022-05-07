@@ -10,6 +10,6 @@ public class SlideDetailedDto2 {
     private Long id;
     private String imageUrl;
     private String text;
-    private String position;
+    private Integer position;
 
 }
