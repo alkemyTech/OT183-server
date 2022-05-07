@@ -66,7 +66,7 @@ public class MemberServiceImpl implements IMemberService {
             List<Member> futureList = 
             memberRepository.findAll(PageRequest.of(actualPage+1, 10))
             .getContent();
-            return(sizeListMembers < 10)?null:actualPage+1;
+            return(sizeListMembers == 0)?null:actualPage+1;
         }
     }
 
