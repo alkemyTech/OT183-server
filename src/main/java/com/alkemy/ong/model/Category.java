@@ -38,4 +38,9 @@ public class Category {
 
     @UpdateTimestamp
     private LocalDate updated;
+
+    public Category(String name) {
+        this.name = name;
+    }
+
 }

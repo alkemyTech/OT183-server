@@ -196,4 +196,15 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         );
     }
 
+    @ExceptionHandler(PaginationSizeOutOfBoundsException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleRoleNotFoundException(PaginationSizeOutOfBoundsException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.NOT_FOUND,
+                        ex.getMessage()
+                ),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
 }

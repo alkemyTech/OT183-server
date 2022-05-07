@@ -2,6 +2,8 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.CategoryNameDto;
+import com.alkemy.ong.dto.CategoryNameUrlDto;
+import com.alkemy.ong.exception.PaginationSizeOutOfBoundsException;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.exception.EntityNotFoundException;
 import com.alkemy.ong.exception.NullListException;
@@ -9,12 +11,15 @@ import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.service.ICategoryService;
+import com.alkemy.ong.util.PaginationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -63,12 +68,21 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    public List<CategoryNameDto> returnList(){
-        List<Category> entityList = categoryRepository.findAll();
+    public CategoryNameUrlDto returnList(Integer page){
+        int pageNumber = PaginationUtil.resolvePageNumber(page);
+        int maximumPageNumber = categoryRepository.getCategoriesQuantity() / 10;
+        if (pageNumber > maximumPageNumber) {
+            throw new PaginationSizeOutOfBoundsException(
+                    message.getMessage("error.pagination_size", null, Locale.US)
+            );
+        }
+        Pageable pageable = PageRequest.of(pageNumber, 10);
+        List<Category> entityList = categoryRepository.findAll(pageable).toList();
         if (entityList.size() == 0) {
             throw new NullListException(message.getMessage("error.null_list", null, Locale.US));
         }
-        return categoryMapper.listNameDto(entityList);
+
+        return categoryMapper.listNameDto(entityList, PaginationUtil.getPreviousAndNextPage(pageNumber, maximumPageNumber));
     }
 
     public void deleteCategory(Long id) {
@@ -79,4 +93,5 @@ public class CategoryServiceImpl implements ICategoryService {
 
         categoryRepository.deleteById(id);
     }
+
 }
