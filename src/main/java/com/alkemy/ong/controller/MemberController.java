@@ -3,6 +3,7 @@ package com.alkemy.ong.controller;
 import javax.validation.Valid;
 
 import com.alkemy.ong.dto.MemberDTO;
+import com.alkemy.ong.dto.MembersPageDTO;
 import com.alkemy.ong.dto.response.PostMembersDTO;
 import com.alkemy.ong.service.IMemberService;
 
@@ -33,8 +34,8 @@ public class MemberController{
     }
 
     @GetMapping
-    public ResponseEntity<List<MemberDTO>> getAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(memberService.returnList());
+    public ResponseEntity<MembersPageDTO> getAll(@RequestParam int page){
+        return ResponseEntity.status(HttpStatus.OK).body(memberService.returnList(page));
     }
 
 
