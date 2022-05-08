@@ -1,7 +1,6 @@
 package com.alkemy.ong.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,6 +17,9 @@ import java.util.List;
 @Table(name = "news")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @SQLDelete(sql = "UPDATE news SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 
@@ -38,7 +40,7 @@ public class News {
     private String image;
 
     @Column(name = "deleted")
-    private Boolean deleted = Boolean.FALSE;
+    private final Boolean deleted = Boolean.FALSE;
 
     @Column(name = "category_id")
     private Long categoryId;

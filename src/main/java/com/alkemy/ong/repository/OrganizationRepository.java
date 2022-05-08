@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
 
-    @Query(value = "SELECT new com.alkemy.ong.dto.OrganizationDto(o.name, o.image, o.address, o.phone, o.facebook, o.linkedin, o.instagram) FROM Organization o")
-    OrganizationDto getOrganizationPublicData();
+    @Query(value = "SELECT o FROM Organization o")
+    Organization getOrganizationPublicData();
 
 }
 

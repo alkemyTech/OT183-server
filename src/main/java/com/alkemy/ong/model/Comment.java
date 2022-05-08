@@ -3,10 +3,13 @@ package com.alkemy.ong.model;
 import com.alkemy.ong.auth.model.UserModel;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -38,7 +41,14 @@ public class Comment {
     @Column(name = "body", nullable = false,columnDefinition = "TEXT")
     private String body;
 
-    @Column(name = "deleted", nullable = false)
-    private Boolean deleted = Boolean.FALSE;
+    @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
+    private final Boolean deleted = Boolean.FALSE;
+
+    @Column(updatable = false)
+    @CreationTimestamp
+    private LocalDate created;
+
+    @UpdateTimestamp
+    private LocalDate updated;
 
 }

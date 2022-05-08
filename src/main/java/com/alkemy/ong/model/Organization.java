@@ -1,6 +1,8 @@
 package com.alkemy.ong.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -46,11 +48,16 @@ public class Organization {
 	@CreationTimestamp
 	private LocalDate created;
 
+
+	@Column
 	@UpdateTimestamp
 	private LocalDate updated;
 
 	@Column(columnDefinition = "boolean default false")
 	private final boolean deleted = Boolean.FALSE;
+
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "organization")
+	private List<Slide> slides;
 
 	private String facebook;
 

@@ -3,24 +3,22 @@ package com.alkemy.ong.dto;
 import com.alkemy.ong.dto.type.OrganizationDtoType;
 import com.alkemy.ong.dto.type.SlideDtoType;
 import com.alkemy.ong.exception.DataRepresentationException;
-import com.alkemy.ong.model.Organization;
-import com.alkemy.ong.model.Slide;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.context.MessageSource;
 
-import javax.persistence.ManyToOne;
 import java.util.Locale;
 
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SlideDto implements IGenericDto<SlideDtoType> {
 
     private Long id;
     private String imageUrl;
     private String text;
 
-    private String position;
+    private Integer position;
     private OrganizationDto organization;
 
     @Override
@@ -37,6 +35,23 @@ public class SlideDto implements IGenericDto<SlideDtoType> {
         throw new DataRepresentationException(
                 messageSource.getMessage("error.representation_data", null, Locale.US)
         );
+    }
+
+
+    public  SlideDto(String imageUrl, String text, Integer position, OrganizationDto organization) {
+        this.imageUrl = imageUrl;
+        this.text = text;
+        this.position = position;
+        this.organization = organization;
+    }
+
+    public SlideDetailedDto2 mappingOrganizationDetailDto() {
+        return SlideDetailedDto2.builder()
+                .id(id)
+                .imageUrl(imageUrl)
+                .text(text)
+                .position(position)
+                .build();
     }
 
 }

@@ -8,7 +8,9 @@ import org.springframework.context.MessageSource;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -42,11 +44,14 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
 
     private LocalDate updated;
 
+    private List<SlideDto> slides;
+
     private String facebook;
 
     private String linkedin;
 
     private String instagram;
+
 
     public OrganizationDto(String name, String image, String address, String phone,
                            String facebook, String linkedin, String instagram) {
@@ -62,9 +67,21 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
     @Override
     public Object generateDto(OrganizationDtoType type, MessageSource messageSource) {
         if (type == OrganizationDtoType.PUBLIC_DATA) {
-            return new OrganizationPublicDataDto(name, image, address, phone, facebook, instagram, linkedin);
-        }
+            return OrganizationPublicDataDto.builder()
+                    .name(name)
+                    .image(image)
+                    .address(address)
+                    .phone(phone)
+                    .facebook(facebook)
+                    .linkedin(linkedin)
+                    .instagram(instagram)
+                    .slides(slides
+                            .stream()
+                            .map(SlideDto::mappingOrganizationDetailDto)
+                            .collect(Collectors.toList()))
+                    .build();
 
+        }
         throw new DataRepresentationException(
                 messageSource.getMessage("error.representation_data", null, Locale.US)
         );

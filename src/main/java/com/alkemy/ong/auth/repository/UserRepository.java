@@ -16,4 +16,7 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
     @Query(value = "SELECT new com.alkemy.ong.dto.UserBasicDto(u.id, u.firstName, u.lastName, u.email) FROM UserModel u")
     List<UserBasicDto> getAllUsers();
 
+    @Query(value = "SELECT COUNT(id) FROM UserModel")
+    int getUsersQuantity();
+
 }
