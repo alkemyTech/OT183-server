@@ -46,11 +46,22 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
 
     private List<SlideDto> slides;
 
-    public OrganizationDto(String name, String image, String address, String phone) {
+    private String facebook;
+
+    private String linkedin;
+
+    private String instagram;
+
+
+    public OrganizationDto(String name, String image, String address, String phone,
+                           String facebook, String linkedin, String instagram) {
         this.name = name;
         this.image = image;
         this.address = address;
         this.phone = phone;
+        this.facebook = facebook;
+        this.linkedin = linkedin;
+        this.instagram = instagram;
     }
 
     @Override
@@ -61,26 +72,15 @@ public class OrganizationDto implements IGenericDto<OrganizationDtoType> {
                     .image(image)
                     .address(address)
                     .phone(phone)
+                    .facebook(facebook)
+                    .linkedin(linkedin)
+                    .instagram(instagram)
                     .slides(slides
                             .stream()
                             .map(SlideDto::mappingOrganizationDetailDto)
                             .collect(Collectors.toList()))
                     .build();
 
-        }
-        if (type == OrganizationDtoType.DETAILED) {
-            return OrganizationDetailedDto.builder()
-                    .id(id)
-                    .name(name)
-                    .image(image)
-                    .address(address)
-                    .phone(phone)
-                    .email(email)
-                    .welcomeText(welcomeText)
-                    .aboutUsText(aboutUsText)
-                    .created(created)
-                    .updated(updated)
-                    .build();
         }
         throw new DataRepresentationException(
                 messageSource.getMessage("error.representation_data", null, Locale.US)

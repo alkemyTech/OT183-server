@@ -13,9 +13,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
-@Entity
 @Getter
 @Setter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -58,6 +58,14 @@ public class Organization {
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "organization")
 	private List<Slide> slides;
+
+	private String facebook;
+
+	private String linkedin;
+
+	private String instagram;
+
+
 }
 
 /*
