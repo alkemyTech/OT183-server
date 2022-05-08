@@ -2,6 +2,8 @@ package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.CategoryNameDto;
+import com.alkemy.ong.dto.CategoryNameUrlDto;
+import com.alkemy.ong.dto.PaginationUrlDto;
 import com.alkemy.ong.model.Category;
 import org.springframework.stereotype.Component;
 import com.alkemy.ong.util.MapperUtil;
@@ -66,12 +68,14 @@ public class CategoryMapper implements IMapper<Category,CategoryDto>{
     }
 
 
-    public List<CategoryNameDto> listNameDto(List<Category> list) {
-        return MapperUtil.streamListNonNull(list, this::toDoNameList);
+    public CategoryNameUrlDto listNameDto(List<Category> list, PaginationUrlDto dto) {
+        return new CategoryNameUrlDto(dto,MapperUtil.streamListNonNull(list, this::toDoNameList));
     }
 
     public CategoryNameDto toDoNameList(Category entity) {
-        return CategoryNameDto.builder().name(entity.getName()).build();
+        return CategoryNameDto.builder()
+                .name(entity.getName())
+                .build();
     }
 
 }

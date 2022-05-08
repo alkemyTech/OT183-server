@@ -41,10 +41,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/login").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/register").permitAll();
 
+        //SWAGGER route
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/v2/api-docs").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/docs").permitAll();
+
         //You have to login to see next routes
         http.authorizeRequests().antMatchers("/**").authenticated().and().httpBasic();
 
-        //Authenticated and Role dependent
+        ////////////////////////////////////
+        //Authenticated and Role dependent//
+        ////////////////////////////////////
+
+        //Organization routes
+        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/organization/public").hasRole("ADMIN");
+
         //Testimonial routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/testimonials").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/testimonials/{id}").hasRole("ADMIN");
