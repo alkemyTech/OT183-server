@@ -197,13 +197,15 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
     }
 
     @ExceptionHandler(ParamErrorException.class)
-    public ResponseEntity<ApiErrorResponse<String>> handleParamErrorException(ParamErrorException ex){
+    public ResponseEntity<ApiErrorResponse<String>> handleParamErrorException(ParamErrorException ex) {
         return new ResponseEntity<>(
                 new ApiErrorResponse<>(
                         HttpStatus.BAD_REQUEST,
                         ex.getMessage()
                 ),
                 HttpStatus.BAD_REQUEST
+        );
+    }
 
     @ExceptionHandler(PaginationSizeOutOfBoundsException.class)
     public ResponseEntity<ApiErrorResponse<String>> handleRoleNotFoundException(PaginationSizeOutOfBoundsException ex) {
@@ -214,6 +216,17 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
                 ),
                 HttpStatus.NOT_FOUND
 
+        );
+    }
+
+    @ExceptionHandler(NotAuthorizedException.class)
+    public ResponseEntity<ApiErrorResponse<String>> handleNotAuthorizedException(NotAuthorizedException ex) {
+        return new ResponseEntity<>(
+                new ApiErrorResponse<>(
+                        HttpStatus.FORBIDDEN,
+                        ex.getMessage()
+                ),
+                HttpStatus.FORBIDDEN
         );
     }
 

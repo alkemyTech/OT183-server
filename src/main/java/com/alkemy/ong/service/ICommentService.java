@@ -16,6 +16,7 @@ public interface ICommentService {
     List<CommentBasicDto> getAllComments();
     CommentDto save(CommentDto commentDto);
     ResponseEntity<?> updateComment(Long id, CommentUpdateDTO comment, UserProfileDto dto);
-
     List<CommentResponseDto> getCommentsByNewsId(Long newsId);
+    void deleteComment(Long id, HttpServletRequest request);
+
 }
