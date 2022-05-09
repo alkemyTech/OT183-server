@@ -1,7 +1,5 @@
 package com.alkemy.ong.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -24,7 +22,6 @@ import com.alkemy.ong.exception.NotAuthorizedException;
 import com.alkemy.ong.exception.NullListException;
 
 import com.alkemy.ong.exception.ParamErrorException;
-import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
