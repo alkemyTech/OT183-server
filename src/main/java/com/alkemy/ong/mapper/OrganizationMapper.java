@@ -1,6 +1,8 @@
 package com.alkemy.ong.mapper;
 
+import com.alkemy.ong.dto.OrganizationDetailedDto;
 import com.alkemy.ong.dto.OrganizationDto;
+import com.alkemy.ong.dto.OrganizationSocialAddressesDto;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.util.MapperUtil;
@@ -77,6 +79,39 @@ public class OrganizationMapper implements IMapper<Organization, OrganizationDto
         return MapperUtil.streamListNonNull(list, this::toDto);
     }
 
+    public void update(Organization model, OrganizationDetailedDto dto) {
+
+        model.setFacebook(dto.getFacebook());
+        model.setInstagram(dto.getInstagram());
+        model.setLinkedin(dto.getLinkedin());
+        model.setName(dto.getName());
+        model.setImage(dto.getImage());
+        model.setAddress(dto.getAddress());
+        model.setPhone(dto.getPhone());
+        model.setEmail(dto.getEmail());
+        model.setWelcomeText(dto.getWelcomeText());
+        model.setAboutUsText(dto.getAboutUsText());
+    }
+
+    public OrganizationDetailedDto OrganizationModel2OrganizationDetailedDto(Organization model) {
+
+        OrganizationDetailedDto dto = new OrganizationDetailedDto();
+        dto.setFacebook(model.getFacebook());
+        dto.setLinkedin(model.getLinkedin());
+        dto.setInstagram(model.getInstagram());
+        dto.setName(model.getName());
+        dto.setImage(model.getImage());
+        dto.setAddress(model.getAddress());
+        dto.setPhone(model.getPhone());
+        dto.setEmail(model.getEmail());
+        dto.setWelcomeText(model.getWelcomeText());
+        dto.setAboutUsText(model.getAboutUsText());
+        dto.setCreated(model.getCreated());
+        dto.setUpdated(model.getUpdated());
+
+        return dto;
+    }
+
     public OrganizationDto mappingOrganizationDto(Organization entity) {
         return OrganizationDto.builder()
                 .id(entity.getId())
@@ -89,6 +124,9 @@ public class OrganizationMapper implements IMapper<Organization, OrganizationDto
                 .aboutUsText(entity.getAboutUsText())
                 .created(entity.getCreated())
                 .updated(entity.getUpdated())
+                .facebook(entity.getFacebook())
+                .instagram(entity.getInstagram())
+                .linkedin(entity.getLinkedin())
                 .slides(slideMapper
                         .toDtoList(entity
                                 .getSlides()

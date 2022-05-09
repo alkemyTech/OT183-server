@@ -48,12 +48,12 @@ import java.util.Locale;
 public class CommentServiceImpl implements ICommentService {
 
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    CommentMapper commentMapper;
+    private CommentMapper commentMapper;
 
     @Autowired
     CustomUserDetailsService customUserDetailsService;
@@ -83,7 +83,7 @@ public class CommentServiceImpl implements ICommentService {
         CommentDto commentSaveDto = commentMapper.commentModel2Dto(commentModel);
         return commentSaveDto;
     }
-    
+
     public ResponseEntity<?> updateComment(Long id, CommentUpdateDTO comment, UserProfileDto dto){
         Optional<Comment> commentRequest = commentRepository.findById(id);
         //Exists the comment?
@@ -92,7 +92,7 @@ public class CommentServiceImpl implements ICommentService {
             .body(messageSource.getMessage("comment.not_found", null, Locale.US));
         }
         UserDetails user = customUserDetailsService.loadUserByUsername(dto.getEmail());
-        
+
         if(isAdmin(user)){
             //is a admin
             return ResponseEntity.status(HttpStatus.OK)
@@ -128,8 +128,8 @@ public class CommentServiceImpl implements ICommentService {
     private boolean isAdmin(UserDetails user){
         List<GrantedAuthority> authorities = user.getAuthorities().stream()
         .filter(role -> role.getAuthority() == Role.ADMIN.toString())
-        .collect(Collectors.toList());    
-        
+        .collect(Collectors.toList());
+
         return authorities.size() > 0;
     }
 
