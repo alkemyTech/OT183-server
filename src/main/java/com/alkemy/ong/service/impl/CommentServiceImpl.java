@@ -14,16 +14,20 @@ import com.alkemy.ong.auth.model.UserModel;
 import com.alkemy.ong.auth.repository.UserRepository;
 import com.alkemy.ong.auth.service.CustomUserDetailsService;
 import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentResponseDto;
 import com.alkemy.ong.dto.CommentUpdateDTO;
 import com.alkemy.ong.dto.response.UpdateCommentsDTO;
 import com.alkemy.ong.dto.CommentBasicDto;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.exception.NullListException;
 
+import com.alkemy.ong.exception.ParamErrorException;
+import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
 import com.alkemy.ong.service.ICommentService;
+import com.alkemy.ong.service.INewsService;
 import com.amazonaws.services.managedgrafana.model.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +60,10 @@ public class CommentServiceImpl implements ICommentService {
 
     @Autowired
     private MessageSource messageSource;
+
+    @Autowired
+    private INewsService newsService;
+
 
 
 
@@ -100,6 +108,21 @@ public class CommentServiceImpl implements ICommentService {
                 .body(messageSource.getMessage("comment.no_permissions_to_update", null, Locale.US));
             }
         }
+    }
+
+    @Override
+    public List<CommentResponseDto> getCommentsByNewsId(Long newsId) {
+        if (newsId <= 0){
+            throw new ParamErrorException(
+                    messageSource.getMessage("error.invalid_param", null, Locale.US));
+        }
+        newsService.findById(newsId);
+        List<Comment> comments = commentRepository.findByNewsId(newsId);
+        if (comments.isEmpty()){
+            throw new NullListException(
+                    messageSource.getMessage("comment.null_list", null, Locale.US));
+        }
+        return commentMapper.toResponseDtoList(comments);
     }
 
     private boolean isAdmin(UserDetails user){
