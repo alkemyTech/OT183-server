@@ -1,7 +1,5 @@
 package com.alkemy.ong.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -18,13 +16,11 @@ import com.alkemy.ong.dto.CommentUpdateDTO;
 import com.alkemy.ong.dto.response.UpdateCommentsDTO;
 import com.alkemy.ong.dto.CommentBasicDto;
 import com.alkemy.ong.auth.service.IUserService;
-import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.exception.EntityNotFoundException;
 import com.alkemy.ong.exception.NotAuthorizedException;
 import com.alkemy.ong.exception.NullListException;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
-import com.alkemy.ong.model.Role;
 import com.alkemy.ong.repository.CommentRepository;
 import com.alkemy.ong.service.ICommentService;
 import com.amazonaws.services.managedgrafana.model.Role;
@@ -40,17 +36,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
 @Service
 public class CommentServiceImpl implements ICommentService {
 
     @Autowired
     CommentRepository commentRepository;
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     CommentMapper commentMapper;
@@ -132,10 +122,9 @@ public class CommentServiceImpl implements ICommentService {
                 .orElseThrow(() -> new EntityNotFoundException("Comment", "id", id));
         String emailUser = iUserService.getUserProfile(request).getEmail();
         UserModel userModel = userRepository.findByEmail(emailUser);
-        Set<Role> roles = userModel.getRoles();
-        boolean ban = roles.stream().anyMatch(r -> r.getName().equals("ADMIN"));
+        boolean isAdmin = userModel.getRoles().stream().anyMatch(r -> r.getName().equals("ADMIN"));
 
-        if ((comment.getUser().getId().equals(userModel.getId())) || ban) {
+        if ((comment.getUser().getId().equals(userModel.getId())) || isAdmin) {
             commentRepository.deleteById(id);
         } else {
             throw new NotAuthorizedException(messageSource.getMessage("error.not_authorized", null, Locale.US));
