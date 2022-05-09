@@ -11,4 +11,5 @@ public interface INewsService {
     UpdateNewsDTO updateNews(Long id, NewsUpdateDTO newsUpdate);
     void deleteNews(Long id);
     NewsResponseDto createNews(NewsDto newsDto);
+    void findById(Long id);
 }

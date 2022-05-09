@@ -49,7 +49,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //You have to login to see next routes
         http.authorizeRequests().antMatchers("/**").authenticated().and().httpBasic();
 
-        //Authenticated and Role dependent
+        ////////////////////////////////////
+        //Authenticated and Role dependent//
+        ////////////////////////////////////
+
+        //Organization routes
+        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/organization/public").hasRole("ADMIN");
+
         //Testimonial routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/testimonials").hasRole("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/testimonials/{id}").hasRole("ADMIN");
