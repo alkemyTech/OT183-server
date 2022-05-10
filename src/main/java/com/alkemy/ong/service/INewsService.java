@@ -1,6 +1,7 @@
 package com.alkemy.ong.service;
 
 
+import com.alkemy.ong.dto.NameUrlDto;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.dto.NewsResponseDto;
 import com.alkemy.ong.dto.NewsUpdateDTO;
@@ -11,4 +12,6 @@ public interface INewsService {
     UpdateNewsDTO updateNews(Long id, NewsUpdateDTO newsUpdate);
     void deleteNews(Long id);
     NewsResponseDto createNews(NewsDto newsDto);
+
+    NameUrlDto getAllPages(Integer page);
 }

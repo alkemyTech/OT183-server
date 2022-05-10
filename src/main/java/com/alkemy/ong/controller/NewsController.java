@@ -25,6 +25,11 @@ public class NewsController {
     @Autowired
     private MessageSource message;
 
+    @GetMapping
+    public ResponseEntity<?> getAllPages(@RequestParam (required = false) Integer page ){
+        return ResponseEntity.ok().body(service.getAllPages(page)) ;
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getNewsById(@PathVariable("id") long id) throws EntityNotFoundException {
             return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));

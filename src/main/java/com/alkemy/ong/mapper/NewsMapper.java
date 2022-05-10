@@ -5,6 +5,8 @@ import com.alkemy.ong.dto.NewsResponseDto;
 import com.alkemy.ong.model.News;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @Component
@@ -37,5 +39,13 @@ public class NewsMapper {
                 news.getImage(),
                 news.getCategoryId()
         );
+    }
+
+    public List<Object> newsListModel2ListDto(List<News> listNews) {
+        List<Object> listDto = new ArrayList<>();
+        for(News model : listNews){
+            listDto.add(toNewsResponseDto(model));
+        }
+        return listDto;
     }
 }

@@ -1,10 +1,13 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.NameUrlDto;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.dto.NewsResponseDto;
 import com.alkemy.ong.dto.NewsUpdateDTO;
 import com.alkemy.ong.dto.response.UpdateNewsDTO;
 import com.alkemy.ong.exception.EntityNotFoundException;
+import com.alkemy.ong.exception.NullListException;
+import com.alkemy.ong.exception.PaginationSizeOutOfBoundsException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.model.Category;
@@ -12,12 +15,16 @@ import com.alkemy.ong.model.News;
 import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.INewsService;
+import com.alkemy.ong.util.PaginationUtil;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Locale;
 
 @AllArgsConstructor
 @Service
@@ -54,6 +61,26 @@ public class NewsServiceImpl implements INewsService {
         return newsMapper.toNewsResponseDto(news);
     }
 
+    @Override
+    public NameUrlDto getAllPages(Integer page) {
+        Integer maxElements = 10;
+        Integer pageNumber = PaginationUtil.resolvePageNumber(page);
+        Integer pages = newsRepository.getNewsQuantity() / maxElements;
+        if (pageNumber > pages) {
+            throw new PaginationSizeOutOfBoundsException(
+                    message.getMessage("error.pagination_size", null, Locale.US)
+            );
+        }
+
+        List<News> listNews = newsRepository.findAll(PageRequest.of(pageNumber,maxElements)).toList();
+        if (listNews.size() == 0) {
+            throw new NullListException(message.getMessage("error.null_list", null, Locale.US));
+        }
+
+        NameUrlDto dto = new NameUrlDto(PaginationUtil.getPreviousAndNextPage(pageNumber,pages),newsMapper.newsListModel2ListDto(listNews));
+
+        return dto;
+    }
 
 
     @Override
