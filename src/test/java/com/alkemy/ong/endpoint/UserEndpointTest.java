@@ -17,6 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.MimeTypeUtils;
 
+import javax.xml.transform.Result;
+
+import static com.alkemy.ong.util.TestUtil.asJsonString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -81,7 +84,7 @@ class UserEndpointTest {
 	@WithMockUser(value = "test", password = "pass", roles = "USER")
 	@Test
 	@Order(5)
-	void deleteUserByWrongId() throws Exception {
+	void deleteUserByIdWithWrongId() throws Exception {
 		final ResultActions result = mockMvc.perform(delete("/users/{id}", 0)
 				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
 
@@ -117,12 +120,30 @@ class UserEndpointTest {
 		result.andExpect(status().isUnauthorized());
 	}
 
-	public static String asJsonString(final Object obj) {
-		try {
-			return new ObjectMapper().writeValueAsString(obj);
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
+
+	@WithMockUser(value = "test", password = "pass", roles = "USER")
+	@Test
+	@Order(8)
+	void patchUserByIdWithWrongId() throws Exception {
+		final ResultActions result = mockMvc.perform(patch("/users/{id}", 0)
+				.content(asJsonString(new UserPatchDto("Lucas", "Bravi", "MyPhoto")))
+				.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
+				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
+
+		result.andExpect(status().isNotFound());
 	}
+	@WithMockUser(value = "test", password = "pass", roles = "USER")
+	@Test
+	@Order(9)
+	void patchUserByIdWithEmptyBody() throws Exception {
+		final ResultActions result = mockMvc.perform(patch("/users/{id}", 2)
+				.content(asJsonString(new UserPatchDto()))
+				.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
+				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
+
+		result.andExpect(status().isBadRequest());
+	}
+
+
 
 }
