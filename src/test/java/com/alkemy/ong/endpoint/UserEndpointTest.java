@@ -34,10 +34,10 @@ class UserEndpointTest {
 	@Autowired
 	MockMvc mockMvc;
 
-	@WithMockUser(value = "test", password = "pass", roles = "USER")
+	@WithMockUser(value = "test", password = "pass", roles = "ADMIN")
 	@Test
 	@Order(1)
-	void getAllUsersAuthenticated() throws Exception {
+	void getAllUsersAuthenticatedAsAdmin() throws Exception {
 		ResultActions result = mockMvc.perform(get("/users").accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
 		String contentType = MediaType.APPLICATION_JSON_VALUE;
 		final int expectedSize = 20;
@@ -47,8 +47,17 @@ class UserEndpointTest {
 
 	}
 
+	@WithMockUser(value = "test", password = "pass", roles = "USER")
 	@Test
 	@Order(2)
+	void getAllUsersAuthenticatedAsUser() throws Exception {
+		ResultActions result = mockMvc.perform(get("/users").accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
+
+		result.andExpect(status().isForbidden());
+	}
+
+	@Test
+	@Order(3)
 	void getAllUsersWithoutAuthentication() throws Exception {
 		final ResultActions result = mockMvc.perform(post("/users")
 				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
@@ -56,10 +65,10 @@ class UserEndpointTest {
 		result.andExpect(status().isUnauthorized());
 	}
 
-	@WithMockUser(value = "test", password = "pass", roles = "USER")
+	@WithMockUser(value = "test", password = "pass", roles = "ADMIN")
 	@Test
-	@Order(3)
-	void deleteUserByIdAuthenticated() throws Exception {
+	@Order(4)
+	void deleteUserByIdAuthenticatedAsAdmin() throws Exception {
 		final ResultActions result = mockMvc.perform(delete("/users/{id}", 1).accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
 
 		result.andExpect(status().isOk());
@@ -72,8 +81,17 @@ class UserEndpointTest {
 		resultDeleted.andExpect(jsonPath("$.length()").value(expectedSize));
 	}
 
+	@WithMockUser(value = "test", password = "pass", roles = "USER")
 	@Test
-	@Order(4)
+	@Order(5)
+	void deleteUserByIdAuthenticatedAsUser() throws Exception {
+		final ResultActions result = mockMvc.perform(delete("/users/{id}", 1).accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
+
+		result.andExpect(status().isForbidden());
+	}
+
+	@Test
+	@Order(6)
 	void deleteUserByIdWithoutAuthentication() throws Exception {
 		final ResultActions result = mockMvc.perform(delete("/users/{id}", 1)
 				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
@@ -81,9 +99,9 @@ class UserEndpointTest {
 		result.andExpect(status().isUnauthorized());
 	}
 
-	@WithMockUser(value = "test", password = "pass", roles = "USER")
+	@WithMockUser(value = "test", password = "pass", roles = "ADMIN")
 	@Test
-	@Order(5)
+	@Order(7)
 	void deleteUserByIdWithWrongId() throws Exception {
 		final ResultActions result = mockMvc.perform(delete("/users/{id}", 0)
 				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
@@ -91,10 +109,10 @@ class UserEndpointTest {
 		result.andExpect(status().isNotFound());
 	}
 
-	@WithMockUser(value = "test", password = "pass", roles = "USER")
+	@WithMockUser(value = "test", password = "pass", roles = "ADMIN")
 	@Test
-	@Order(6)
-	void patchUserByIdAuthenticated() throws Exception {
+	@Order(8)
+	void patchUserByIdAuthenticatedAsAdmin() throws Exception {
 		final ResultActions users = mockMvc.perform(get("/users").accept(MimeTypeUtils.APPLICATION_JSON_VALUE))
 				.andDo(print());
 
@@ -109,8 +127,20 @@ class UserEndpointTest {
 		result.andExpect(jsonPath("$.photo").value("MyPhoto"));
 	}
 
+	@WithMockUser(value = "test", password = "pass", roles = "USER")
 	@Test
-	@Order(7)
+	@Order(9)
+	void patchUserByIdAuthenticatedAsUser() throws Exception {
+		final ResultActions result = mockMvc.perform(patch("/users/{id}", 2)
+				.content(asJsonString(new UserPatchDto("Lucas", "Bravi", "MyPhoto")))
+				.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
+				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
+
+		result.andExpect(status().isForbidden());
+	}
+
+	@Test
+	@Order(10)
 	void patchUserByIdWithoutAuthentication() throws Exception {
 		final ResultActions result = mockMvc.perform(patch("/users/{id}", 2)
 				.content(asJsonString(new UserPatchDto("Lucas", "Bravi", "MyPhoto")))
@@ -121,9 +151,9 @@ class UserEndpointTest {
 	}
 
 
-	@WithMockUser(value = "test", password = "pass", roles = "USER")
+	@WithMockUser(value = "test", password = "pass", roles = "ADMIN")
 	@Test
-	@Order(8)
+	@Order(11)
 	void patchUserByIdWithWrongId() throws Exception {
 		final ResultActions result = mockMvc.perform(patch("/users/{id}", 0)
 				.content(asJsonString(new UserPatchDto("Lucas", "Bravi", "MyPhoto")))
@@ -134,7 +164,7 @@ class UserEndpointTest {
 	}
 	@WithMockUser(value = "test", password = "pass", roles = "USER")
 	@Test
-	@Order(9)
+	@Order(12)
 	void patchUserByIdWithEmptyBody() throws Exception {
 		final ResultActions result = mockMvc.perform(patch("/users/{id}", 2)
 				.content(asJsonString(new UserPatchDto()))
