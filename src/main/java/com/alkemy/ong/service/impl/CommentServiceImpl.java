@@ -1,7 +1,5 @@
 package com.alkemy.ong.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -14,16 +12,21 @@ import com.alkemy.ong.auth.model.UserModel;
 import com.alkemy.ong.auth.repository.UserRepository;
 import com.alkemy.ong.auth.service.CustomUserDetailsService;
 import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentResponseDto;
 import com.alkemy.ong.dto.CommentUpdateDTO;
 import com.alkemy.ong.dto.response.UpdateCommentsDTO;
 import com.alkemy.ong.dto.CommentBasicDto;
-import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.auth.service.IUserService;
+import com.alkemy.ong.exception.EntityNotFoundException;
+import com.alkemy.ong.exception.NotAuthorizedException;
 import com.alkemy.ong.exception.NullListException;
 
+import com.alkemy.ong.exception.ParamErrorException;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
 import com.alkemy.ong.service.ICommentService;
+import com.alkemy.ong.service.INewsService;
 import com.amazonaws.services.managedgrafana.model.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +40,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Locale;
 
 @Service
 public class CommentServiceImpl implements ICommentService {
@@ -57,7 +58,13 @@ public class CommentServiceImpl implements ICommentService {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    private INewsService newsService;
 
+
+
+    @Autowired
+    private IUserService iUserService;
 
     public List<CommentBasicDto> getAllComments() {
         if (commentRepository.getCommentsQuantity() == 0) {
@@ -67,7 +74,6 @@ public class CommentServiceImpl implements ICommentService {
         }
         return commentRepository.getAllComments();
     }
-
 
     public CommentDto save(CommentDto commentDto) {
         Comment commentModel = commentMapper.commentDto2Model(commentDto);
@@ -102,6 +108,21 @@ public class CommentServiceImpl implements ICommentService {
         }
     }
 
+    @Override
+    public List<CommentResponseDto> getCommentsByNewsId(Long newsId) {
+        if (newsId <= 0){
+            throw new ParamErrorException(
+                    messageSource.getMessage("error.invalid_param", null, Locale.US));
+        }
+        newsService.findById(newsId);
+        List<Comment> comments = commentRepository.findByNewsId(newsId);
+        if (comments.isEmpty()){
+            throw new NullListException(
+                    messageSource.getMessage("comment.null_list", null, Locale.US));
+        }
+        return commentMapper.toResponseDtoList(comments);
+    }
+
     private boolean isAdmin(UserDetails user){
         List<GrantedAuthority> authorities = user.getAuthorities().stream()
         .filter(role -> role.getAuthority() == Role.ADMIN.toString())
@@ -117,6 +138,22 @@ public class CommentServiceImpl implements ICommentService {
         dCommentsDTO.setId(commentRequest.getId());
         dCommentsDTO.setUrl("/comments/"+commentRequest.getId());
         return dCommentsDTO;
+    }
+
+    @Override
+    public void deleteComment(Long id, HttpServletRequest request) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Comment", "id", id));
+        String emailUser = iUserService.getUserProfile(request).getEmail();
+        UserModel userModel = userRepository.findByEmail(emailUser);
+        boolean isAdmin = userModel.getRoles().stream().anyMatch(r -> r.getName().equals("ADMIN"));
+
+        if ((comment.getUser().getId().equals(userModel.getId())) || isAdmin) {
+            commentRepository.deleteById(id);
+        } else {
+            throw new NotAuthorizedException(messageSource.getMessage("error.not_authorized", null, Locale.US));
+        }
+
     }
 
 

@@ -2,7 +2,9 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.TestimonialDto;
 import com.alkemy.ong.exception.NullListException;
-import com.alkemy.ong.util.pagination.PagUtil;
+
+import com.alkemy.ong.exception.PaginationSizeOutOfBoundsException;
+import com.alkemy.ong.util.PaginationUtil;
 import com.alkemy.ong.util.pagination.Pagination;
 import com.alkemy.ong.dto.type.TestimonialDtoType;
 import com.alkemy.ong.exception.EntityNotFoundException;
@@ -24,7 +26,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
     private final TestimonialMapper mapper;
     private final TestimonialRepository repository;
     private final MessageSource messageSource;
-    private final PagUtil pagUtil;
+
 
     @Override
     public Object createTestimonial(TestimonialDto dto) {
@@ -52,20 +54,20 @@ public class TestimonialServiceImpl implements ITestimonialService {
     public Pagination<TestimonialDto>getAllTestimonialPaged(Pageable pageable,Integer page){
         Page<TestimonialDto> pagedList = repository.findAll(pageable).map(mapper::toDto);
 
-        if (pagedList.isEmpty()){
-            throw new NullListException(messageSource.getMessage("error.page_not_found", null, Locale.US));
-        }
-
 
         Pagination<TestimonialDto> pagination = new Pagination<>();
 
         pagination.setPages(pagedList.getTotalPages());
-        pagination.setCurrentPage(pagUtil.setCurrentPage(page,pagination.getPages()));
+        pagination.setCurrentPage(PaginationUtil.resolvePageNumber(page));
 
-        pagination.setPreviousPage(pagUtil.previousPage(pagination.getCurrentPage()));
-
-        pagination.setNextPage(pagUtil.nextPage(pagination.getCurrentPage(),pagination.getPages()));
+        pagination.setUrls(PaginationUtil.getPreviousAndNextPage(pagination.getCurrentPage(),pagination.getPages(), "testimonials"));
         pagination.setList(pagedList);
+
+        if (pagination.getCurrentPage() > pagination.getPages()) {
+            throw new PaginationSizeOutOfBoundsException(
+                    messageSource.getMessage("error.pagination_size", null, Locale.US)
+            );
+        }
 
      return pagination;
 

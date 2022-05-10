@@ -5,6 +5,7 @@ import com.alkemy.ong.auth.dto.UserProfileDto;
 import com.alkemy.ong.auth.service.IUserService;
 import com.alkemy.ong.dto.CommentBasicDto;
 import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentResponseDto;
 import com.alkemy.ong.dto.CommentUpdateDTO;
 import com.alkemy.ong.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,18 @@ public class CommentController {
         UserProfileDto dto = userService.getUserProfile(request);
 
         return commentService.updateComment(id, comment, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteComment(@PathVariable(name = "id") Long id, HttpServletRequest request){
+        commentService.deleteComment(id,request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("posts/{newsId}/comments")
+    public ResponseEntity<List<CommentResponseDto>> getCommentsByNewsId(@PathVariable Long newsId){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(commentService.getCommentsByNewsId(newsId));
     }
 }

@@ -41,11 +41,4 @@ public class NewsMapper {
         );
     }
 
-    public List<Object> newsListModel2ListDto(List<News> listNews) {
-        List<Object> listDto = new ArrayList<>();
-        for(News model : listNews){
-            listDto.add(toNewsResponseDto(model));
-        }
-        return listDto;
-    }
 }

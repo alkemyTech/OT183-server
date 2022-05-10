@@ -1,12 +1,10 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.NameUrlDto;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.dto.NewsResponseDto;
 import com.alkemy.ong.dto.NewsUpdateDTO;
 import com.alkemy.ong.dto.response.UpdateNewsDTO;
 import com.alkemy.ong.exception.EntityNotFoundException;
-import com.alkemy.ong.exception.NullListException;
 import com.alkemy.ong.exception.PaginationSizeOutOfBoundsException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.mapper.NewsMapper;
@@ -16,14 +14,16 @@ import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.INewsService;
 import com.alkemy.ong.util.PaginationUtil;
+import com.alkemy.ong.util.pagination.Pagination;
 import org.springframework.context.MessageSource;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Optional;
 import java.util.Locale;
 
 @AllArgsConstructor
@@ -62,24 +62,27 @@ public class NewsServiceImpl implements INewsService {
     }
 
     @Override
-    public NameUrlDto getAllPages(Integer page) {
-        Integer maxElements = 10;
-        Integer pageNumber = PaginationUtil.resolvePageNumber(page);
-        Integer pages = newsRepository.getNewsQuantity() / maxElements;
-        if (pageNumber > pages) {
+    public void findById(Long id) {
+        Optional<News> news = newsRepository.findById(id);
+        if (news.isEmpty()) throw new EntityNotFoundException("News", "id", id);
+    }
+    @Override
+    public Pagination<NewsResponseDto> getAllPages(Pageable pageable, Integer page) {
+
+        Page<NewsResponseDto> listNews = newsRepository.findAll(pageable).map(newsMapper::toNewsResponseDto);
+        Pagination<NewsResponseDto> pagination = new Pagination<>();
+
+        pagination.setPages(listNews.getTotalPages());
+        pagination.setCurrentPage(PaginationUtil.resolvePageNumber(page));
+        pagination.setList(listNews);
+        pagination.setUrls(PaginationUtil.getPreviousAndNextPage(pagination.getCurrentPage(),pagination.getPages(),"news"));
+
+        if (pagination.getCurrentPage() > pagination.getPages()) {
             throw new PaginationSizeOutOfBoundsException(
                     message.getMessage("error.pagination_size", null, Locale.US)
             );
         }
-
-        List<News> listNews = newsRepository.findAll(PageRequest.of(pageNumber,maxElements)).toList();
-        if (listNews.size() == 0) {
-            throw new NullListException(message.getMessage("error.null_list", null, Locale.US));
-        }
-
-        NameUrlDto dto = new NameUrlDto(PaginationUtil.getPreviousAndNextPage(pageNumber,pages),newsMapper.newsListModel2ListDto(listNews));
-
-        return dto;
+        return pagination;
     }
 
 
