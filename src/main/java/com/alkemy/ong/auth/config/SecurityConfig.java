@@ -104,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Don't add any routes below
         http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
 
-        http.addFilterBefore(new JwtRequestFilter(authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

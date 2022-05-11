@@ -20,11 +20,6 @@ import java.util.Collection;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final AuthenticationManager authenticationManager;
-    public JwtRequestFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
