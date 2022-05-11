@@ -5,6 +5,8 @@ import com.alkemy.ong.dto.NewsResponseDto;
 import com.alkemy.ong.model.News;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @Component
@@ -38,4 +40,5 @@ public class NewsMapper {
                 news.getCategoryId()
         );
     }
+
 }

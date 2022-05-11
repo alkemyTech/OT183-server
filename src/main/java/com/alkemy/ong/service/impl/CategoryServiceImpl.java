@@ -1,8 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CategoryDto;
-import com.alkemy.ong.dto.CategoryNameDto;
-import com.alkemy.ong.dto.CategoryNameUrlDto;
+import com.alkemy.ong.dto.NameUrlDto;
 import com.alkemy.ong.exception.PaginationSizeOutOfBoundsException;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.exception.EntityNotFoundException;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Locale;
 
 
 @Service
@@ -68,7 +66,7 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    public CategoryNameUrlDto returnList(Integer page){
+    public NameUrlDto returnList(Integer page){
         int pageNumber = PaginationUtil.resolvePageNumber(page);
         int maximumPageNumber = categoryRepository.getCategoriesQuantity() / 10;
         if (pageNumber > maximumPageNumber) {

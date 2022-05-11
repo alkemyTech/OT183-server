@@ -6,6 +6,8 @@ import com.alkemy.ong.dto.NewsUpdateDTO;
 import com.alkemy.ong.service.INewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,11 @@ public class NewsController {
 
     @Autowired
     private MessageSource message;
+
+    @GetMapping
+    public ResponseEntity<?> getAllPages(@PageableDefault(page=0, size=10) Pageable pageable, @RequestParam (required = false) Integer page ){
+        return ResponseEntity.ok().body(service.getAllPages(pageable, page)) ;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getNewsById(@PathVariable("id") long id) throws EntityNotFoundException {
