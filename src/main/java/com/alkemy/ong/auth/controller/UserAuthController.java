@@ -1,7 +1,6 @@
 package com.alkemy.ong.auth.controller;
 
 import com.alkemy.ong.auth.dto.AuthenticationRequest;
-import com.alkemy.ong.auth.dto.AuthenticationResponse;
 import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.auth.dto.UserDto;
 import com.alkemy.ong.auth.dto.UserProfileDto;
@@ -42,7 +41,7 @@ public class UserAuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto) {
         try {
             UserBasicDto user = userService.signup(userDto);
-            String token = jwtUtils.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
+            String token = jwtUtils.createToken(userDetailsService.loadUserByUsername(user.getEmail()));
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     new JwtAuthResponseDto(token));
 
@@ -50,9 +49,9 @@ public class UserAuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-    @PostMapping("/logins")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
 
-        return ResponseEntity.ok(new AuthenticationResponse(userService.generateToken(authRequest)));
+        return ResponseEntity.ok(userService.generateToken(authRequest));
     }
 }

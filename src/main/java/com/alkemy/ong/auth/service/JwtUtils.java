@@ -1,58 +1,51 @@
 package com.alkemy.ong.auth.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 
-@Service
+@Component
 public class JwtUtils {
 
-    private String SECRET_KEY = "secret" ;
+    private static final String SECRET_KEY = "secret" ;
 
-    public String extractUsername(String token){
+    public static String createToken(UserDetails userDetails) {
+        Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY.getBytes());
+        String accessToken = JWT.create()
+                .withSubject(userDetails.getUsername())
+                .withClaim("roles",
+                        userDetails.getAuthorities()
+                                .stream().map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.toList()))
+                .withExpiresAt(toMinutes(60))
+                .sign(algorithm);
+        return accessToken;
+    }
 
-        return extractClaim(token, Claims::getSubject);
+    public static String decodeToken(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY.getBytes());
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        DecodedJWT decodedJWT = verifier.verify(token);
+        return decodedJWT.getSubject();
     }
-    public Date extractExpiration(String token){
 
-        return extractClaim(token,Claims::getExpiration);
+    public static String[] extractRoles(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY.getBytes());
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        DecodedJWT decodedJWT = verifier.verify(token);
+        return decodedJWT.getClaim("roles").asArray(String.class);
     }
-    public<T> T extractClaim(String token, Function<Claims,T> claimsResolver){
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-    private Claims extractAllClaims(String token){
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-    }
-    private Boolean isTokenExpired(String token){
 
-        return extractExpiration(token).before(new Date());
+    public static Date toMinutes(int minutes) {
+        return new Date(System.currentTimeMillis() * 1000 * 60 * minutes);
     }
-    public String generateToken(UserDetails userDetails){
-        Map<String,Object> claims = new HashMap<>();
-        return createToken(claims,userDetails.getUsername());
-    }
-    private String createToken(Map<String,Object> claims,String subject){
 
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.HS512,SECRET_KEY)
-                .compact();
-
-    }
-    public Boolean validateToken(String token,UserDetails userDetails){
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && ! isTokenExpired(token));
-    }
 
 }
