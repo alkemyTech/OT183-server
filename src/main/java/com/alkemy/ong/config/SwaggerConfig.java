@@ -43,7 +43,7 @@ public class SwaggerConfig {
 
     //TODO when documentation be implemented, delete this example route
     private Predicate<String> postPaths() {
-        String routes = "(/nameRoute)|(/nameRoute/.*)";
+        String routes = "(/news)|(/news/.*)";
         Predicate<String> retorno = a -> a.matches(routes);
         return retorno;
     }
