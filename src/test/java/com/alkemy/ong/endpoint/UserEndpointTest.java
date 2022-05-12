@@ -1,7 +1,9 @@
 package com.alkemy.ong.endpoint;
 
+import com.alkemy.ong.auth.dto.AuthenticationResponse;
 import com.alkemy.ong.auth.dto.LoginDto;
 import com.alkemy.ong.dto.UserPatchDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,35 +29,40 @@ class UserEndpointTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	private String tokenAdmin;
-	private String tokenUser;
+	private AuthenticationResponse tokenAdmin;
+	private AuthenticationResponse tokenUser;
+	@Autowired
+	ObjectMapper objectMapper;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		LoginDto bodyAdmin = new LoginDto("diego.torres@gmail.com", "123456789");
 		LoginDto bodyUser = new LoginDto("alejandro.sanchez@gmail.com", "123456789");
 
-		tokenAdmin = mockMvc.perform(post("/auth/login")
+		String responseAdmin = mockMvc.perform(post("/auth/login")
 						.content(asJsonString(bodyAdmin))
 						.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
 						.accept(MimeTypeUtils.APPLICATION_JSON_VALUE))
 				.andReturn().getResponse().getContentAsString();
 
-		tokenUser = mockMvc.perform(post("/auth/login")
+		String responseUser = mockMvc.perform(post("/auth/login")
 						.content(asJsonString(bodyUser))
 						.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
 						.accept(MimeTypeUtils.APPLICATION_JSON_VALUE))
 				.andReturn().getResponse().getContentAsString();
 
+		tokenAdmin = objectMapper.readValue(responseAdmin, AuthenticationResponse.class);
+		tokenUser = objectMapper.readValue(responseUser, AuthenticationResponse.class);
+
 		assertNotNull(tokenAdmin);
-		assertNotNull(tokenUser);
+		assertNotNull(tokenUser.getJwt());
 	}
 
 	@Test
 	@Order(1)
 	void getAllUsersAuthenticatedAsAdmin() throws Exception {
 		final ResultActions result = mockMvc.perform(get("/users")
-						.header("Authorization", "Bearer " + tokenAdmin)
+						.header("Authorization", "Bearer " + tokenAdmin.getJwt())
 						.content(MimeTypeUtils.APPLICATION_JSON_VALUE)
 				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE)).andDo(print());
 		String contentType = MediaType.APPLICATION_JSON_VALUE;
@@ -70,7 +77,7 @@ class UserEndpointTest {
 	@Order(2)
 	void getAllUsersAuthenticatedAsUser() throws Exception {
 		final ResultActions result = mockMvc.perform(get("/users")
-						.header("Authorization", "Bearer " + tokenUser)
+						.header("Authorization", "Bearer " + tokenUser.getJwt())
 						.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
 				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
 
@@ -90,14 +97,14 @@ class UserEndpointTest {
 	@Order(4)
 	void deleteUserByIdAuthenticatedAsAdmin() throws Exception {
 		final ResultActions result = mockMvc.perform(delete("/users/{id}", 1)
-				.header("Authorization", "Bearer " + tokenAdmin)
+				.header("Authorization", "Bearer " + tokenAdmin.getJwt())
 				.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
 				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
 
 		result.andExpect(status().isOk());
 
 		final ResultActions resultDeleted = mockMvc.perform(get("/users")
-				.header("Authorization", "Bearer " + tokenAdmin)
+				.header("Authorization", "Bearer " + tokenAdmin.getJwt())
 				.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
 				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
 
@@ -110,7 +117,7 @@ class UserEndpointTest {
 	@Order(5)
 	void deleteUserByIdAuthenticatedAsUser() throws Exception {
 		final ResultActions result = mockMvc.perform(delete("/users/{id}", 1)
-						.header("Authorization", "Bearer " + tokenUser)
+						.header("Authorization", "Bearer " + tokenUser.getJwt())
 						.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
 				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
 
@@ -130,7 +137,7 @@ class UserEndpointTest {
 	@Order(7)
 	void deleteUserByIdWithWrongId() throws Exception {
 		final ResultActions result = mockMvc.perform(delete("/users/{id}", 0)
-				.header("Authorization", "Bearer " + tokenAdmin)
+				.header("Authorization", "Bearer " + tokenAdmin.getJwt())
 				.content(MimeTypeUtils.APPLICATION_JSON_VALUE)
 				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
 
@@ -141,13 +148,13 @@ class UserEndpointTest {
 	@Order(8)
 	void patchUserByIdAuthenticatedAsAdmin() throws Exception {
 		final ResultActions users = mockMvc.perform(get("/users")
-						.header("Authorization", "Bearer " + tokenAdmin)
+						.header("Authorization", "Bearer " + tokenAdmin.getJwt())
 						.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
 						.accept(MimeTypeUtils.APPLICATION_JSON_VALUE))
 				.andDo(print());
 
 		final ResultActions result = mockMvc.perform(patch("/users/{id}", 2)
-				.header("Authorization", "Bearer " + tokenAdmin)
+				.header("Authorization", "Bearer " + tokenAdmin.getJwt())
 				.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
 				.content(asJsonString(new UserPatchDto("Lucas", "Bravi", "MyPhoto")))
 				.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
@@ -163,7 +170,7 @@ class UserEndpointTest {
 	@Order(9)
 	void patchUserByIdAuthenticatedAsUser() throws Exception {
 		final ResultActions result = mockMvc.perform(patch("/users/{id}", 2)
-				.header("Authorization", "Bearer " + tokenUser)
+				.header("Authorization", "Bearer " + tokenUser.getJwt())
 				.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
 				.content(asJsonString(new UserPatchDto("Lucas", "Bravi", "MyPhoto")))
 				.accept(MimeTypeUtils.APPLICATION_JSON_VALUE));
@@ -187,7 +194,7 @@ class UserEndpointTest {
 	@Order(11)
 	void patchUserByIdWithWrongId() throws Exception {
 		final ResultActions result = mockMvc.perform(patch("/users/{id}", 0)
-				.header("Authorization", "Bearer " + tokenAdmin)
+				.header("Authorization", "Bearer " + tokenAdmin.getJwt())
 				.content(MimeTypeUtils.APPLICATION_JSON_VALUE)
 				.content(asJsonString(new UserPatchDto("Lucas", "Bravi", "MyPhoto")))
 				.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
@@ -199,7 +206,7 @@ class UserEndpointTest {
 	@Order(12)
 	void patchUserByIdWithEmptyBody() throws Exception {
 		final ResultActions result = mockMvc.perform(patch("/users/{id}", 2)
-				.header("Authorization", "Bearer " + tokenAdmin)
+				.header("Authorization", "Bearer " + tokenAdmin.getJwt())
 				.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
 				.content(asJsonString(new UserPatchDto()))
 				.contentType(MimeTypeUtils.APPLICATION_JSON_VALUE)
