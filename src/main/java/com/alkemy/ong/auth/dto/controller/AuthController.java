@@ -1,6 +1,7 @@
-package com.alkemy.ong.auth.controller;
+package com.alkemy.ong.auth.dto.controller;
 
 import com.alkemy.ong.auth.dto.LoginDto;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,26 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @ApiOperation(value = "Log an user")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    code = 200,
+                    message = "Successfully",
+                    response = LoginDto.class),
+            @ApiResponse(code = 404, message = "Not Found - Invalid user or password."),
+            @ApiResponse(code = 401, message = "Unauthorized - You can't access to this service"),
+            @ApiResponse(code = 403, message = "Forbidden - You don't have permission to access this resource")
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "loginDto",
+                    value = "Email and Password",
+                    required = true,
+                    paramType = "body",
+                    dataType = "LoginDto"
+            )
+    }
+    )
     @PostMapping("/login")
     public ResponseEntity<String> authenticateUser(@Valid @RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(),loginDto.getPassword()));
