@@ -26,8 +26,28 @@ public class PaginationUtil {
         return new PaginationUrlDto(getPaginationUrl(page), getPaginationUrl(page + 2));
     }
 
+    public static PaginationUrlDto getPreviousAndNextPage(int page, int maximumPageNumber, String route) {
+        if (page == 0 && maximumPageNumber == 0) {
+            return new PaginationUrlDto(getPaginationUrl(page,route), getPaginationUrl(1,route));
+        }
+        if (page == 0) {
+            return new PaginationUrlDto(getPaginationUrl(page,route), getPaginationUrl(2,route));
+        }
+        if(page == maximumPageNumber) {
+            return new PaginationUrlDto(
+                    getPaginationUrl(maximumPageNumber),
+                    getPaginationUrl(maximumPageNumber + 1)
+            );
+        }
+        return new PaginationUrlDto(getPaginationUrl(page,route), getPaginationUrl(page + 2,route));
+    }
+
     public static String getPaginationUrl(int page) {
         return "http://localhost:8080/categories?page=" + page;
+    }
+
+    public static String getPaginationUrl(int page,String route) {
+        return "http://localhost:8080/"+route+"?page=" + page;
     }
 
 }

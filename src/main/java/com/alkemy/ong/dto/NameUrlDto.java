@@ -7,9 +7,9 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class CategoryNameUrlDto {
+public class NameUrlDto {
 
     PaginationUrlDto pages;
-    List<CategoryNameDto> categories;
+    List<Object> list;
 
 }

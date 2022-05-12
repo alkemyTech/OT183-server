@@ -13,6 +13,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,11 @@ public class NewsController {
 
     @Autowired
     private MessageSource message;
+
+    @GetMapping
+    public ResponseEntity<?> getAllPages(@PageableDefault(page=0, size=10) Pageable pageable, @RequestParam (required = false) Integer page ){
+        return ResponseEntity.ok().body(service.getAllPages(pageable, page)) ;
+    }
 
     @ApiOperation(value = "Get a News by id", notes = "Returns a news as per the id")
     @ApiResponses(value = {
