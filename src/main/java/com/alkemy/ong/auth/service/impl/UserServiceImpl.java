@@ -1,6 +1,7 @@
 package com.alkemy.ong.auth.service.impl;
 
 import com.alkemy.ong.auth.dto.AuthenticationRequest;
+import com.alkemy.ong.auth.dto.AuthenticationResponse;
 import com.alkemy.ong.auth.mapper.UserMapper;
 import com.alkemy.ong.auth.service.JwtUtils;
 import com.alkemy.ong.dto.UserBasicDto;
@@ -50,7 +51,7 @@ public class UserServiceImpl implements IUserService {
 
 
 
-    public String generateToken(AuthenticationRequest authRequest) throws Exception {
+    public AuthenticationResponse generateToken(AuthenticationRequest authRequest) throws Exception {
 
         UserDetails userDetails;
         try {
@@ -58,12 +59,12 @@ public class UserServiceImpl implements IUserService {
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
             );
             userDetails = (UserDetails) auth.getPrincipal();
+            AuthenticationResponse jwt = JwtUtils.createToken(userDetails);
+            return jwt;
         }
         catch (BadCredentialsException e) {
             throw new Exception(message.getMessage("error.bad_credentials",null,Locale.US),e);
         }
-        final String jwt =  jwtTokenUtils.generateToken(userDetails);
-        return jwt;
     }
 
     @Override
@@ -93,7 +94,7 @@ public class UserServiceImpl implements IUserService {
 
         String authorizationHeader = request.getHeader("Authorization");
         jwt = authorizationHeader.substring(7);
-        email = jwtTokenUtils.extractUsername(jwt);
+        email = JwtUtils.decodeToken(jwt);
 
         UserModel userModel = userRepository.findByEmail(email);
         UserProfileDto dto = userMapper.userModel2UserProfileDto(userModel);
