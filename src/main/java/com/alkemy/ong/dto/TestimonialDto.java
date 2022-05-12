@@ -2,6 +2,7 @@ package com.alkemy.ong.dto;
 
 import com.alkemy.ong.dto.type.TestimonialDtoType;
 import com.alkemy.ong.exception.DataRepresentationException;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,18 +19,24 @@ import java.util.Locale;
 @Getter
 public class TestimonialDto implements IGenericDto<TestimonialDtoType> {
 
+    @ApiModelProperty(example = "1", position = 0)
     private Long id;
 
+    @ApiModelProperty(example = "Marta", position = 1)
     @NotBlank(message = "{error.empty_field}")
     private String name;
 
+    @ApiModelProperty(example = "testimonial.jpg", position = 2)
     private String image;
 
+    @ApiModelProperty(example = "this is content", position = 3)
     @NotBlank(message = "{error.empty_field}")
     private String content;
 
+    @ApiModelProperty(example = "02-02-2020", position = 4)
     private LocalDate created;
 
+    @ApiModelProperty(example = "03-03-2020", position = 5)
     private LocalDate updated;
 
     @Override
