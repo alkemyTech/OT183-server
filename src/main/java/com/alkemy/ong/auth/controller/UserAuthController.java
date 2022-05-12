@@ -1,4 +1,4 @@
-package com.alkemy.ong.auth.dto.controller;
+package com.alkemy.ong.auth.controller;
 
 import com.alkemy.ong.auth.dto.*;
 import com.alkemy.ong.dto.UserBasicDto;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+@Api(tags = "Authentication")
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/auth")
 public class UserAuthController {
 
@@ -70,20 +70,19 @@ public class UserAuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto) {
         try {
             UserBasicDto user = userService.signup(userDto);
-            String token = jwtUtils.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
-            return ResponseEntity.status(HttpStatus.CREATED).body(
-                    new JwtAuthResponseDto(token));
-
+            AuthenticationResponse token = JwtUtils.createToken(userDetailsService.loadUserByUsername(user.getEmail()));
+            return ResponseEntity.status(HttpStatus.CREATED).body(token);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
     @ApiOperation(value = "Log an user", notes = "Logs an user and returns user's token" )
     @ApiResponses(value = {
             @ApiResponse(
                     code = 200,
                     message = "Successfully",
-                    response = AuthenticationRequest.class),
+                    response = AuthenticationResponse.class),
             @ApiResponse(code = 404, message = "Not Found - Invalid user or password."),
             @ApiResponse(code = 401, message = "Unauthorized - You can't access to this service"),
             @ApiResponse(code = 403, message = "Forbidden - You don't have permission to access this resource")
@@ -98,9 +97,9 @@ public class UserAuthController {
             )
     }
     )
-    @PostMapping("/logins")
+    @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
 
-        return ResponseEntity.ok(new AuthenticationResponse(userService.generateToken(authRequest)));
+        return ResponseEntity.ok(userService.generateToken(authRequest));
     }
 }

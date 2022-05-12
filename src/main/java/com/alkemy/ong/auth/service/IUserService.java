@@ -1,6 +1,7 @@
 package com.alkemy.ong.auth.service;
 
 import com.alkemy.ong.auth.dto.AuthenticationRequest;
+import com.alkemy.ong.auth.dto.AuthenticationResponse;
 import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserPatchDto;
 import com.alkemy.ong.auth.dto.UserDto;
@@ -16,7 +17,7 @@ public interface IUserService {
 
     UserProfileDto getUserProfile(HttpServletRequest request);
 
-    String generateToken(AuthenticationRequest authRequest) throws Exception;
+    AuthenticationResponse generateToken(AuthenticationRequest authRequest) throws Exception;
 
     List<UserBasicDto> returnList();
 

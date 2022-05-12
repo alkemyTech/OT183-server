@@ -1,5 +1,6 @@
 package com.alkemy.ong.auth.config;
 
+import com.alkemy.ong.auth.filter.JwtRequestFilter;
 import com.alkemy.ong.auth.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -39,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //Auth routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/login").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/logins").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/register").permitAll();
 
         //SWAGGER route
@@ -50,54 +53,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/**").authenticated().and().httpBasic();
 
         ////////////////////////////////////
-        //Authenticated and Role dependent//
+        //          Admin Routes          //
         ////////////////////////////////////
 
-        //Organization routes
-        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/organization/public").hasRole("ADMIN");
-
-        //Testimonial routes
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/testimonials").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/testimonials/{id}").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/testimonials").hasRole("ADMIN");
-
-        //Comment routes
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/comments").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/comments");
-
-        //Activity routes
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/activities").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/activities/{id}").hasRole("ADMIN");
-
-        //News routes
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/news").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/news/{id}").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/news/{id}").hasRole("ADMIN");
-
-        //Categories routes
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/categories").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/categories").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/categories/{id}").hasRole("ADMIN");
-
-        //User routes
-        http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/users/{id}").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("ADMIN");
-
-        //Slides routes
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/slides").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides/{id}").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/slides/{id}").hasRole("ADMIN");
-
-        //Member routes
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/members/{id}").hasRole("ADMIN");
-
-        //Contacts routes
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/contacts").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/**").hasAuthority("ADMIN");
 
         //Don't add any routes below
         http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
+
+        http.addFilterBefore(new JwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
