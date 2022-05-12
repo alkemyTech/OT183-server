@@ -1,6 +1,7 @@
 package com.alkemy.ong.auth.service.impl;
 
 import com.alkemy.ong.auth.dto.AuthenticationRequest;
+import com.alkemy.ong.auth.dto.AuthenticationResponse;
 import com.alkemy.ong.auth.mapper.UserMapper;
 import com.alkemy.ong.auth.service.JwtUtils;
 import com.alkemy.ong.dto.UserBasicDto;
@@ -50,7 +51,7 @@ public class UserServiceImpl implements IUserService {
 
 
 
-    public String generateToken(AuthenticationRequest authRequest) throws Exception {
+    public AuthenticationResponse generateToken(AuthenticationRequest authRequest) throws Exception {
 
         UserDetails userDetails;
         try {
@@ -58,7 +59,7 @@ public class UserServiceImpl implements IUserService {
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
             );
             userDetails = (UserDetails) auth.getPrincipal();
-            final String jwt = JwtUtils.createToken(userDetails);
+            AuthenticationResponse jwt = JwtUtils.createToken(userDetails);
             return jwt;
         }
         catch (BadCredentialsException e) {

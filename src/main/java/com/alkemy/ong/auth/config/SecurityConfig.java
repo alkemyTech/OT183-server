@@ -57,49 +57,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ////////////////////////////////////
 
         http.authorizeRequests().antMatchers("/**").hasAuthority("ADMIN");
-        //Organization routes
-//        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/organization/public").hasAnyAuthority("ADMIN");
-//
-//        //Testimonial routes
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/testimonials").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/testimonials/{id}").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/testimonials").hasAnyAuthority("ADMIN");
-//
-//        //Comment routes
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/comments").hasAnyAuthority("ADMIN");
-//
-//        //Activity routes
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/activities").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/activities/{id}").hasAnyAuthority("ADMIN");
-//
-//        //News routes
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/news").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/news/{id}").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/news/{id}").hasAnyAuthority("ADMIN");
-//
-//        //Categories routes
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/categories").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/categories").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/categories/{id}").hasAnyAuthority("ADMIN");
-//
-//        //User routes
-//        http.authorizeRequests().antMatchers("users/**").hasAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers("/users/{id}/**").hasAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers("/users/{id}/**").hasAuthority("ADMIN");
-//
-//        //Slides routes
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/slides").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides/{id}").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/slides").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/slides/{id}").hasAnyAuthority("ADMIN");
-//
-//        //Member routes
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/members").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/members/{id}").hasAnyAuthority("ADMIN");
-//
-//        //Contacts routes
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/contacts").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/contacts").hasAnyAuthority("ADMIN");
 
         //Don't add any routes below
         http.authorizeRequests().anyRequest().authenticated().and().httpBasic();

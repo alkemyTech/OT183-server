@@ -1,5 +1,6 @@
 package com.alkemy.ong.auth.service;
 
+import com.alkemy.ong.auth.dto.AuthenticationResponse;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -16,7 +17,7 @@ public class JwtUtils {
 
     private static final String SECRET_KEY = "secret" ;
 
-    public static String createToken(UserDetails userDetails) {
+    public static AuthenticationResponse createToken(UserDetails userDetails) {
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY.getBytes());
         String accessToken = JWT.create()
                 .withSubject(userDetails.getUsername())
@@ -26,7 +27,7 @@ public class JwtUtils {
                                 .collect(Collectors.toList()))
                 .withExpiresAt(toMinutes(60))
                 .sign(algorithm);
-        return accessToken;
+        return new AuthenticationResponse(accessToken);
     }
 
     public static String decodeToken(String token) {
