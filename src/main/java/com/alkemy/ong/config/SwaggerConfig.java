@@ -30,7 +30,7 @@ public class SwaggerConfig {
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.alkemy.ong.controller"))
+                .apis(RequestHandlerSelectors.any())
                 .paths(postPaths())
                 .build()
                 .apiInfo(getApiInfo());
@@ -43,7 +43,7 @@ public class SwaggerConfig {
 
     //TODO when documentation be implemented, delete this example route
     private Predicate<String> postPaths() {
-        String routes = "(/nameRoute)|(/nameRoute/.*)";
+        String routes = "(/auth)|(/auth/.*)";
         Predicate<String> retorno = a -> a.matches(routes);
         return retorno;
     }
