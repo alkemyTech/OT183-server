@@ -41,7 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //Auth routes
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/login").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/logins").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth/register").permitAll();
 
         //SWAGGER route

@@ -25,7 +25,6 @@ public class UserMapper {
     public UserModel userDTO2Entity(UserDto dto){
 
         UserModel entity = new UserModel();
-        Optional<Role> role = roleRepository.findById(dto.getId());
 
         entity.setId(dto.getId());
         entity.setFirstName(dto.getFirstName());
@@ -35,8 +34,6 @@ public class UserMapper {
         entity.setPhoto(dto.getPhoto());
         entity.setCreated(dto.getCreated());
         entity.setUpdated(dto.getUpdated());
-        
-        if(role.isPresent()) entity.setRole(role.get());
         
         return entity;
     }
