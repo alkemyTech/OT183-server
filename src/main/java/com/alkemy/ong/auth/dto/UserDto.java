@@ -1,16 +1,16 @@
 package com.alkemy.ong.auth.dto;
 
 import com.alkemy.ong.model.Role;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.aspectj.lang.annotation.Before;
 
 import java.time.LocalDate;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
@@ -40,4 +40,13 @@ public class UserDto {
 
     private LocalDate created;
 
+    @Builder
+    public UserDto(String firstName, String lastName, String email, String password, String photo, Role role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.photo = photo;
+        this.role = role;
+    }
 }

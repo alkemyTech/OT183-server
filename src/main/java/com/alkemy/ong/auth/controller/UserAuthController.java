@@ -51,7 +51,7 @@ public class UserAuthController {
             @ApiResponse(
                     code = 201,
                     message = "Successfully created",
-                    response = UserDto.class),
+                    response = UserBasicDto.class),
             @ApiResponse(code = 404, message = "Not Found - Invalid user or password."),
             @ApiResponse(code = 401, message = "Unauthorized - You can't access to this service"),
             @ApiResponse(code = 403, message = "Forbidden - You don't have permission to access this resource")
@@ -70,8 +70,7 @@ public class UserAuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto) {
         try {
             UserBasicDto user = userService.signup(userDto);
-            AuthenticationResponse token = JwtUtils.createToken(userDetailsService.loadUserByUsername(user.getEmail()));
-            return ResponseEntity.status(HttpStatus.CREATED).body(token);
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
