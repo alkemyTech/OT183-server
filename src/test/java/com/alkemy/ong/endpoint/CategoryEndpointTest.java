@@ -180,7 +180,7 @@ public class CategoryEndpointTest {
     @Test
     @Order(7)
     @DisplayName("List category: If the user hasn't been logged, method will not show the list and return status 401")
-    void endPointlistWithoutAuth()throws Exception{
+    void endPointlistCategoryWithoutAuth()throws Exception{
         mockMvc.perform(get("/categories/?page=0")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
@@ -190,7 +190,7 @@ public class CategoryEndpointTest {
     @Test
     @Order(8)
     @DisplayName("List category: If the user has role 'ADMIN' but the list is empty method return an exception and status 200")
-    void endPointlistMemberIsNull()throws Exception{
+    void endPointlistCategoryIsNull()throws Exception{
         when(service.returnList(any())).thenThrow(new NullListException(messageSource.getMessage("error.null_list", null, Locale.US)));
         mockMvc.perform(get("/categories/?page=0")
                         .header("Authorization", "Bearer " + tokenAdmin.getJwt())
