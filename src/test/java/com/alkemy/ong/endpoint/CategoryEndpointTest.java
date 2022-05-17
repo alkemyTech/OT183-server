@@ -7,6 +7,7 @@ import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.NameUrlDto;
 import com.alkemy.ong.exception.EntityNotFoundException;
 import com.alkemy.ong.exception.NullListException;
+import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.repository.CategoryRepository;
@@ -246,5 +247,69 @@ public class CategoryEndpointTest {
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Order(13)
+    @DisplayName("Update category: If the user has role 'ADMIN' method update the category and return status 200")
+    void endPointUpdateAsAdmin() throws Exception {
+        mockMvc.perform(put("/categories/{id}", 3L)
+                        .header("Authorization", "Bearer " + tokenAdmin.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(categoryThree)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @Order(14)
+    @DisplayName("Update category: If the user has role 'USER' method will not update the category and return status 403")
+    void endPointUpdateAsUser() throws Exception {
+        mockMvc.perform(put("/categories/{id}", 1L)
+                        .header("Authorization", "Bearer " + tokenUser.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(categoryThree)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Order(15)
+    @DisplayName("Update category: If the user hasn't been logged, method will not update the category and return status 401")
+    void endPointUpdateWithoutAuth() throws Exception {
+        mockMvc.perform(put("/categories/{id}", 1L)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @Order(16)
+    @DisplayName("Update category: If the request isn't valid, method return status 400")
+    void endPointUpdateReturnBadRequest()throws Exception{
+        when(controller.updateCategory(null, 3L)).thenReturn(null);
+
+        mockMvc.perform(put("/categories/{id}", 3L)
+                        .header("Authorization", "Bearer " + tokenAdmin.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(null)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(17)
+    @DisplayName("Update category: If the id doesn't exist method will return 400")
+    void endPointUpdateIDNotValid()throws Exception{
+        Long idNotExist = 10L;
+
+        when(service.updateCategory(categoryThree, idNotExist)).thenThrow(new ParamNotFound(messageSource.getMessage("error.id",null, Locale.US)));
+
+        mockMvc.perform(put("/categories/{id}", idNotExist)
+                        .header("Authorization", "Bearer " + tokenAdmin.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(categoryThree)))
+                .andExpect(status().isBadRequest());
     }
 }
