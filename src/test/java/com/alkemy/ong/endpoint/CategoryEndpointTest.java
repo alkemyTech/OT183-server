@@ -4,10 +4,13 @@ import com.alkemy.ong.auth.dto.AuthenticationResponse;
 import com.alkemy.ong.auth.dto.LoginDto;
 import com.alkemy.ong.controller.CategoryController;
 import com.alkemy.ong.dto.CategoryDto;
+import com.alkemy.ong.dto.NameUrlDto;
+import com.alkemy.ong.exception.NullListException;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.service.ICategoryService;
+import com.alkemy.ong.util.PaginationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +23,14 @@ import org.springframework.util.MimeTypeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.alkemy.ong.util.TestUtil.asJsonString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -144,5 +150,52 @@ public class CategoryEndpointTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    @Order(5)
+    @DisplayName("List category: If the user has role 'ADMIN' method return the list of categories and status 200")
+    void endPointlistCategoryAsAdmin()throws Exception{
 
+        NameUrlDto url = categoryMapper.listNameDto(listCategoryResponse, PaginationUtil.getPreviousAndNextPage(0, 1));
+
+        when(service.returnList(0)).thenReturn(url);
+        mockMvc.perform(get("/categories/?page=0")
+                        .header("Authorization", "Bearer " + tokenAdmin.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("List category: If the user has role 'USER' method will not show the list and return status 403")
+    void endPointlistCategoryAsUser()throws Exception{
+
+        mockMvc.perform(get("/categories/?page=0")
+                        .header("Authorization", "Bearer " + tokenUser.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("List category: If the user hasn't been logged, method will not show the list and return status 401")
+    void endPointlistWithoutAuth()throws Exception{
+        mockMvc.perform(get("/categories/?page=0")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("List category: If the user has role 'ADMIN' but the list is empty method return an exception and status 200")
+    void endPointlistMemberIsNull()throws Exception{
+        when(service.returnList(any())).thenThrow(new NullListException(messageSource.getMessage("error.null_list", null, Locale.US)));
+        mockMvc.perform(get("/categories/?page=0")
+                        .header("Authorization", "Bearer " + tokenAdmin.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 }
