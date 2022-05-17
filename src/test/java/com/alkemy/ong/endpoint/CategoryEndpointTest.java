@@ -312,4 +312,53 @@ public class CategoryEndpointTest {
                         .content(mapper.writeValueAsString(categoryThree)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    @Order(18)
+    @DisplayName("Get category by ID: If the user has role 'ADMIN' method will return the category with status 200")
+    void endPointGetByIDAsAdmin() throws Exception {
+        when(service.getById(1L)).thenReturn(categoryOne);
+
+        mockMvc.perform(get("/categories/{id}", 1L)
+                        .header("Authorization", "Bearer " + tokenAdmin.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @Order(19)
+    @DisplayName("Get category by ID: If the user has role 'USER' method will not show the category and return status 403")
+    void endPointGetByIDAsUser() throws Exception {
+        mockMvc.perform(get("/categories/{id}", 1L)
+                        .header("Authorization", "Bearer " + tokenUser.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Order(20)
+    @DisplayName("Get category by ID: If the user hasn't been logged, method will not show the category and return status 401")
+    void endPointGetByIDWithoutAuth() throws Exception {
+        mockMvc.perform(get("/categories/{id}", 1L)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @Order(21)
+    @DisplayName("Get category by ID: If the id doesn't exist method will return 404")
+    void endPointGetByIDIDNotValid()throws Exception{
+        Long idNotExist = 10L;
+
+       when(service.getById(idNotExist)).thenThrow(new EntityNotFoundException("Category", "id", idNotExist));
+
+        mockMvc.perform(get("/categories/{id}", idNotExist)
+                        .header("Authorization", "Bearer " + tokenAdmin.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }
