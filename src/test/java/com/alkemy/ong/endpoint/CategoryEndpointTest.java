@@ -5,6 +5,7 @@ import com.alkemy.ong.auth.dto.LoginDto;
 import com.alkemy.ong.controller.CategoryController;
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.NameUrlDto;
+import com.alkemy.ong.exception.EntityNotFoundException;
 import com.alkemy.ong.exception.NullListException;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
@@ -30,8 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -197,5 +197,54 @@ public class CategoryEndpointTest {
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @Order(9)
+    @DisplayName("Delete category: If the user has role 'ADMIN' method will delete the category and return status 200")
+    void endPointdeleteCategoryAsAdmin()throws Exception{
+        mockMvc.perform(delete("/categories/{id}", 1L)
+                        .header("Authorization", "Bearer " + tokenAdmin.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @Order(10)
+    @DisplayName("Delete category: If the user has role 'USER' method will not delete the category and return status 403")
+    void endPointdeleteCategoryAsUser()throws Exception{
+
+        mockMvc.perform(delete("/categories/{id}", 1L)
+                        .header("Authorization", "Bearer " + tokenUser.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Order(11)
+    @DisplayName("Delete category: If the user hasn't been logged, method will not delete the category and return status 401")
+    void endPointdeleteWithoutAuth()throws Exception{
+
+        mockMvc.perform(delete("/categories/{id}", 1L)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @Order(12)
+    @DisplayName("Delete Category: If the id doesn't exist method will return 404")
+    void endPointdeleteCategoryIDNotValid() throws Exception{
+        Long idNotExist = 10L;
+
+        when(controller.delete(idNotExist)).thenThrow(new EntityNotFoundException("Category", "id", idNotExist));
+
+        mockMvc.perform(delete("/categories/{id}", idNotExist)
+                        .header("Authorization", "Bearer " + tokenAdmin.getJwt())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }
