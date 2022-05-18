@@ -86,7 +86,7 @@ public class NewsController {
             )
     }
     )
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updateNews(@PathVariable("id") long id,
                                         @Valid @RequestBody @ApiParam(value="news", required = true) NewsUpdateDTO newsUpdate) throws EntityNotFoundException {
         try{
