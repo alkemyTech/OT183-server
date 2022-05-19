@@ -37,7 +37,7 @@ public class ContactServiceImpl implements IContactService {
         Contact entity = contactMapper.contactDto2contactEntity(contactDto);
         contactRepository.save(entity);
 
-        mailService.sendEmailByFormComplete(entity.getEmail());
+       mailService.sendEmailByFormComplete(entity.getEmail());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.alkemy.ong.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ContactDto {
 
     private Long id;
@@ -24,6 +26,14 @@ public class ContactDto {
     private String email;
 
     private String message;
+
+    @Builder
+    public ContactDto(String name, String phone, String mail, String message){
+        this.name=name;
+        this.phone=phone;
+        this.email=mail;
+        this.message=message;
+    }
 
 
 }
