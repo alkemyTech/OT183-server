@@ -25,10 +25,14 @@ public class OrganizationController {
     }
 
     @PutMapping("/public")
-    public ResponseEntity<OrganizationDetailedDto> update
-            (@Valid @RequestBody OrganizationDetailedDto dto) {
-
-        OrganizationDetailedDto result = service.update(dto);
+    public ResponseEntity<OrganizationDetailedDto> update(@Valid @RequestBody OrganizationDetailedDto dto) {
+        OrganizationDetailedDto result = null;
+        try {
+            result = service.update(dto);
+        } catch (Exception e) {
+            return ResponseEntity.ok().body(result);
+        }
         return ResponseEntity.ok().body(result);
+        
     }
 }
