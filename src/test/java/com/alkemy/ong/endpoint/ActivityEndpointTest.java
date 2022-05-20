@@ -83,6 +83,7 @@ public class ActivityEndpointTest {
                         .accept(APPLICATION_JSON)
                         .content(mapper.writeValueAsString(activity1)))
                 .andExpect(status().isCreated());
+        verify(service, times(1)).createActivity(any());
 
     }
 
