@@ -6,6 +6,7 @@ import com.alkemy.ong.dto.OrganizationDto;
 import com.alkemy.ong.dto.type.OrganizationDtoType;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.exception.EntityNotFoundException;
+import com.alkemy.ong.exception.NullModelException;
 import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.repository.OrganizationRepository;

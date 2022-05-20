@@ -1,7 +1,9 @@
 package com.alkemy.ong.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
@@ -10,10 +12,9 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrganizationDetailedDto {
-
-    private Long id;
     @Pattern(regexp = "^[A-z(\\s.,)]+",message = "{error.contains_numbers}")
     private String name;
     private String image;
@@ -24,8 +25,6 @@ public class OrganizationDetailedDto {
     private String email;
     private String welcomeText;
     private String aboutUsText;
-    private LocalDate created;
-    private LocalDate updated;
     private String facebook;
     private String instagram;
     private String linkedin;

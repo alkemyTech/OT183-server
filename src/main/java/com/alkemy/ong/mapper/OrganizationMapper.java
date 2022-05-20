@@ -106,8 +106,6 @@ public class OrganizationMapper implements IMapper<Organization, OrganizationDto
         dto.setEmail(model.getEmail());
         dto.setWelcomeText(model.getWelcomeText());
         dto.setAboutUsText(model.getAboutUsText());
-        dto.setCreated(model.getCreated());
-        dto.setUpdated(model.getUpdated());
 
         return dto;
     }
