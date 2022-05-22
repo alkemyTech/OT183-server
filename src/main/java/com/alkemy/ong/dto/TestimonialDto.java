@@ -5,6 +5,7 @@ import com.alkemy.ong.exception.DataRepresentationException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.context.MessageSource;
@@ -17,6 +18,7 @@ import java.util.Locale;
 
 @Builder
 @Getter
+@Setter
 public class TestimonialDto implements IGenericDto<TestimonialDtoType> {
 
     @ApiModelProperty(example = "1", position = 0)
