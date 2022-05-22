@@ -57,7 +57,6 @@ public class MemberEndpointTest {
 
     MemberDTO memberOne = new MemberDTO();
     MemberDTO memberTwo = new MemberDTO();
-    //List<Category> listCategoryResponse = new ArrayList<>();
 
     @BeforeEach
     void setUp() throws Exception {
@@ -92,11 +91,6 @@ public class MemberEndpointTest {
         memberTwo.setInstagramUrl("igUrl.com");
         memberTwo.setFacebookUrl("facebookUrl.com");
         memberTwo.setLinkedinUrl("linkedinUrl.com");
-
-
-//        listCategoryResponse.add(categoryMapper.toEntity(categoryOne));
-//        listCategoryResponse.add(categoryMapper.toEntity(categoryTwo));
-//        listCategoryResponse.add(categoryMapper.toEntity(categoryThree));
     }
 
     @Test
