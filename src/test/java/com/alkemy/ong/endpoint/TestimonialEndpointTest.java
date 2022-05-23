@@ -58,7 +58,7 @@ class TestimonialEndpointTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
     @Autowired
     private TestimonialController controller;
 
@@ -68,8 +68,8 @@ class TestimonialEndpointTest {
     private Testimonial testimonial = new Testimonial();
     private Pagination pagination = new Pagination();
 
-    TestimonialDto dtoRequest;
-    Object dtoResponseObject;
+    private TestimonialDto dtoRequest;
+    private Object dtoResponseObject;
 
 
     @BeforeEach
@@ -190,7 +190,6 @@ class TestimonialEndpointTest {
                 .andExpect(status().isBadRequest());
     }
 
-    //DEVUELVE 200 EN VEZ DE 201
     @Test
     @Order(7)
     @DisplayName("POST /testimonials - isCreated")
@@ -221,7 +220,6 @@ class TestimonialEndpointTest {
                 .andExpect(status().isForbidden());
     }
 
-    //El controller no deberia devolver NotContent  como respuesta ante un delete?
     @Test
     @Order(10)
     @DisplayName("DELETE /testimoanials{id} - isOk")
@@ -243,7 +241,6 @@ class TestimonialEndpointTest {
                 .andExpect(status().isBadRequest());
     }
 
-    //Tiene sentido evaluar el mensaje de error? vi el codigo de un compañero y lo quise implementar, pero no seria un test de service?
     @Test
     @Order(12)
     @DisplayName("DELETE /testimonials{id} - isNotFound")
