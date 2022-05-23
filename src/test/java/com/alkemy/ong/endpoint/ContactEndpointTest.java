@@ -45,11 +45,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ContactEndpointTest {
     private final static String URI = "/contacts";
-    ContactDto contactOneDto;
-    ContactDto contactTwoDto;
-    ContactBasicDto contactBasicDtoOne;
-    List<ContactBasicDto> contactBasicDtoList = new ArrayList<>();
-    List<Contact> contactList = new ArrayList<>();
+    private ContactDto contactOneDto;
+    private ContactDto contactTwoDto;
+    private ContactBasicDto contactBasicDtoOne;
+    private List<ContactBasicDto> contactBasicDtoList = new ArrayList<>();
+    private List<Contact> contactList = new ArrayList<>();
     @Autowired
     private MockMvc mockMvc;
     @Autowired
