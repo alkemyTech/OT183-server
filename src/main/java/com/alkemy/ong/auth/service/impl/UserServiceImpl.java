@@ -12,6 +12,7 @@ import com.alkemy.ong.exception.NullListException;
 import com.alkemy.ong.exception.UserAlreadyExistsException;
 import com.alkemy.ong.exception.UserNotFoundException;
 import com.alkemy.ong.exception.UserRegistrationException;
+import com.alkemy.ong.repository.RoleRepository;
 import com.alkemy.ong.service.impl.MailServiceImpl;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,6 +37,7 @@ import java.util.Locale;
 public class UserServiceImpl implements IUserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -75,6 +77,7 @@ public class UserServiceImpl implements IUserService {
         }
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         UserModel entity = userMapper.userDTO2Entity(userDto);
+        entity.setRole(roleRepository.findByName("USER").get());
         entity = userRepository.save(entity);
         if (entity != null) {
             mailService.sendEmailByRegistration(entity.getEmail(), entity.getFirstName());

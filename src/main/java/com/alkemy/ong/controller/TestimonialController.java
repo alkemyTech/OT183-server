@@ -16,6 +16,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @RestController
 @RequestMapping("testimonials")
+@Api(tags = "Testimonials")
 public class TestimonialController {
 
     private final TestimonialServiceImpl service;

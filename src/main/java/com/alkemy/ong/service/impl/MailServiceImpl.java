@@ -54,6 +54,7 @@ public class MailServiceImpl implements IMailService {
         mail.setTemplateId(templateId);
 
         Personalization personalization = new Personalization();
+        personalization.addDynamicTemplateData("name", mailFormatter.getName());
         personalization.addDynamicTemplateData("subject", mailFormatter.getSubject());
         personalization.addDynamicTemplateData("content", mailFormatter.getContent());
         personalization.addTo(to);

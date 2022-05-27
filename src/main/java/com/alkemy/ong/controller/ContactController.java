@@ -3,6 +3,7 @@ package com.alkemy.ong.controller;
 import com.alkemy.ong.dto.ContactBasicDto;
 import com.alkemy.ong.dto.ContactDto;
 import com.alkemy.ong.service.IContactService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.Locale;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("contacts")
+@Api(tags = "Contacts")
 public class ContactController {
 
 

@@ -5,6 +5,7 @@ import com.alkemy.ong.dto.OrganizationSocialAddressesDto;
 import com.alkemy.ong.exception.EntityNotFoundException;
 import com.alkemy.ong.service.IOrganizationService;
 import com.alkemy.ong.service.impl.OrganizationServiceImpl;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @RestController
 @RequestMapping("organization")
+@Api(tags = "Organization")
 public class OrganizationController {
 
     private final IOrganizationService service;

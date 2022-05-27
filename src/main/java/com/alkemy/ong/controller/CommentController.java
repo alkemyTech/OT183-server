@@ -8,6 +8,7 @@ import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.dto.CommentResponseDto;
 import com.alkemy.ong.dto.CommentUpdateDTO;
 import com.alkemy.ong.service.ICommentService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("comments")
+@Api(tags = "Comments")
 public class CommentController {
     @Autowired
     IUserService userService;

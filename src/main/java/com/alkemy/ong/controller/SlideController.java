@@ -6,6 +6,7 @@ import com.alkemy.ong.dto.SlidesUpdateDTO;
 import com.alkemy.ong.dto.response.UpdateSlidesDTO;
 import com.alkemy.ong.exception.EntityNotFoundException;
 import com.alkemy.ong.service.impl.SlideServiceImpl;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 
 import org.springframework.context.MessageSource;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @RestController
 @RequestMapping("slides")
+@Api(tags = "Slides")
 public class SlideController {
 
     private final SlideServiceImpl service;

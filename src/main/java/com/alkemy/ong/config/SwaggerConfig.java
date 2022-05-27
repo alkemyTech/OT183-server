@@ -1,19 +1,24 @@
 package com.alkemy.ong.config;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.*;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.Contact;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.io.InputStream;
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -30,8 +35,10 @@ public class SwaggerConfig {
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(postPaths())
+                .apis(Predicates.or(RequestHandlerSelectors.basePackage("com.alkemy.ong.auth.controller")
+                        ,(RequestHandlerSelectors.basePackage("com.alkemy.ong.controller"))))
+                //.paths(postPaths())
+                .paths(PathSelectors.any())
                 .build()
                 .apiInfo(getApiInfo());
 
@@ -39,7 +46,7 @@ public class SwaggerConfig {
 
 
     //When add a route MUST BE with format:
-        // (/route)|(/route/.*)
+    // (/route)|(/route/.*)
 
     //TODO when documentation be implemented, delete this example route
     private Predicate<String> postPaths() {
@@ -48,7 +55,7 @@ public class SwaggerConfig {
         return retorno;
     }
     private ApiKey apiKey() {
-        return new ApiKey("JWT", "Authorization", "header");
+        return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
     }
 
     private SecurityContext securityContext(){
@@ -75,5 +82,4 @@ public class SwaggerConfig {
                 Collections.emptyList()
         );
     }
-
 }

@@ -3,6 +3,7 @@ package com.alkemy.ong.controller;
 import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserPatchDto;
 import com.alkemy.ong.auth.service.IUserService;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/users")
+@Api(tags = "Users")
 public class  UserController {
 
 
